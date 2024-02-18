@@ -5,28 +5,37 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
 import * as THREE from 'three';
+
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 
 const threeContainer = ref(null);
-let camera, scene, renderer, controls;
-let INTERSECTED;
-const raycaster = new THREE.Raycaster();
+let camera, scene, renderer, controls, composer;
 const mouse = new THREE.Vector2();
-const initialCameraPosition = new THREE.Vector3(0, 0, 20);
+const raycaster = new THREE.Raycaster();
+let isFocused = false; // Состояние фокуса на объекте
+let currentFocus = null; // Текущий объект фокусировки
+
+const initialCameraPosition = new THREE.Vector3(0, 0, 10); // Замените на ваше исходное положение камеры
 const cityPositions = [];
 const lines = []; // Для хранения линий
 const textSprites = []; // Для хранения текстовых спрайтов
+let isAnimating = true;
+
 
 onMounted(() => {
   initThreeJs();
   window.addEventListener('resize', onWindowResize);
-  window.addEventListener('mousemove', onMouseMove, false);
+  window.addEventListener('mousemove', onMouseMove);
 });
 
 onUnmounted(() => {
   window.removeEventListener('resize', onWindowResize);
-  window.removeEventListener('mousemove', onMouseMove, false);
+  window.addEventListener('mousemove', onMouseMove);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
@@ -41,16 +50,124 @@ function initThreeJs() {
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
+  composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+
+  // Добавление BokehPass для эффекта глубины поля
+  const bokehPass = new BokehPass(scene, camera, {
+    focus: 1.0,
+    aperture: 0.025,
+    maxblur: 0.01,
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  composer.addPass(bokehPass);
 
   camera.position.copy(initialCameraPosition);
 
   const sphereRadius = 5;
+  controls.minDistance = sphereRadius + 3; // Устанавливаем минимальное расстояние приближения
+
   addSmallCylinders(sphereRadius, 300);
   addCitiesToSphere(sphereRadius);
   addStarField(); // Добавляем туманность под сферой
 
   animate();
 }
+
+
+function isVisibleAndAbove(object, camera) {
+  const toObjectDirection = new THREE.Vector3().subVectors(object.position, camera.position).normalize();
+  const cameraDirection = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).normalize();
+
+  // Проверяем, находится ли объект перед камерой
+  const isAhead = toObjectDirection.dot(cameraDirection) > 0;
+
+  // Дополнительно можно проверить, не находится ли объект за пределами сферы
+  const toObjectDistance = camera.position.distanceTo(object.position);
+  const toCenterDistance = camera.position.distanceTo(scene.position); // или другой центральной точке сферы
+  const sphereRadius = 5; // Укажите реальный радиус сферы
+
+  const isVisible = isAhead && toObjectDistance < toCenterDistance + sphereRadius;
+
+  return isVisible;
+}
+
+function createCircleTexture() {
+  const size = 128; // Размер текстуры
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const context = canvas.getContext('2d');
+
+  // Рисуем круг
+  const center = size / 2;
+  context.beginPath();
+  context.arc(center, center, size / 2, 0, 2 * Math.PI, false);
+  context.fillStyle = 'white';
+  context.fill();
+
+  // Создаем текстуру из канваса
+  return new THREE.CanvasTexture(canvas);
+}
+function distanceCamera() {
+  isFocused = false; // Сброс флага фокусировки
+  isAnimating = true; // Возобновляем вращение сферы
+
+  const distance = 10; // Замените это значение на желаемое расстояние отдаления
+  const direction = camera.position.clone().normalize();
+  const newPos = direction.multiplyScalar(distance);
+
+  new TWEEN.Tween(camera.position)
+      .to({
+        x: newPos.x,
+        y: newPos.y,
+        z: newPos.z
+      }, 2000)
+      .easing(TWEEN.Easing.Cubic.Out)
+      .start();
+}
+
+function focusOnObject(object) {
+  if (!isFocused) {
+    isFocused = true; // Устанавливаем флаг фокусировки
+    isAnimating = false; // Останавливаем вращение
+
+    const newPos = object.position.clone().add(new THREE.Vector3(0, 0, 5)); // Новая позиция для приближения
+
+    new TWEEN.Tween(camera.position)
+        .to({x: newPos.x, y: newPos.y, z: newPos.z}, 2000)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .onComplete(() => {
+          setTimeout(() => {
+            distanceCamera(); // Функция для отдаления камеры
+          }, 3000);
+        })
+        .start();
+  }
+}
+
+
+
+// Функция для возвращения камеры к исходной позиции
+function returnCameraToInitialPosition() {
+  new TWEEN.Tween(camera.position)
+      .to({
+        x: initialCameraPosition.x,
+        y: initialCameraPosition.y,
+        z: initialCameraPosition.z
+      }, 2000)
+      .easing(TWEEN.Easing.Cubic.Out)
+      .onComplete(() => {
+        isFocused = false; // Сброс флага фокусировки
+        currentFocus = null; // Сбрасываем текущую цель фокусировки
+        isAnimating = true; // Возобновляем вращение сферы
+      })
+      .start();
+}
+
+
+
 
 function addSmallCylinders(sphereRadius, count) {
   for (let i = 0; i < count; i++) {
@@ -75,12 +192,12 @@ function addSmallCylinders(sphereRadius, count) {
 
 function addCitiesToSphere(sphereRadius) {
   const cities = [
-    {name: 'New York', lat: 40.7128, lon: -74.0060},
-    {name: 'Los Angeles', lat: 34.0522, lon: -118.2437},
-    {name: 'London', lat: 51.5074, lon: -0.1278},
-    {name: 'Tokyo', lat: 85.6895, lon: 39.6917},
-    {name: 'Moscow', lat: 55.7558, lon: 37.6173},
-    {name: 'Sydney', lat: -33.8688, lon: 151.2093},
+    {name: 'New York', lat: 25, lon: -74}, // Перемещено ближе к экватору
+    {name: 'Los Angeles', lat: 0, lon: -118}, // Перемещено ближе к экватору
+    {name: 'London', lat: 15, lon: 0}, // Перемещено на экватор и нулевой меридиан для централизации
+    {name: 'Tokyo', lat: 19, lon: 140}, // Перемещено ближе к экватору, коррекция долготы для распределения
+    {name: 'Moscow', lat: -9, lon: 37}, // Перемещено ближе к экватору
+    {name: 'Sydney', lat: -20, lon: 151}, // Перемещено ближе к экватору
   ];
 
   cities.forEach(city => {
@@ -117,9 +234,6 @@ function addTubeBetweenPoints(point1, point2, thickness) {
 }
 
 function createCityLines() {
-  const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
-
-  // Очищаем предыдущие линии, если они были
   lines.forEach(line => {
     scene.remove(line);
   });
@@ -149,9 +263,7 @@ function generateTextCanvas(text) {
 
 function addStarField() {
   const starsGeometry = new THREE.BufferGeometry();
-  const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, sizeAttenuation: true });
   const starField = [];
-
   const radius = 100; // Радиус области, где будут расположены звезды
   const starsAmount = 5000; // Количество звезд
 
@@ -159,27 +271,33 @@ function addStarField() {
     const x = THREE.MathUtils.randFloatSpread(radius) * (Math.random() > 0.5 ? 1 : -1);
     const y = THREE.MathUtils.randFloatSpread(radius / 4); // Ограничиваем высоту, чтобы создать эффект "под сферой"
     const z = THREE.MathUtils.randFloatSpread(radius) * (Math.random() > 0.5 ? 1 : -1);
-
     starField.push(x, y, z);
   }
 
   starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starField, 3));
+  const starsMaterial = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 0.1,
+    map: createCircleTexture(), // Применяем текстуру кружочка
+    transparent: true,
+    blending: THREE.AdditiveBlending, // Опционально: добавляем смешивание для более яркого эффекта
+  });
   const stars = new THREE.Points(starsGeometry, starsMaterial);
-
   scene.add(stars);
 }
+
 
 function animate() {
   requestAnimationFrame(animate);
   TWEEN.update();
   controls.update();
+  if (isAnimating) {
+    scene.rotation.y -= 0.001;
+  }
 
-  scene.rotation.y -= 0.001; // Пример вращения сцены вокруг оси Y
-
-  // Анимация линий
   const time = Date.now() * 0.001;
   lines.forEach((line, i) => {
-    const newOpacity = 0.6 + Math.sin(time * 2 + i) * 0.4; // Меняем амплитуду на 0.4 и добавляем 0.5, чтобы минимальная прозрачность была 0.1
+    const newOpacity = 0.6 + Math.sin(time * 2 + i) * 0.4;
     line.material.opacity = newOpacity;
   });
 
@@ -192,24 +310,38 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function onMouseMove(event) {
-  // Прежняя логика
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(textSprites); // Измените на проверку только текстовых спрайтов
 
-  if (intersects.length > 0) {
-    const targetPosition = intersects[0].object.position.clone();
-    const newPosition = targetPosition.multiplyScalar(2); // Настройте множитель для определения расстояния приближения
-    // Анимация камеры к новой позиции
-    new TWEEN.Tween(camera.position)
-        .to({x: newPosition.x, y: newPosition.y, z: newPosition.z}, 2000)
-        .easing(TWEEN.Easing.Cubic.Out)
-        .start();
+function onMouseMove(event) {
+  if (isFocused) return;
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(textSprites, true);
+
+  for (let i = 0; i < intersects.length; i++) {
+    const intersectedObject = intersects[i].object;
+    if (isVisibleAndAbove(intersectedObject, camera)) {
+      if (currentFocus !== intersectedObject) {
+        currentFocus = intersectedObject;
+        focusOnObject(intersectedObject);
+        break; // Прерываем цикл после первого же подходящего объекта
+      }
+    }
   }
 }
+
+
+
+
 </script>
 
 <style>
+body {
+  margin: 0 !important;
+  padding: 0;
+}
 .three-container {
   width: 100vw;
   height: 100vh;
