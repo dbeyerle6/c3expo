@@ -4,6 +4,7 @@
     <div class="modal-content">
       <h3>{{ title }}</h3>
       <p>{{ description }}</p>
+      {{ props.index === 190 ? '190' : 'not 190' }}
       <button @click="closeModal">Закрыть</button>
     </div>
   </div>
@@ -37,6 +38,9 @@ function closeModal() {
 </script>
 
 <style scoped>
+p {
+  color: #fff;
+}
 .modal-container {
   position: fixed;
   bottom: 20%;
@@ -45,12 +49,12 @@ function closeModal() {
   align-items: center;
 
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000000 !important;
 }
 
 .modal-content {
-  background-color: white;
+
+  background-color: #303030;
   padding: 20px;
   border-radius: 10px;
   height: 60vh;
