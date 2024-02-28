@@ -1,17 +1,56 @@
 <template>
-  <div ref="threeContainer" class="three-container"></div>
+  <div class="container">
+    <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
+    <div :key="componentKey">
+      <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>
+    </div>
+    <transition name="fade">
+      <div v-if="!showIntro">
+        <div class="content-container">
+          <div class="logo-container">
+            <!-- Путь к вашему логотипу -->
+            Logo
+            <img src="/assets/logo.png" alt="Logo" class="logo"/>
+          </div>
+          <video class="rounded-video" ref="videoRef" autoplay muted>
+            <source src="/assets/intro/second.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div  ref="threeContainer" class="three-container">
+        </div>
+        <div class="menu-container">
+          <!-- Остальной контент -->
+          <div class="interactive-menu">
+            <div class="menu-item" :class="{active: activeItem === 0}" @click="activeItem = 0">
+              <div class="circle"></div>
+              <span>Видео</span>
+            </div>
+            <div class="menu-item" :class="{active: activeItem === 1}" @click="activeItem = 1">
+              <div class="circle"></div>
+              <span>Сфера</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </transition>
+  </div>
+
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
+import {ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
+import Intro from "~/components/intro/Intro.vue";
+
 
 const threeContainer = ref(null);
 let camera, scene, renderer, controls, composer;
@@ -19,39 +58,33 @@ const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 let isFocused = false; // Состояние фокуса на объекте
 let currentFocus = null; // Текущий объект фокусировки
+const activeItem = ref(0);
 
+const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
+const texts = ['References', 'Our Vision', 'Heritage', 'CEO Statement', 'Our expertise', 'Design/Creation', 'World wide Network', 'Product']; // Пример текстов
+
+
+const showIntro = ref(true);
 const initialCameraPosition = new THREE.Vector3(0, 0, 10); // Замените на ваше исходное положение камеры
 const cityPositions = [];
 const lines = []; // Для хранения линий
 const textSprites = []; // Для хранения текстовых спрайтов
 let isAnimating = true;
-
-
-onMounted(() => {
-  initThreeJs();
-  window.addEventListener('resize', onWindowResize);
-  window.addEventListener('mousemove', onMouseMove);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', onWindowResize);
-  window.addEventListener('mousemove', onMouseMove);
-  if (controls) controls.dispose();
-  if (renderer) renderer.dispose();
-});
-
+const showContent = ref(true);
 function initThreeJs() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   threeContainer.value.appendChild(renderer.domElement);
 
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
+  controls.enableZoom = false;
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
+
 
   // Добавление BokehPass для эффекта глубины поля
   const bokehPass = new BokehPass(scene, camera, {
@@ -69,29 +102,40 @@ function initThreeJs() {
   controls.minDistance = sphereRadius + 3; // Устанавливаем минимальное расстояние приближения
 
   addSmallCylinders(sphereRadius, 300);
+  addInvisibleCubes(); // Создаем невидимые кубы вокруг цилиндров
   addCitiesToSphere(sphereRadius);
-  addStarField(); // Добавляем туманность под сферой
 
+  const selectedCylinders = selectedCylinderIndexes.map(index => allCylinders[index]);
+  addTextLabelsToCylinders(selectedCylinders, texts);
+  addGlowToCylinders(selectedCylinders)
   animate();
 }
 
 
-function isVisibleAndAbove(object, camera) {
-  const toObjectDirection = new THREE.Vector3().subVectors(object.position, camera.position).normalize();
-  const cameraDirection = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).normalize();
+onMounted(() => {
+  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('click', onMouseClick);
+});
 
-  // Проверяем, находится ли объект перед камерой
-  const isAhead = toObjectDirection.dot(cameraDirection) > 0;
+onUnmounted(() => {
+  window.removeEventListener('resize', onWindowResize);
+  window.removeEventListener('mousemove', onMouseMove);
+  window.removeEventListener('click', onMouseClick);
+  if (controls) controls.dispose();
+  if (renderer) renderer.dispose();
+});
 
-  // Дополнительно можно проверить, не находится ли объект за пределами сферы
-  const toObjectDistance = camera.position.distanceTo(object.position);
-  const toCenterDistance = camera.position.distanceTo(scene.position); // или другой центральной точке сферы
-  const sphereRadius = 5; // Укажите реальный радиус сферы
+const componentKey = ref(0);
+const isActiveSphereClick = ref(false)
+const handleActionPerformed = () => {
+  isActiveSphereClick.value = true
+  setTimeout(() => {
+    showIntro.value = false;
+    componentKey.value++; // Изменение ключа приведет к ререндерингу и удалению Intro из DOM
+  }, 4000); // Переключает на three-container через 5 секунд после события
+};
 
-  const isVisible = isAhead && toObjectDistance < toCenterDistance + sphereRadius;
-
-  return isVisible;
-}
 
 function createCircleTexture() {
   const size = 128; // Размер текстуры
@@ -110,6 +154,110 @@ function createCircleTexture() {
   // Создаем текстуру из канваса
   return new THREE.CanvasTexture(canvas);
 }
+function createGlowTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 128;
+  const context = canvas.getContext('2d');
+
+  // Создаем радиальный градиент (x, y, внутренний радиус, x, y, внешний радиус)
+  const gradient = context.createRadialGradient(
+      canvas.width / 2,
+      canvas.height / 2,
+      0,
+      canvas.width / 2,
+      canvas.height / 2,
+      canvas.width / 2
+  );
+
+  // Добавляем цвета градиента
+  gradient.addColorStop(0, 'rgba(0, 255, 255, 1)');
+  gradient.addColorStop(0.2, 'rgba(0, 255, 255, 0.2)');
+  gradient.addColorStop(0.4, 'rgba(0, 255, 255, 0.05)');
+  gradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  return new THREE.CanvasTexture(canvas);
+}
+
+let glowSprites = [];
+function addGlowToCylinders(selectedCylinders) {
+  const glowTexture = createGlowTexture();
+  selectedCylinders.forEach(cylinder => {
+    const material = new THREE.SpriteMaterial({
+      map: glowTexture,
+      transparent: true,
+      color: 0x00ffff, // Голубой цвет
+      blending: THREE.AdditiveBlending
+    });
+
+    const sprite = new THREE.Sprite(material);
+    sprite.scale.set(2, 2, 2); // Начальный размер спрайта
+    sprite.position.copy(cylinder.position);
+
+    scene.add(sprite);
+    glowSprites.push(sprite); // Добавляем спрайт в массив для последующей анимации
+  });
+
+  animateGlow();
+}
+
+const modalVisible = ref(false);
+const selectedIndex = ref(-1);
+function onCylinderClick(index) {
+
+  savedCameraPosition.copy(camera.position);
+  savedCameraPosition.copy(camera.quaternion);
+
+  // Отдаляем камеру и останавливаем вращение
+  const newPos = camera.position.clone().add(new THREE.Vector3(0, 0, 5)); // Примерное новое положение
+  camera.position.copy(newPos);
+  isAnimating = false; // Останавливаем анимацию вращения сцены
+
+  selectedIndex.value = index;
+  modalVisible.value = true;
+  isAnimating = false;
+  isFocused = true
+}
+
+function moveAndScalePlanet() {
+  // Определяем конечную позицию камеры для достижения желаемого визуального эффекта
+  const targetCameraPosition = {
+    x: -5, // Смещаем камеру влево
+    y: 5,  // Смещаем камеру вверх
+    z: camera.position.z // Оставляем глубину камеры без изменений
+  };
+
+  // Анимация перемещения камеры к новой позиции
+  new TWEEN.Tween(camera.position)
+      .to(targetCameraPosition, 2000)
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .onUpdate(() => {
+        // В этом блоке код не нужен, так как TWEEN сам обновит позицию камеры
+      })
+      .start();
+
+  // Анимация изменения масштаба сцены, если требуется
+  // Если вам нужно уменьшить сцену, чтобы сфера выглядела меньше
+/*  new TWEEN.Tween(scene.scale)
+      .to({x: 5-5, y: 0.5, z: 0.5}, 2000) // Уменьшаем масштаб сцены в 2 раза
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .start();*/
+}
+
+function animateGlow() {
+  requestAnimationFrame(animateGlow);
+
+  const time = Date.now() * 0.005; // Регулировка скорости пульсации
+
+  glowSprites.forEach(sprite => {
+    // Создаем пульсирующий эффект путем изменения масштаба
+    const scale = 1.5 + Math.sin(time) * 0.3; // Амплитуда пульсации
+    sprite.scale.set(scale, scale, scale);
+  });
+}
 function distanceCamera() {
   isFocused = false; // Сброс флага фокусировки
   isAnimating = true; // Возобновляем вращение сферы
@@ -127,54 +275,68 @@ function distanceCamera() {
       .easing(TWEEN.Easing.Cubic.Out)
       .start();
 }
-
+let savedCameraPosition = new THREE.Vector3();
+let savedCameraQuaternion = new THREE.Quaternion();
 function focusOnObject(object) {
-  if (!isFocused) {
-    isFocused = true; // Устанавливаем флаг фокусировки
-    isAnimating = false; // Останавливаем вращение
+  if (isFocused) return;
+  savedCameraPosition.copy(camera.position);
+  savedCameraQuaternion.copy(camera.quaternion);
+  isFocused = true;
+  isAnimating = false;
 
-    const newPos = object.position.clone().add(new THREE.Vector3(0, 0, 5)); // Новая позиция для приближения
-
-    new TWEEN.Tween(camera.position)
-        .to({x: newPos.x, y: newPos.y, z: newPos.z}, 2000)
-        .easing(TWEEN.Easing.Cubic.Out)
-        .onComplete(() => {
-          setTimeout(() => {
-            distanceCamera(); // Функция для отдаления камеры
-          }, 3000);
-        })
-        .start();
-  }
-}
-
-
-
-// Функция для возвращения камеры к исходной позиции
-function returnCameraToInitialPosition() {
+  const newPos = object.position.clone().add(new THREE.Vector3(0, 0, 5));
   new TWEEN.Tween(camera.position)
-      .to({
-        x: initialCameraPosition.x,
-        y: initialCameraPosition.y,
-        z: initialCameraPosition.z
-      }, 2000)
+      .to({x: newPos.x, y: newPos.y, z: newPos.z}, 2000)
       .easing(TWEEN.Easing.Cubic.Out)
       .onComplete(() => {
-        isFocused = false; // Сброс флага фокусировки
-        currentFocus = null; // Сбрасываем текущую цель фокусировки
-        isAnimating = true; // Возобновляем вращение сферы
+        setTimeout(() => {
+          distanceCamera();
+        }, 3000);
       })
       .start();
 }
 
+function returnCameraToSavedPosition() {
+  // Анимация возвращения камеры в сохраненное положение
+  new TWEEN.Tween(camera.position)
+      .to({
+        x: savedCameraPosition.x,
+        y: savedCameraPosition.y,
+        z: savedCameraPosition.z
+      }, 2000)
+      .easing(TWEEN.Easing.Cubic.Out)
+      .start();
+
+  // Анимация возвращения камеры в сохраненную ориентацию
+  new TWEEN.Tween(camera.quaternion)
+      .to({
+        x: savedCameraQuaternion.x,
+        y: savedCameraQuaternion.y,
+        z: savedCameraQuaternion.z,
+        w: savedCameraQuaternion.w
+      }, 2000)
+      .easing(TWEEN.Easing.Cubic.Out)
+      .start();
+
+  // Сброс флага фокусировки
+  isFocused = false;
+  isAnimating = true; // Если требуется возвращение к анимации сцены
+}
+
+function closeModal() {
+  modalVisible.value = false; // Скрываем модальное окно
+}
 
 
+let allCylinders = [];
 
 function addSmallCylinders(sphereRadius, count) {
+  allCylinders = [];
   for (let i = 0; i < count; i++) {
     const phi = Math.acos(-1 + (2 * i) / count);
     const theta = Math.sqrt(count * Math.PI) * phi;
 
-    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const material = new THREE.MeshBasicMaterial({color: 0xffffff});
     const geometry = new THREE.CylinderGeometry(0.05, 0.05, 0.2, 32);
     const cylinder = new THREE.Mesh(geometry, material);
 
@@ -186,113 +348,139 @@ function addSmallCylinders(sphereRadius, count) {
     const up = new THREE.Vector3(0, 1, 0);
     cylinder.quaternion.setFromUnitVectors(up, direction.negate());
 
+    cylinder.userData = { isCylinder: true, index: i };
+    cylinder.addEventListener('click', (event) => {
+      onCylinderClick(event.target.userData.index);
+    });
+
     scene.add(cylinder);
+    allCylinders.push(cylinder); // Добавляем цилиндр в массив
   }
 }
 
-function addCitiesToSphere(sphereRadius) {
-  const cities = [
-    {name: 'New York', lat: 25, lon: -74}, // Перемещено ближе к экватору
-    {name: 'Los Angeles', lat: 0, lon: -118}, // Перемещено ближе к экватору
-    {name: 'London', lat: 15, lon: 0}, // Перемещено на экватор и нулевой меридиан для централизации
-    {name: 'Tokyo', lat: 19, lon: 140}, // Перемещено ближе к экватору, коррекция долготы для распределения
-    {name: 'Moscow', lat: -9, lon: 37}, // Перемещено ближе к экватору
-    {name: 'Sydney', lat: -20, lon: 151}, // Перемещено ближе к экватору
-  ];
 
-  cities.forEach(city => {
-    const phi = THREE.MathUtils.degToRad(90 - city.lat);
-    const theta = THREE.MathUtils.degToRad(city.lon + 180);
 
-    const pointGeometry = new THREE.SphereGeometry(0.05, 32, 32);
-    const pointMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-    const point = new THREE.Mesh(pointGeometry, pointMaterial);
-    point.position.setFromSphericalCoords(sphereRadius, phi, theta);
-    scene.add(point);
 
-    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: new THREE.CanvasTexture(generateTextCanvas(city.name)),
-      transparent: true,
-    }));
-    sprite.position.copy(point.position).multiplyScalar(1.1);
-    sprite.scale.set(1.2, 0.6, 1); // Изменено для лучшей видимости
-    scene.add(sprite);
-    textSprites.push(sprite);
+function addCitiesToSphere() {
+  // Выбираем 5 случайных цилиндров из allCylinders
+  const selectedCylinders = selectedCylinderIndexes.map(index => allCylinders[index]);
 
-    cityPositions.push(point.position.clone());
-  });
-
-  createCityLines();
+  // Теперь соединяем выбранные цилиндры линиями
+  createCityLines(selectedCylinders);
 }
+
 function addTubeBetweenPoints(point1, point2, thickness) {
   const path = new THREE.LineCurve3(point1, point2);
   const tubeGeometry = new THREE.TubeGeometry(path, 20, thickness, 8, false);
-  const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
+  const material = new THREE.MeshBasicMaterial({color: 0xffffff, transparent: true, opacity: 0.5});
   const tube = new THREE.Mesh(tubeGeometry, material);
   scene.add(tube);
   lines.push(tube); // Сохраняем для анимации
 }
 
-function createCityLines() {
+function createCityLines(selectedCylinders) {
   lines.forEach(line => {
-    scene.remove(line);
+    scene.remove(line); // Удаляем предыдущие линии
   });
   lines.length = 0; // Очищаем массив линий
 
-  // Двойной цикл для создания труб между всеми парами точек
-  for (let i = 0; i < cityPositions.length; i++) {
-    for (let j = i + 1; j < cityPositions.length; j++) {
-      addTubeBetweenPoints(cityPositions[i], cityPositions[j], 0.01); // 0.1 - это толщина трубы
+  for (let i = 0; i < selectedCylinders.length; i++) {
+    for (let j = i + 1; j < selectedCylinders.length; j++) {
+      addTubeBetweenPoints(selectedCylinders[i].position, selectedCylinders[j].position, 0.01);
     }
   }
 }
 
+function addTextLabelsToCylinders(selectedCylinders, texts) {
 
-function generateTextCanvas(text) {
-  const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 128;
-  const context = canvas.getContext('2d');
-  context.font = '24px Arial';
-  context.fillStyle = 'rgba(255, 255, 255, 0.8)';
-  context.textAlign = 'center';
-  context.fillText(text, 128, 64);
+  for (let i = 0; i < selectedCylinders.length; i++) {
+    const cylinder = selectedCylinders[i];
+    const text = texts[i]; // Текст для текущего цилиндра
 
-  return canvas;
-}
+    const texture = generateTextTexture(text);
+    const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    const sprite = new THREE.Sprite(material);
 
-function addStarField() {
-  const starsGeometry = new THREE.BufferGeometry();
-  const starField = [];
-  const radius = 100; // Радиус области, где будут расположены звезды
-  const starsAmount = 5000; // Количество звезд
-
-  for (let i = 0; i < starsAmount; i++) {
-    const x = THREE.MathUtils.randFloatSpread(radius) * (Math.random() > 0.5 ? 1 : -1);
-    const y = THREE.MathUtils.randFloatSpread(radius / 4); // Ограничиваем высоту, чтобы создать эффект "под сферой"
-    const z = THREE.MathUtils.randFloatSpread(radius) * (Math.random() > 0.5 ? 1 : -1);
-    starField.push(x, y, z);
+    // Размер спрайта, можно адаптировать под ваши нужды
+    sprite.scale.set(2, 0.5, 1);
+    // Позиционируем спрайт над цилиндром
+    const yOffset = 0.2; // Высота над цилиндром, адаптируйте под ваши нужды
+    sprite.position.set(cylinder.position.x, cylinder.position.y + yOffset, cylinder.position.z);
+    textSprites.push(sprite); // Сохраняем ссылку на спрайт
+    scene.add(sprite);
   }
+}
+function animateText() {
+  requestAnimationFrame(animateText);
 
-  starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starField, 3));
-  const starsMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size: 0.1,
-    map: createCircleTexture(), // Применяем текстуру кружочка
-    transparent: true,
-    blending: THREE.AdditiveBlending, // Опционально: добавляем смешивание для более яркого эффекта
+  const time = Date.now() * 0.005; // Регулировка скорости пульсации
+
+  textSprites.forEach(sprite => {
+    // Пульсирующая прозрачность
+    sprite.material.opacity = 0.5 + Math.sin(time) * 0.5;
+
+    // Плавное изменение цвета
+    const hue = 0.5 + Math.sin(time) * 0.5; // Пример изменения оттенка
+    sprite.material.color.setHSL(hue, 1, 0.5); // HSL для плавного перехода цвета
   });
-  const stars = new THREE.Points(starsGeometry, starsMaterial);
-  scene.add(stars);
 }
 
+
+function generateTextTexture(text) {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = 256; // Размер может быть адаптирован под ваши нужды
+  canvas.height = 64; // Размер может быть адаптирован под ваши нужды
+
+  context.fillStyle = '#5ed5eb'; // Цвет текста
+  context.font = 'Bold 30px Arial'; // Стиль шрифта
+  context.textAlign = 'center';
+  context.fillText(text, 128, 40);
+
+
+  return new THREE.CanvasTexture(canvas);
+}
+function updateCylinderMaterials(selectedCylinders) {
+  const glowingMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00ffff, // Голубой цвет
+    emissive: 0x00ffff // Добавляем свечение того же цвета
+  });
+
+  selectedCylinders.forEach(cylinder => {
+    cylinder.material = glowingMaterial;
+  });
+}
+
+function adjustCameraForModal() {
+  savedCameraPosition.copy(camera.position);
+  savedCameraQuaternion.copy(camera.quaternion);
+
+  // Предположим, что вы хотите переместить камеру влево и вниз, сохраняя сферу в правом верхнем углу
+  // Значения x и y выбираются экспериментальным путем
+  const newX = -10; // Смещение влево
+  const newY = 10; // Смещение вверх
+  const newZ = camera.position.z; // Сохраняем ту же глубину
+
+  new TWEEN.Tween(camera.position)
+      .to({x: newX, y: newY, z: newZ}, 2000)
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .start();
+
+  // При необходимости адаптируйте FOV камеры для изменения "масштаба" визуализации
+  const newFOV = 50; // Новое значение FOV может быть адаптировано под ваш сценарий
+  new TWEEN.Tween(camera)
+      .to({fov: newFOV}, 2000)
+      .onUpdate(() => camera.updateProjectionMatrix())
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .start();
+}
 
 function animate() {
   requestAnimationFrame(animate);
   TWEEN.update();
   controls.update();
   if (isAnimating) {
-    scene.rotation.y -= 0.001;
+    scene.rotation.y -= 0.0005;
   }
 
   const time = Date.now() * 0.001;
@@ -310,29 +498,80 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+function isObjectInFrontOfCamera(object, camera) {
+  const cameraDirection = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).normalize();
+  const toObjectDirection = new THREE.Vector3().subVectors(object.position, camera.position).normalize();
+  const angle = cameraDirection.angleTo(toObjectDirection);
+  return angle < Math.PI / 2;
+}
 
-function onMouseMove(event) {
-  if (isFocused) return;
+let clickableCubes = [];
 
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+function addInvisibleCubes() {
+  const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5); // Размеры куба, адаптируйте под свои нужды
+  const cubeMaterial = new THREE.MeshBasicMaterial({ visible: false }); // Невидимый материал
 
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(textSprites, true);
+  selectedCylinderIndexes.forEach(index => {
+    const cylinder = allCylinders[index];
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    cube.position.copy(cylinder.position);
+    cube.userData = { isClickable: true, index }; // Пользовательские данные для идентификации при клике
+    scene.add(cube);
+    clickableCubes.push(cube); // Добавляем в список кликабельных объектов
+  });
+}
 
-  for (let i = 0; i < intersects.length; i++) {
-    const intersectedObject = intersects[i].object;
-    if (isVisibleAndAbove(intersectedObject, camera)) {
-      if (currentFocus !== intersectedObject) {
-        currentFocus = intersectedObject;
-        focusOnObject(intersectedObject);
-        break; // Прерываем цикл после первого же подходящего объекта
+function onMouseClick(event) {
+  if (!showIntro.value) {
+    event.preventDefault();
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(clickableCubes, true); // Изменено на clickableCubes
+
+    for (let i = 0; i < intersects.length; i++) {
+      if (intersects[i].object.userData.isClickable) {
+        onCylinderClick(intersects[i].object.userData.index);
+        break;
       }
     }
   }
 }
 
+function onMouseMove(event) {
 
+  const selectedCylinders = selectedCylinderIndexes.map(index => allCylinders[index]);
+  if (!camera || isFocused) return;
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(selectedCylinders, true);
+
+  if (intersects.length > 0) {
+    const intersectedObject = intersects[0].object;
+    if (isObjectInFrontOfCamera(intersectedObject, camera)) {
+      if (currentFocus !== intersectedObject) {
+        currentFocus = intersectedObject;
+        focusOnObject(intersectedObject);
+      }
+    }
+  } else if (currentFocus) {
+    distanceCamera();
+    currentFocus = null;
+  }
+}
+
+
+watch(showIntro, (newValue) => {
+  if (!newValue) {
+    nextTick(() => {
+      initThreeJs()
+    });
+  }
+});
 
 
 </script>
@@ -340,11 +579,127 @@ function onMouseMove(event) {
 <style>
 body {
   margin: 0 !important;
-  padding: 0;
+  padding: 0 !important;
 }
+
 .three-container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.logo-container, .rounded-video, .three-container {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.three-container {
+  /* Ваши стили для three-container */
+  width: 100%; /* Пример */
+  height: 100vh; /* Пример */
+  /* Другие стили */
+}
+.logo {
+  width: 200px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100vw;
+}
+
+.logo-container {
+  margin-bottom: 20px; /* Регулируйте по необходимости */
+  opacity: 0; /* Изначально скрыт */
+  transform: translateY(-100%); /* Начать за пределами экрана */
+  animation: slideDown 0.1s forwards; /* Анимация появления */
+  animation-delay: 1.2s; /* Задержка появления логотипа после видео */
+}
+
+@keyframes slideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rounded-video {
+  width: 65%; /* Регулируйте размер видео */
+  border-radius: 20px; /* Закругленные углы */
+  opacity: 0; /* Изначально скрыт */
+  transform: scale(0); /* Начать уменьшенным */
+  animation: zoomIn 0.5s forwards; /* Анимация увеличения */
+}
+
+@keyframes zoomIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  min-height: 50vh; /* Минимальная высота, чтобы обеспечить прокрутку */
+  /* Другие стили */
+}
+
+.interactive-menu {
+  position: fixed;
+  right: 20px; /* Расположение справа */
+  bottom: 50%; /* Стартует от центра экрана */
+  transform: translateY(50%); /* Смещаем контейнер, чтобы центр был по центру экрана */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-item {
+  margin: 10px 0; /* Расстояние между кружочками */
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: grey; /* Цвет по умолчанию */
+  transition: background-color 0.3s, transform 0.3s; /* Плавный переход для цвета и трансформации */
+}
+
+.menu-item.active .circle {
+  background-color: #fff; /* Цвет для активного состояния */
+  transform: scale(1.2); /* Увеличиваем активный кружочек */
+}
+
+/* Убедитесь, что span скрыт, чтобы текст не смещал кружочки */
+.menu-item span {
+  display: none;
 }
 </style>
