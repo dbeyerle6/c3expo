@@ -13,7 +13,7 @@
             <img src="/assets/logo.png" alt="Logo" class="logo"/>
           </div>
           <video class="rounded-video" ref="videoRef" autoplay muted>
-            <source src="/assets/intro/second.mp4" type="video/mp4">
+            <source src="https://kdbdg4gjgc2anfei.public.blob.vercel-storage.com/intro-CxILZcj46rQPKLXG4wqROC68wijrNF.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -43,7 +43,7 @@
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
 
-//import OrbitControls from "three-orbitcontrols"
+
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';

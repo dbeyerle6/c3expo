@@ -1,6 +1,6 @@
 <template>
   <video class="intro-video"  ref="videoRef" muted>
-    <source src="/assets/intro/intro.mp4" type="video/mp4">
+    <source src="https://kdbdg4gjgc2anfei.public.blob.vercel-storage.com/intro-CxILZcj46rQPKLXG4wqROC68wijrNF.mp4" type="video/mp4">
   </video>
   <transition name="fade">
     <div v-if="showClickableText" class="clickable-text" @click="continuePlaying">
