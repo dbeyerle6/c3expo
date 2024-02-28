@@ -301,33 +301,6 @@ function focusOnObject(object) {
       .start();
 }
 
-function returnCameraToSavedPosition() {
-  // Анимация возвращения камеры в сохраненное положение
-  new TWEEN.Tween(camera.position)
-      .to({
-        x: savedCameraPosition.x,
-        y: savedCameraPosition.y,
-        z: savedCameraPosition.z
-      }, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .start();
-
-  // Анимация возвращения камеры в сохраненную ориентацию
-  new TWEEN.Tween(camera.quaternion)
-      .to({
-        x: savedCameraQuaternion.x,
-        y: savedCameraQuaternion.y,
-        z: savedCameraQuaternion.z,
-        w: savedCameraQuaternion.w
-      }, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .start();
-
-  // Сброс флага фокусировки
-  isFocused = false;
-  isAnimating = true; // Если требуется возвращение к анимации сцены
-}
-
 function closeModal() {
   modalVisible.value = false; // Скрываем модальное окно
 }
@@ -362,9 +335,6 @@ function addSmallCylinders(sphereRadius, count) {
     allCylinders.push(cylinder); // Добавляем цилиндр в массив
   }
 }
-
-
-
 
 function addCitiesToSphere() {
   // Выбираем 5 случайных цилиндров из allCylinders
@@ -415,21 +385,6 @@ function addTextLabelsToCylinders(selectedCylinders, texts) {
     scene.add(sprite);
   }
 }
-function animateText() {
-  requestAnimationFrame(animateText);
-
-  const time = Date.now() * 0.005; // Регулировка скорости пульсации
-
-  textSprites.forEach(sprite => {
-    // Пульсирующая прозрачность
-    sprite.material.opacity = 0.5 + Math.sin(time) * 0.5;
-
-    // Плавное изменение цвета
-    const hue = 0.5 + Math.sin(time) * 0.5; // Пример изменения оттенка
-    sprite.material.color.setHSL(hue, 1, 0.5); // HSL для плавного перехода цвета
-  });
-}
-
 
 function generateTextTexture(text) {
   const canvas = document.createElement('canvas');
@@ -454,29 +409,6 @@ function updateCylinderMaterials(selectedCylinders) {
   selectedCylinders.forEach(cylinder => {
     cylinder.material = glowingMaterial;
   });
-}
-
-function adjustCameraForModal() {
-  savedCameraPosition.copy(camera.position);
-  savedCameraQuaternion.copy(camera.quaternion);
-
-  // Предположим, что вы хотите переместить камеру влево и вниз, сохраняя сферу в правом верхнем углу
-  // Значения x и y выбираются экспериментальным путем
-  const newX = -10; // Смещение влево
-  const newY = 10; // Смещение вверх
-  const newZ = camera.position.z; // Сохраняем ту же глубину
-
-  new TWEEN.Tween(camera.position)
-      .to({x: newX, y: newY, z: newZ}, 2000)
-      .easing(TWEEN.Easing.Quadratic.Out)
-      .start();
-
-  const newFOV = 50;
-  new TWEEN.Tween(camera)
-      .to({fov: newFOV}, 2000)
-      .onUpdate(() => camera.updateProjectionMatrix())
-      .easing(TWEEN.Easing.Quadratic.Out)
-      .start();
 }
 
 function animate() {
@@ -595,6 +527,7 @@ function handleScroll() {
 body {
   margin: 0 !important;
   padding: 0 !important;
+  overflow-x: hidden;
 }
 
 .three-container {

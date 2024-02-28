@@ -77,7 +77,7 @@ watch(showClickableText, (newValue) => {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 2s;
 }
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
