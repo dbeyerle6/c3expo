@@ -43,7 +43,8 @@
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
 
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+//import OrbitControls from "three-orbitcontrols"
+import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass.js';
@@ -492,6 +493,7 @@ function animate() {
 }
 
 function onWindowResize() {
+  if (!camera) return
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
