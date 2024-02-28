@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
-    <div :key="componentKey">
+    <div class="intro-container" :key="componentKey">
       <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>
     </div>
     <transition name="fade">
@@ -75,7 +75,7 @@ const showContent = ref(true);
 function initThreeJs() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   threeContainer.value.appendChild(renderer.domElement);
 
@@ -114,12 +114,14 @@ function initThreeJs() {
 
 
 onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
 });
 
 onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('resize', onWindowResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
@@ -574,6 +576,13 @@ watch(showIntro, (newValue) => {
   }
 });
 
+function handleScroll() {
+  const yOffset = window.pageYOffset;
+  // Динамическое смещение добавляем к начальному смещению -500px
+  const dynamicOffset = -800 + (yOffset * -0.1); // Уменьшаем динамическое смещение
+  document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
+}
+
 
 </script>
 
@@ -667,6 +676,13 @@ body, html {
   margin: 0;
 }
 
+body {
+  background-image: url('/assets/AdobeStock_436692993.jpeg');
+  background-size: 200%;
+  background-position: center -800px;
+  background-attachment: fixed;
+}
+
 .container {
   min-height: 50vh; /* Минимальная высота, чтобы обеспечить прокрутку */
   /* Другие стили */
@@ -702,5 +718,14 @@ body, html {
 /* Убедитесь, что span скрыт, чтобы текст не смещал кружочки */
 .menu-item span {
   display: none;
+}
+.intro-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #000;
 }
 </style>
