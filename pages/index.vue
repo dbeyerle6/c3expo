@@ -2,7 +2,9 @@
   <div class="container">
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     <div class="intro-container" :key="componentKey">
-      <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>
+      <transition name="intro-fade">
+        <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>
+      </transition>
     </div>
     <transition name="fade">
       <div v-if="!showIntro">
@@ -587,6 +589,9 @@ function handleScroll() {
 </script>
 
 <style>
+
+
+
 body {
   margin: 0 !important;
   padding: 0 !important;
@@ -611,6 +616,13 @@ body {
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
+.intro-fade-enter-active, .intro-fade-leave-active {
+  transition: opacity 0.5s;
+}
+.intro-fade-enter, .intro-fade-leave-to /* .intro-fade-leave-active в версиях <2.1.8 */ {
+  opacity: 0;
+}
+
 
 .logo-container, .rounded-video, .three-container {
   transition: transform 0.5s ease, opacity 0.5s ease;
@@ -677,11 +689,31 @@ body, html {
 }
 
 body {
-  background-image: url('/assets/AdobeStock_436692993.jpeg');
+  background-image: url('/assets/2.jpeg');
   background-size: 200%;
   background-position: center -800px;
   background-attachment: fixed;
+  background-repeat: no-repeat;
 }
+
+@media  (min-width: 1024px) and (max-width: 1366px) {
+  body {
+    background-size: 300%;
+    background-position: center -800px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+}
+
+@media  (min-width: 1367px) and (max-width: 1919px) {
+  body {
+    background-size: 275%;
+    background-position: center -800px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+}
+
 
 .container {
   min-height: 50vh; /* Минимальная высота, чтобы обеспечить прокрутку */
