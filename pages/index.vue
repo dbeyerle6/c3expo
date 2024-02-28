@@ -466,8 +466,7 @@ function adjustCameraForModal() {
       .easing(TWEEN.Easing.Quadratic.Out)
       .start();
 
-  // При необходимости адаптируйте FOV камеры для изменения "масштаба" визуализации
-  const newFOV = 50; // Новое значение FOV может быть адаптировано под ваш сценарий
+  const newFOV = 50;
   new TWEEN.Tween(camera)
       .to({fov: newFOV}, 2000)
       .onUpdate(() => camera.updateProjectionMatrix())
