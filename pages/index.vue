@@ -65,7 +65,7 @@ const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пр�
 const texts = ['References', 'Our Vision', 'Heritage', 'CEO Statement', 'Our expertise', 'Design/Creation', 'World wide Network', 'Product']; // Пример текстов
 
 
-const showIntro = ref(true);
+const showIntro = ref(false);
 const initialCameraPosition = new THREE.Vector3(0, 0, 10); // Замените на ваше исходное положение камеры
 const cityPositions = [];
 const lines = []; // Для хранения линий
