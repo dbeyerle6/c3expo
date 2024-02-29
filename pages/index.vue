@@ -13,8 +13,8 @@
             Logo
             <img src="/assets/logo.png" alt="Logo" class="logo"/>
           </div>
-          <video class="rounded-video" ref="videoRef" autoplay muted>
-            <source src="https://kdbdg4gjgc2anfei.public.blob.vercel-storage.com/intro-CxILZcj46rQPKLXG4wqROC68wijrNF.mp4" type="video/mp4">
+          <video class="rounded-video" ref="videoRef" autoplay>
+            <source src="https://kdbdg4gjgc2anfei.public.blob.vercel-storage.com/c3expo-lZrgmV4FqVOfNiQGdxWReV7LbjhCgl.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
