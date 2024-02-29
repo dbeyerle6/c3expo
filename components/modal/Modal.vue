@@ -164,19 +164,56 @@
         <h2>Heritage</h2>
         <div class="heritage_container">
           <img class="heritage_image" src="/static/images/heritage1.jpg" alt="">
-          <p class="heritage_text_container">
-            <p class="heritage_text">Alles begann als Thomas Dieter Beyerle 1995 die Vision hatte, Räume zu gestalten und zu schaffen, in denen Begegnungen stattfinden können und bei denen Emotionen geweckt werden. Dies war der Startschuss für   </p>
-          </p>
+          <div class="heritage_text_container">
+            <p class="heritage_text">Alles begann als Thomas Dieter Beyerle <strong style="font-size: 30px">1995</strong> die Vision hatte, Räume zu gestalten und zu schaffen, in denen Begegnungen stattfinden können und bei denen Emotionen geweckt werden. Dies war der Startschuss für   </p>
+            <p style="margin: 100px auto; font-size: 20px" >T.B. Bühnen + Messebau</p>
+          </div>
         </div>
-        <div class="modal_text_container">
-          <p class="modal_text">
-            Ein Messestand ist mehr als eine reine Komposition von verschiedenen Bauteilen! Der Besucher soll beim Betreten des Standes auf eine Reise mitgenommen werden, bei dem ihm eine Geschichte erzählt wird - über den Aussteller, seine Produkte und Innovationen, die Werte, für die er steht, aber vor allem, dass er persönlich für ihn da ist und seine Bedürfnisse bespricht und ihn berät. In diesem Umfeld von ausgewählten Materialien, Farben, Inszenierungen, Beleuchtungen und architektonischen Formen, entsteht der Raum der Begegnung. Kunden, Partner und sogar Freunde, treffen sich an einem Ort, der für ein paar Tage den Mittelpunkt von Besuchern und Ausstellern bildet.
-            Diesen Ort, kreieren wir, planen wir, produzieren ihn und bauen ihn, egal wo auf der Welt, für Sie auf!
-          </p>
+        <div class="heritage_arrow">
+          <img src="/static/arrow.svg" alt="">
+        </div>
+        <div class="heritage_info">
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+            <p style="font-size: 30px" class="heritage_text">1997</p>
+            <img class="heritage_image" style="width: 120px" src="/static/images/heritage2.png" alt="">
+          </div>
+          <p style="font-size: 24px" class="heritage_text">Aus T.B. Bühnen + Messebau wurde die 3B Kreative GbR</p>
+        </div>
+        <div class="heritage_arrow">
+          <img src="/static/arrow.svg" alt="">
+        </div>
+        <div class="heritage_info">
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+            <p style="font-size: 30px" class="heritage_text">2003</p>
+            <img class="heritage_image" style="width: 120px" src="/static/images/heritage3.jpg" alt="">
+          </div>
+          <p style="font-size: 24px" class="heritage_text">Danach ging die Reise alleine weiter, unter der Creative T.B. Systems Design</p>
+        </div>
+        <div class="heritage_arrow">
+          <img src="/static/arrow.svg" alt="">
+        </div>
+        <div class="heritage_info">
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+            <p style="font-size: 30px" class="heritage_text">2011</p>
+            <img class="heritage_image" style="width: 200px" src="/static/images/heritage4.png" alt="">
+          </div>
+          <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen waren.</p>
+        </div>
+
+        <div class="heritage_arrow">
+          <img src="/static/arrow.svg" alt="">
+        </div>
+        <div class="heritage_info">
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+            <p style="font-size: 30px; width: 100%" class="heritage_text">2024</p>
+          </div>
+          <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen waren.</p>
+
+          <img class="heritage_image" style="width: 350px" src="/static/images/heritage5.png" alt="">
         </div>
 
       </div>
-      <button class="close_button" @click="closeModal">x</button>
+      <button class="close_button" @click="closeModal"><img src="/static/close.svg" alt=""></button>
     </div>
   </div>
   </transition>
@@ -213,7 +250,7 @@ watch(() => props.isVisible, (newValue) => {
         rootMargin: "0px"
       });
 
-      const elements = modalContentRef.value.querySelectorAll('.modal_info, .modal_text, .modal_text, .modal_image, .images_container, .expertise_image, .expertise_container, .expertise_title, .expertise_text_container');
+      const elements = modalContentRef.value.querySelectorAll('.heritage_arrow, .modal_info, .modal_text, .modal_text, .modal_image, .images_container, .expertise_image, .expertise_container, .expertise_title, .expertise_text_container, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image');
       elements.forEach(el => observer.observe(el));
     }
   });
@@ -237,14 +274,36 @@ p, h2 {
 }
 .heritage_text {
   font-size: 20px;
+  width: 75%;
+  text-align: center;
 }
+
+.heritage_info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.heritage_text_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 30%;
+}
+
+.heritage_arrow > img {
+  height: 80px;
+}
+
 
 .heritage_container {
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
 .expertise_title {
   margin-bottom: -30px;
@@ -363,10 +422,17 @@ p, h2 {
   opacity: 1;
 }
 
+.close_button > img {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+}
+
 .close_button {
   position: absolute;
   top: 10px;
   right: 10%;
+
   background-color: #303030;
   color: #fff;
   border: none;
@@ -409,9 +475,9 @@ img {
   transition: opacity 2s ease-out;
 }
 
-.modal_info, .modal_text, .modal_image, .images_container, .expertise_container, .expertise_title, .expertise_text_container, .expertise_image {
+.modal_info, .modal_text, .modal_image, .images_container, .expertise_container, .expertise_title, .expertise_text_container, .expertise_image, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image{
   opacity: 0;
-  transition: opacity 1s ease-out;
+  transition: opacity 2s ease-out;
 }
 
 .fade-enter-to {

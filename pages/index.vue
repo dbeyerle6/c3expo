@@ -20,8 +20,8 @@
         </div>
         <div  ref="threeContainer" class="three-container">
         </div>
-        <div class="menu-container">
-          <!-- Остальной контент -->
+<!--        <div class="menu-container">
+          &lt;!&ndash; Остальной контент &ndash;&gt;
           <div class="interactive-menu">
             <div class="menu-item" :class="{active: activeItem === 0}" @click="activeItem = 0">
               <div class="circle"></div>
@@ -32,7 +32,7 @@
               <span>Сфера</span>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
 
     </transition>
