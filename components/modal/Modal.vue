@@ -5,7 +5,6 @@
       <div class="modal_info" v-if="props.index === 180">
         <h2>CEO Statement</h2>
         <div class="ceo_info_images">
-        <img class="modal_image" src="/static/images/daniel1.jpg" alt="">
         <img class="modal_image" src="/static/images/daniel2.jpg" alt="">
         </div>
         <div class="modal_text_container">
@@ -35,14 +34,6 @@
       <div class="modal_info" v-if="props.index === 86">
         <h2>References</h2>
         <div class="modal_text_container">
-        <p class="modal_text">Von den Anfängen der 90er Jahre!</p>
-        <p class="modal_text">
-          MVV Energie AG<br>
-          Mannheimer Morgen<br>
-          TWL Meine Energiequelle<br>
-          Astra Zeneca<br>
-        </p>
-
         <p>
           BASF SE Mailand Expo - Das Motto war: Siehst du das Big Picture? Durch die Anordnung von Möbeln und Exponaten, die in ihrer Symbiose von einem bestimmten Blickwinkel ein großes Gesamtbild erkennen lässt. Jedes einzelne Möbelstück und Exponat beinhaltet einen kleinen Teil zur Gesamtkomposition. Konzeptioneller Ansatz kam DING3000 und  wurde mit unserer Kooperation in der historischen Altstadt von Mailand zum Leben erweckt.
         </p>
