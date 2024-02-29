@@ -89,7 +89,7 @@ watch(showClickableText, (newValue) => {
   position: absolute;
   bottom: 120px;
   left: 50%;
-  width: auto;
+  width: 600px;
   transform: translateX(-50%);
   padding: 10px;
   cursor: pointer;

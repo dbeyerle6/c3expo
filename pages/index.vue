@@ -48,7 +48,6 @@ import * as THREE from 'three';
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
-import {ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
@@ -63,7 +62,7 @@ let currentFocus = null; // Текущий объект фокусировки
 const activeItem = ref(0);
 
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
-const texts = ['References', 'Our Vision', 'Heritage', 'CEO Statement', 'Our expertise', 'Design/Creation', 'World wide Network', 'Product']; // Пример текстов
+const texts = ['References', 'Unsere Vision', 'Heritage', 'CEO Statement', 'Unsere Mission', 'Unsere Expertiese', 'World wide Network', 'Produkt']; // Пример текстов
 
 
 const showIntro = ref(true);
@@ -117,14 +116,14 @@ function initThreeJs() {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('resize', onWindowResize);
-  window.addEventListener('mousemove', onMouseMove);
+  //window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('resize', onWindowResize);
-  window.removeEventListener('mousemove', onMouseMove);
+  //window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
@@ -140,24 +139,6 @@ const handleActionPerformed = () => {
   }, 4000); // Переключает на three-container через 5 секунд после события
 };
 
-
-function createCircleTexture() {
-  const size = 128; // Размер текстуры
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const context = canvas.getContext('2d');
-
-  // Рисуем круг
-  const center = size / 2;
-  context.beginPath();
-  context.arc(center, center, size / 2, 0, 2 * Math.PI, false);
-  context.fillStyle = 'white';
-  context.fill();
-
-  // Создаем текстуру из канваса
-  return new THREE.CanvasTexture(canvas);
-}
 function createGlowTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 128;
@@ -174,7 +155,6 @@ function createGlowTexture() {
       canvas.width / 2
   );
 
-  // Добавляем цвета градиента
   gradient.addColorStop(0, 'rgba(0, 255, 255, 1)');
   gradient.addColorStop(0.2, 'rgba(0, 255, 255, 0.2)');
   gradient.addColorStop(0.4, 'rgba(0, 255, 255, 0.05)');
@@ -211,20 +191,39 @@ function addGlowToCylinders(selectedCylinders) {
 const modalVisible = ref(false);
 const selectedIndex = ref(-1);
 function onCylinderClick(index) {
-
   savedCameraPosition.copy(camera.position);
-  savedCameraPosition.copy(camera.quaternion);
+  savedCameraQuaternion.copy(camera.quaternion);
 
-  // Отдаляем камеру и останавливаем вращение
-  const newPos = camera.position.clone().add(new THREE.Vector3(0, 0, 5)); // Примерное новое положение
-  camera.position.copy(newPos);
-  isAnimating = false; // Останавливаем анимацию вращения сцены
+  isAnimating = false; // Останавливаем вращение сферы
+
+  // Вычисляем новую позицию для "отдаления" камеры
+  const distance = 5; // Насколько далеко отодвигаемся
+  const direction = camera.position.clone().sub(scene.position).normalize();
+  const targetPosition = camera.position.clone().add(direction.multiplyScalar(distance));
+
+  // Создаём и запускаем анимацию
+  new TWEEN.Tween(camera.position)
+      .to({x: targetPosition.x, y: targetPosition.y, z: targetPosition.z}, 1000) // 1000 мс или 1 секунда для анимации
+      .easing(TWEEN.Easing.Quadratic.Out) // Функция сглаживания для плавного движения
+      .start();
 
   selectedIndex.value = index;
   modalVisible.value = true;
-  isAnimating = false;
-  isFocused = true
 }
+
+function resetCameraAndResumeAnimation() {
+  new TWEEN.Tween(camera.position)
+      .to({x: savedCameraPosition.x, y: savedCameraPosition.y, z: savedCameraPosition.z}, 1000) // Плавное возвращение к сохранённой позиции
+      .easing(TWEEN.Easing.Quadratic.Out) // Функция сглаживания
+      .onComplete(() => {
+        camera.quaternion.copy(savedCameraQuaternion); // Восстанавливаем ориентацию камеры после завершения анимации
+        isAnimating = true; // Возобновляем вращение
+      })
+      .start();
+}
+
+
+
 
 
 function animateGlow() {
@@ -277,6 +276,7 @@ function focusOnObject(object) {
 
 function closeModal() {
   modalVisible.value = false; // Скрываем модальное окно
+  resetCameraAndResumeAnimation(); // Возвращаем камеру к исходному положению
 }
 
 
