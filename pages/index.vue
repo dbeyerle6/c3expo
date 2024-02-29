@@ -10,7 +10,6 @@
       <div v-if="!showIntro">
         <div class="content-container">
           <div class="logo-container">
-            <!-- Путь к вашему логотипу -->
             Logo
             <img src="/assets/logo.png" alt="Logo" class="logo"/>
           </div>
@@ -227,47 +226,22 @@ function onCylinderClick(index) {
   isFocused = true
 }
 
-function moveAndScalePlanet() {
-  // Определяем конечную позицию камеры для достижения желаемого визуального эффекта
-  const targetCameraPosition = {
-    x: -5, // Смещаем камеру влево
-    y: 5,  // Смещаем камеру вверх
-    z: camera.position.z // Оставляем глубину камеры без изменений
-  };
-
-  // Анимация перемещения камеры к новой позиции
-  new TWEEN.Tween(camera.position)
-      .to(targetCameraPosition, 2000)
-      .easing(TWEEN.Easing.Quadratic.Out)
-      .onUpdate(() => {
-        // В этом блоке код не нужен, так как TWEEN сам обновит позицию камеры
-      })
-      .start();
-
-  // Анимация изменения масштаба сцены, если требуется
-  // Если вам нужно уменьшить сцену, чтобы сфера выглядела меньше
-/*  new TWEEN.Tween(scene.scale)
-      .to({x: 5-5, y: 0.5, z: 0.5}, 2000) // Уменьшаем масштаб сцены в 2 раза
-      .easing(TWEEN.Easing.Quadratic.Out)
-      .start();*/
-}
 
 function animateGlow() {
   requestAnimationFrame(animateGlow);
 
-  const time = Date.now() * 0.005; // Регулировка скорости пульсации
+  const time = Date.now() * 0.005;
 
   glowSprites.forEach(sprite => {
-    // Создаем пульсирующий эффект путем изменения масштаба
-    const scale = 1.5 + Math.sin(time) * 0.3; // Амплитуда пульсации
+    const scale = 1.5 + Math.sin(time) * 0.3;
     sprite.scale.set(scale, scale, scale);
   });
 }
 function distanceCamera() {
-  isFocused = false; // Сброс флага фокусировки
-  isAnimating = true; // Возобновляем вращение сферы
+  isFocused = false;
+  isAnimating = true;
 
-  const distance = 10; // Замените это значение на желаемое расстояние отдаления
+  const distance = 10;
   const direction = camera.position.clone().normalize();
   const newPos = direction.multiplyScalar(distance);
 
