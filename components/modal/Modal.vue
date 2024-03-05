@@ -211,7 +211,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch, nextTick, defineProps, defineEmits } from 'vue';
+import { ref, onMounted, onUnmounted, watch, nextTick, defineEmits } from 'vue';
 
 const props = defineProps({
   index: Number,

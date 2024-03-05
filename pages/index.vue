@@ -8,18 +8,20 @@
     </div>
     <transition name="fade">
       <div v-if="!showIntro">
-        <div class="content-container">
+        <div class="content-container" id="contentBlock">
           <div class="logo-container">
             Logo
             <img src="/assets/logo.png" alt="Logo" class="logo"/>
           </div>
           <video class="rounded-video" ref="videoRef" autoplay>
-            <source src="https://kdbdg4gjgc2anfei.public.blob.vercel-storage.com/c3expo-lZrgmV4FqVOfNiQGdxWReV7LbjhCgl.mp4" type="video/mp4">
+            <source src="https://c3expo.b-cdn.net/c3expo.mp4" type="video/mp4">
+<!--            <source src='/static/videos/intro.mp4' type="video/mp4">-->
             Your browser does not support the video tag.
           </video>
         </div>
-        <div  ref="threeContainer" class="three-container">
+        <div  ref="threeContainer" class="three-container" id="threeJsBlock">
         </div>
+        <Footer id="footerBlock"/>
 <!--        <div class="menu-container">
           &lt;!&ndash; Остальной контент &ndash;&gt;
           <div class="interactive-menu">
@@ -60,6 +62,8 @@ const raycaster = new THREE.Raycaster();
 let isFocused = false; // Состояние фокуса на объекте
 let currentFocus = null; // Текущий объект фокусировки
 const activeItem = ref(0);
+const lastScrollY = ref(0);
+
 
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
 const texts = ['References', 'Unsere Vision', 'Heritage', 'CEO Statement', 'Unsere Mission', 'Unsere Expertiese', 'World wide Network', 'Produkt']; // Пример текстов
@@ -114,16 +118,17 @@ function initThreeJs() {
 
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll, { passive: true });
   window.addEventListener('resize', onWindowResize);
-  //window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
+
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('resize', onWindowResize);
-  //window.removeEventListener('mousemove', onMouseMove);
+  window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
@@ -451,27 +456,30 @@ function onMouseClick(event) {
 }
 
 function onMouseMove(event) {
-
-  const selectedCylinders = selectedCylinderIndexes.map(index => allCylinders[index]);
-  if (!camera || isFocused) return;
+  if (!camera) return;
 
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(selectedCylinders, true);
+  const intersects = raycaster.intersectObjects([...clickableCubes, ...textSprites], true);
 
-  if (intersects.length > 0) {
-    const intersectedObject = intersects[0].object;
-    if (isObjectInFrontOfCamera(intersectedObject, camera)) {
-      if (currentFocus !== intersectedObject) {
-        currentFocus = intersectedObject;
-        focusOnObject(intersectedObject);
-      }
+  let foundIntersect = false;
+  for (let i = 0; i < intersects.length; i++) {
+    if (intersects[i].object.userData.isClickable || intersects[i].object instanceof THREE.Sprite) {
+      foundIntersect = true;
+      break;
     }
-  } else if (currentFocus) {
-    distanceCamera();
-    currentFocus = null;
+  }
+
+  if (foundIntersect) {
+    if (isAnimating) {
+      isAnimating = false;
+    }
+  } else {
+    if (!isAnimating) {
+      isAnimating = true;
+    }
   }
 }
 
@@ -483,14 +491,61 @@ watch(showIntro, (newValue) => {
     });
   }
 });
+let isScrolling = false;
 
 function handleScroll() {
-  const yOffset = window.pageYOffset;
-  // Динамическое смещение добавляем к начальному смещению -500px
-  const dynamicOffset = -800 + (yOffset * -0.1); // Уменьшаем динамическое смещение
-  document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
+  const direction = window.pageYOffset > lastScrollY.value ? 'down' : 'up';
+  lastScrollY.value = window.pageYOffset;
+
+  // Вызов функции для скролла в зависимости от направления
+  performScroll(direction);
 }
 
+
+function performScroll(direction) {
+  if (isScrolling) return;
+
+  const contentBlock = document.getElementById('contentBlock');
+  const threeJsBlock = document.getElementById('threeJsBlock');
+  const footerBlock = document.getElementById('footerBlock');
+
+  let targetElement = null;
+
+  // Определение элемента для скролла в зависимости от направления и видимости
+  if (direction === 'down') {
+    if (isInViewport(contentBlock) && !isInViewport(threeJsBlock)) {
+      targetElement = threeJsBlock;
+    } else if (isInViewport(threeJsBlock) && !isInViewport(footerBlock)) {
+      targetElement = footerBlock;
+    }
+  } else if (direction === 'up') {
+    if (isInViewport(footerBlock) && !isInViewport(threeJsBlock)) {
+      targetElement = threeJsBlock;
+    } else if (isInViewport(threeJsBlock) && !isInViewport(contentBlock)) {
+      targetElement = contentBlock;
+    }
+  }
+
+  if (targetElement) {
+    isScrolling = true;
+    targetElement.scrollIntoView({ behavior: 'smooth' });
+
+    // Ожидание завершения скролла перед разрешением следующего
+    setTimeout(() => {
+      isScrolling = false;
+    }, 1000); // Время в мс, адаптировать под длительность анимации скролла
+  }
+}
+
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
 
 </script>
 
