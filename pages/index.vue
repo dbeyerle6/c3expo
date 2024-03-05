@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div v-if="isUnderConstruction" class="isUnder">
+    <h2>Website is under construction</h2>
+  </div>
+  <div v-else class="container">
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     <div class="intro-container" :key="componentKey">
       <transition name="intro-fade">
@@ -63,6 +66,7 @@ let isFocused = false; // Состояние фокуса на объекте
 let currentFocus = null; // Текущий объект фокусировки
 const activeItem = ref(0);
 const lastScrollY = ref(0);
+const isUnderConstruction = ref(true)
 
 
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
@@ -721,5 +725,28 @@ body {
   align-items: center;
   position: relative;
   background-color: #000;
+}
+
+
+.isUnder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: 'Century Gothic', sans-serif;
+  text-transform: uppercase;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  animation: fadeIn 1s forwards;
+}
+.isUnder > h2 {
+  font-size: 30px;
 }
 </style>
