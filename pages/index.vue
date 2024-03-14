@@ -1,19 +1,18 @@
 <template>
-  <div v-if="isUnderConstruction" class="isUnder">
-    <h2>Website is under construction</h2>
-  </div>
-  <div v-else class="container">
+<!--  <div v-if="isUnderConstruction" class="isUnder">-->
+<!--    <h2>Website is under construction</h2>-->
+<!--  </div>-->
+  <div class="container" @wheel="handleScroll">
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
-    <div class="intro-container" :key="componentKey">
+    <div v-if="showIntro" class="intro-container" :key="componentKey">
       <transition name="intro-fade">
         <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>
       </transition>
     </div>
     <transition name="fade">
-      <div v-if="!showIntro">
+      <div v-if="!showIntro" class="page-wrapper" ref="pageWrapper">
         <div class="content-container" id="contentBlock">
           <div class="logo-container">
-            Logo
             <img src="/assets/logo.png" alt="Logo" class="logo"/>
           </div>
           <video class="rounded-video" ref="videoRef" autoplay>
@@ -24,22 +23,8 @@
         </div>
         <div  ref="threeContainer" class="three-container" id="threeJsBlock">
         </div>
-        <Footer id="footerBlock"/>
-<!--        <div class="menu-container">
-          &lt;!&ndash; Остальной контент &ndash;&gt;
-          <div class="interactive-menu">
-            <div class="menu-item" :class="{active: activeItem === 0}" @click="activeItem = 0">
-              <div class="circle"></div>
-              <span>Видео</span>
-            </div>
-            <div class="menu-item" :class="{active: activeItem === 1}" @click="activeItem = 1">
-              <div class="circle"></div>
-              <span>Сфера</span>
-            </div>
-          </div>
-        </div>-->
+        <Footer v-if="!showIntro" id="footerBlock"/>
       </div>
-
     </transition>
   </div>
 
@@ -48,8 +33,7 @@
 <script setup>
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
-
-
+import { debounce } from 'lodash-es';
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -57,29 +41,26 @@ import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
 
-
+const isModalOpen = ref(false);
 const threeContainer = ref(null);
 let camera, scene, renderer, controls, composer;
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
-let isFocused = false; // Состояние фокуса на объекте
-let currentFocus = null; // Текущий объект фокусировки
-const activeItem = ref(0);
-const lastScrollY = ref(0);
-const isUnderConstruction = ref(true)
-
-
+const isUnderConstruction = ref(false)
+let touchStart = ref(null);
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
 const texts = ['References', 'Unsere Vision', 'Heritage', 'CEO Statement', 'Unsere Mission', 'Unsere Expertiese', 'World wide Network', 'Produkt']; // Пример текстов
-
-
 const showIntro = ref(true);
 const initialCameraPosition = new THREE.Vector3(0, 0, 10); // Замените на ваше исходное положение камеры
-const cityPositions = [];
-const lines = []; // Для хранения линий
-const textSprites = []; // Для хранения текстовых спрайтов
+const lines = [];
+const textSprites = [];
 let isAnimating = true;
-const showContent = ref(true);
+let sphere;
+let savedCameraPosition = new THREE.Vector3();
+let savedCameraQuaternion = new THREE.Quaternion();
+const modalVisible = ref(false);
+const selectedIndex = ref(-1);
+let glowSprites = [];
 function initThreeJs() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -107,7 +88,7 @@ function initThreeJs() {
 
   camera.position.copy(initialCameraPosition);
 
-  const sphereRadius = 5;
+  const sphereRadius = window.innerWidth < 768 ? 2 : 5;
   controls.minDistance = sphereRadius + 3; // Устанавливаем минимальное расстояние приближения
 
   addSmallCylinders(sphereRadius, 300);
@@ -122,18 +103,22 @@ function initThreeJs() {
 
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll, { passive: true });
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
+  window.addEventListener('touchstart', onTouchStart);
+  window.addEventListener('touchmove', onTouchMove);
+  window.addEventListener('touchend', onTouchEnd);
 
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('resize', onWindowResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
+  window.removeEventListener('touchstart', onTouchStart);
+  window.removeEventListener('touchmove', onTouchMove);
+  window.removeEventListener('touchend', onTouchEnd);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
@@ -175,7 +160,6 @@ function createGlowTexture() {
   return new THREE.CanvasTexture(canvas);
 }
 
-let glowSprites = [];
 function addGlowToCylinders(selectedCylinders) {
   const glowTexture = createGlowTexture();
   selectedCylinders.forEach(cylinder => {
@@ -197,8 +181,7 @@ function addGlowToCylinders(selectedCylinders) {
   animateGlow();
 }
 
-const modalVisible = ref(false);
-const selectedIndex = ref(-1);
+
 function onCylinderClick(index) {
   savedCameraPosition.copy(camera.position);
   savedCameraQuaternion.copy(camera.quaternion);
@@ -232,9 +215,6 @@ function resetCameraAndResumeAnimation() {
 }
 
 
-
-
-
 function animateGlow() {
   requestAnimationFrame(animateGlow);
 
@@ -245,46 +225,9 @@ function animateGlow() {
     sprite.scale.set(scale, scale, scale);
   });
 }
-function distanceCamera() {
-  isFocused = false;
-  isAnimating = true;
-
-  const distance = 10;
-  const direction = camera.position.clone().normalize();
-  const newPos = direction.multiplyScalar(distance);
-
-  new TWEEN.Tween(camera.position)
-      .to({
-        x: newPos.x,
-        y: newPos.y,
-        z: newPos.z
-      }, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .start();
-}
-let savedCameraPosition = new THREE.Vector3();
-let savedCameraQuaternion = new THREE.Quaternion();
-function focusOnObject(object) {
-  if (isFocused) return;
-  savedCameraPosition.copy(camera.position);
-  savedCameraQuaternion.copy(camera.quaternion);
-  isFocused = true;
-  isAnimating = false;
-
-  const newPos = object.position.clone().add(new THREE.Vector3(0, 0, 5));
-  new TWEEN.Tween(camera.position)
-      .to({x: newPos.x, y: newPos.y, z: newPos.z}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .onComplete(() => {
-        setTimeout(() => {
-          distanceCamera();
-        }, 3000);
-      })
-      .start();
-}
-
 function closeModal() {
   modalVisible.value = false; // Скрываем модальное окно
+  isModalOpen.value = false
   resetCameraAndResumeAnimation(); // Возвращаем камеру к исходному положению
 }
 
@@ -383,16 +326,6 @@ function generateTextTexture(text) {
 
   return new THREE.CanvasTexture(canvas);
 }
-function updateCylinderMaterials(selectedCylinders) {
-  const glowingMaterial = new THREE.MeshBasicMaterial({
-    color: 0x00ffff, // Голубой цвет
-    emissive: 0x00ffff // Добавляем свечение того же цвета
-  });
-
-  selectedCylinders.forEach(cylinder => {
-    cylinder.material = glowingMaterial;
-  });
-}
 
 function animate() {
   requestAnimationFrame(animate);
@@ -412,18 +345,22 @@ function animate() {
 }
 
 function onWindowResize() {
-  if (!camera) return
+  if (!camera || !renderer || !sphere) return;
+
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const isMobile = window.innerWidth < 768; // Определение, является ли устройство мобильным
+  const newSphereRadius = isMobile ? 3 : 5; // Новый радиус в зависимости от устройства
+
+  // Обновляем геометрию сферы
+  sphere.geometry.dispose(); // Удаление старой геометрии
+  sphere.geometry = new THREE.SphereGeometry(newSphereRadius, sphere.geometry.parameters.widthSegments, sphere.geometry.parameters.heightSegments);
+
+  renderer.render(scene, camera);
 }
 
-function isObjectInFrontOfCamera(object, camera) {
-  const cameraDirection = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).normalize();
-  const toObjectDirection = new THREE.Vector3().subVectors(object.position, camera.position).normalize();
-  const angle = cameraDirection.angleTo(toObjectDirection);
-  return angle < Math.PI / 2;
-}
 
 let clickableCubes = [];
 
@@ -452,6 +389,7 @@ function onMouseClick(event) {
 
     for (let i = 0; i < intersects.length; i++) {
       if (intersects[i].object.userData.isClickable) {
+        isModalOpen.value = true
         onCylinderClick(intersects[i].object.userData.index);
         break;
       }
@@ -487,7 +425,6 @@ function onMouseMove(event) {
   }
 }
 
-
 watch(showIntro, (newValue) => {
   if (!newValue) {
     nextTick(() => {
@@ -495,62 +432,116 @@ watch(showIntro, (newValue) => {
     });
   }
 });
+
+const pageWrapper = ref(null);
+let currentIndex = ref(0); // Текущий индекс для отслеживания текущего положения
 let isScrolling = false;
 
-function handleScroll() {
-  const direction = window.pageYOffset > lastScrollY.value ? 'down' : 'up';
-  lastScrollY.value = window.pageYOffset;
+let currentOffset = -800; // Начальное смещение фона
+let targetOffset = -400; // Целевое смещение фона
 
-  // Вызов функции для скролла в зависимости от направления
-  performScroll(direction);
-}
+const handleScrollDebounced = debounce(() => {
+  // Обновляем целевое смещение на основе положения прокрутки
+  targetOffset = -800 + window.pageYOffset * 0.1;
+  updateBackgroundPosition();
+}, 66); // 100 мс задержка
 
+function handleScroll(event) {
+  if (!pageWrapper.value || isModalOpen.value) return;
 
-function performScroll(direction) {
-  if (isScrolling) return;
+  event.preventDefault();
+  const { deltaY } = event;
+  const elements = pageWrapper.value.querySelectorAll('.content-container, .three-container, #footerBlock');
 
-  const contentBlock = document.getElementById('contentBlock');
-  const threeJsBlock = document.getElementById('threeJsBlock');
-  const footerBlock = document.getElementById('footerBlock');
-
-  let targetElement = null;
-
-  // Определение элемента для скролла в зависимости от направления и видимости
-  if (direction === 'down') {
-    if (isInViewport(contentBlock) && !isInViewport(threeJsBlock)) {
-      targetElement = threeJsBlock;
-    } else if (isInViewport(threeJsBlock) && !isInViewport(footerBlock)) {
-      targetElement = footerBlock;
+  if (deltaY > 0) { // Скролл вниз
+    if (currentIndex.value < elements.length - 1) {
+      currentIndex.value++;
     }
-  } else if (direction === 'up') {
-    if (isInViewport(footerBlock) && !isInViewport(threeJsBlock)) {
-      targetElement = threeJsBlock;
-    } else if (isInViewport(threeJsBlock) && !isInViewport(contentBlock)) {
-      targetElement = contentBlock;
+  } else { // Скролл вверх
+    if (currentIndex.value > 0) {
+      currentIndex.value--;
     }
   }
 
-  if (targetElement) {
-    isScrolling = true;
-    targetElement.scrollIntoView({ behavior: 'smooth' });
+  // Плавный переход к текущему элементу
+  elements[currentIndex.value].scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    // Ожидание завершения скролла перед разрешением следующего
-    setTimeout(() => {
-      isScrolling = false;
-    }, 1000); // Время в мс, адаптировать под длительность анимации скролла
+  handleScrollDebounced();
+}
+
+function updateBackgroundPosition() {
+  requestAnimationFrame(() => {
+    // Плавно изменяем текущее смещение к целевому
+    currentOffset += (targetOffset - currentOffset) * 0.1;
+
+    // Применяем измененное смещение к фону
+    document.body.style.backgroundPosition = `center ${currentOffset}px`;
+
+    // Если разница между текущим и целевым смещениями достаточно мала, останавливаем анимацию
+    if (Math.abs(targetOffset - currentOffset) > 0.1) {
+      updateBackgroundPosition();
+    }
+  });
+}
+
+
+function onTouchStart(event) {
+  if (event.touches.length === 1) {
+    // Сохраняем начальную позицию одиночного касания для скроллинга
+    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  } else if (event.touches.length === 2) {
+    // Переключение OrbitControls для вращения сферы при двойном касании
+    controls.enabled = true;
   }
 }
 
-function isInViewport(element) {
-  const rect = element.getBoundingClientRect();
-  return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
+function onTouchMove(event) {
+  if (event.touches.length === 1 && touchStart.value) {
+    // Вычисляем дельту движения для скроллинга
+    const deltaY = touchStart.value.y - event.touches[0].clientY;
+    window.scrollBy(0, deltaY);
+    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  } else if (event.touches.length === 2) {
+    // Вращение сферы обрабатывается OrbitControls
+  }
 }
 
+function onTouchEnd(event) {
+  if (event.touches.length < 2) {
+    // Отключаем OrbitControls, когда количество касаний меньше двух
+    controls.enabled = false;
+  }
+
+  if (!event.touches.length && touchStart.value) {
+    // Обработка клика по цилиндру при одиночном касании
+    // Возможно, вам придется адаптировать логику onMouseClick для обработки касаний
+    onTouchClick(event);
+    touchStart.value = null;
+  }
+}
+
+function onTouchClick(event) {
+  // Здесь вам нужно адаптировать логику вашего onMouseClick для работы с событием касания
+  // Вместо event.clientX и event.clientY используйте event.changedTouches[0].clientX и event.changedTouches[0].clientY
+}
+
+onMounted(() => {
+  // Ensure that the event listener is added to the element that exists in the DOM
+  if (pageWrapper.value) {
+    pageWrapper.value.addEventListener('wheel', handleScroll);
+  }
+});
+
+onUnmounted(() => {
+  // Clean up the event listener when the component is unmounted
+  if (pageWrapper.value) {
+    pageWrapper.value.removeEventListener('wheel', handleScroll);
+  }
+});
+
+defineExpose({
+  handleScroll
+});
 </script>
 
 <style>
@@ -567,12 +558,6 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -602,12 +587,12 @@ body {
 }
 .logo {
   width: 200px;
+  margin-top: 20px;
 }
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .content-container {
@@ -671,6 +656,15 @@ body {
   }
 }
 
+@media  (max-width: 768px) {
+  body {
+    background-size: 500%;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+}
+
 @media  (min-width: 1367px) and (max-width: 1919px) {
   body {
     background-size: 275%;
@@ -725,6 +719,7 @@ body {
   align-items: center;
   position: relative;
   background-color: #000;
+  margin-bottom: 300px;
 }
 
 

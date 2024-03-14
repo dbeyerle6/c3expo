@@ -13,6 +13,7 @@
     "@react-three/drei": "^9.97.3",
     "@react-three/postprocessing": "^2.16.0",
     "@tweenjs/tween.js": "^23.1.1",
+    "lodash-es": "^4.17.21",
     "nuxt": "^3.10.1",
     "three": "^0.161.0",
     "three-orbitcontrols": "^2.110.3",
