@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isUnderConstruction" class="isUnder">
-    <h2>Website is under construction</h2>
-  </div>
+<!--  <div v-if="isUnderConstruction" class="isUnder">-->
+<!--    <h2>Website is under construction</h2>-->
+<!--  </div>-->
   <div class="container" @wheel="handleScroll">
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     <div v-if="showIntro" class="intro-container" :key="componentKey">
@@ -16,8 +16,8 @@
             <img src="/assets/logo.png" alt="Logo" class="logo"/>
           </div>
           <video class="rounded-video" ref="videoRef" autoplay>
-            <source src="https://c3expo.b-cdn.net/c3expo.mp4" type="video/mp4">
-<!--            <source src='/static/videos/intro.mp4' type="video/mp4">-->
+<!--            <source src="https://c3expo.b-cdn.net/c3expo.mp4" type="video/mp4">-->
+            <source src='/static/videos/intro.mp4' type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -46,7 +46,7 @@ const threeContainer = ref(null);
 let camera, scene, renderer, controls, composer;
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
-const isUnderConstruction = ref(true)
+const isUnderConstruction = ref(false)
 let touchStart = ref(null);
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
 const texts = ['References', 'Unsere Vision', 'Heritage', 'CEO Statement', 'Unsere Mission', 'Unsere Expertiese', 'World wide Network', 'Produkt']; // Пример текстов

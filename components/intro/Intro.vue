@@ -48,6 +48,8 @@ onMounted(() => {
 });
 const continuePlaying = () => {
   if (videoRef.value) {
+    videoRef.value.muted = false;
+    videoRef.value.volume = 0.6;
     videoRef.value.play();
     showClickableText.value = false; // Скрываем текст после клика
   }
