@@ -19,5 +19,8 @@
     "three-orbitcontrols": "^2.110.3",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@nuxtjs/i18n": "^8.2.0"
   }
 }

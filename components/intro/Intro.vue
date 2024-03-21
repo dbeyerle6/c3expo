@@ -1,17 +1,17 @@
 <template>
+
   <video class="intro-video" ref="videoRef" autoplay muted>
 <!--   <source src="https://c3expo.b-cdn.net/intro.mp4" type="video/mp4">-->
   <source src="/static/videos/intro.mp4" type="video/mp4">
   </video>
   <transition name="fade">
     <div v-if="showClickableText" class="clickable-text" @click="continuePlaying">
-      READY for YOUR experience, then click on me!
+
+
+      {{ $t('ready_for_exp')}}
     </div>
   </transition>
 </template>
-
-
-
 <script setup>
 
 import { ref, watch, onMounted, defineEmits } from 'vue';
@@ -22,7 +22,6 @@ const clickableTextOpacity = ref(0);
 const clickableTextVisibility = ref('hidden');
 
 let clickAllowed = false;
-
 
 const actionPerformed = async () => {
   await emit('actionPerformed');
@@ -48,6 +47,8 @@ onMounted(() => {
 });
 const continuePlaying = () => {
   if (videoRef.value) {
+    videoRef.value.muted = false;
+    videoRef.value.volume = 0.6;
     videoRef.value.play();
     showClickableText.value = false; // Скрываем текст после клика
   }

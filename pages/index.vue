@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isUnderConstruction" class="isUnder">
-    <h2>Website is under construction</h2>
-  </div>
+<!--  <div v-if="isUnderConstruction" class="isUnder">-->
+<!--    <h2>Website is under construction</h2>-->
+<!--  </div>-->
   <div class="container" @wheel="handleScroll">
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     <div v-if="showIntro" class="intro-container" :key="componentKey">
@@ -15,11 +15,13 @@
           <div class="logo-container">
             <img src="/assets/logo.png" alt="Logo" class="logo"/>
           </div>
+          <div class="video-container">
           <video class="rounded-video" ref="videoRef" autoplay>
-            <source src="https://c3expo.b-cdn.net/c3expo.mp4" type="video/mp4">
-<!--            <source src='/static/videos/intro.mp4' type="video/mp4">-->
+            <source src="https://c3-expo.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
+<!--            <source src='/static/videos/c3expo-200px.mp4' type="video/mp4">-->
             Your browser does not support the video tag.
           </video>
+          </div>
         </div>
         <div  ref="threeContainer" class="three-container" id="threeJsBlock">
         </div>
@@ -46,10 +48,11 @@ const threeContainer = ref(null);
 let camera, scene, renderer, controls, composer;
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
-const isUnderConstruction = ref(true)
+const isUnderConstruction = ref(false)
 let touchStart = ref(null);
+const { t } = useI18n()
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
-const texts = ['References', 'Unsere Vision', 'Heritage', 'CEO Statement', 'Unsere Mission', 'Unsere Expertiese', 'World wide Network', 'Produkt']; // Пример текстов
+const texts = [t('references.title'), t('our_vision.title'), t('heritage.title'), t('ceo_statement.title'), t('our_mission.title'), t('our_expertise.title'), t('world_wide_network.title'), t('product.title')]; // Пример текстов
 const showIntro = ref(true);
 const initialCameraPosition = new THREE.Vector3(0, 0, 10); // Замените на ваше исходное положение камеры
 const lines = [];
@@ -100,9 +103,19 @@ function initThreeJs() {
   addGlowToCylinders(selectedCylinders)
   animate();
 }
+function resizeVideo() {
+  const video = document.querySelector('.rounded-video');
+  if (!video) return;
 
+  const windowHeight = window.innerHeight;
+  const videoHeight = windowHeight * 0.9; // 90% от высоты окна
+  video.style.height = `${videoHeight}px`;
+  video.style.width = 'auto';
+}
 
 onMounted(() => {
+  window.addEventListener('resize', resizeVideo);
+  window.addEventListener('load', resizeVideo);
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
@@ -432,6 +445,32 @@ watch(showIntro, (newValue) => {
     });
   }
 });
+const { locale } = useI18n();
+
+function updateTexts() {
+  const newTexts = [
+    t('references.title'),
+    t('our_vision.title'),
+    t('heritage.title'),
+    t('ceo_statement.title'),
+    t('our_mission.title'),
+    t('our_expertise.title'),
+    t('world_wide_network.title'),
+    t('product.title')
+  ]; // Получаем новые тексты
+
+  textSprites.forEach((sprite, index) => {
+    const texture = generateTextTexture(newTexts[index]); // Создаем новую текстуру
+    sprite.material.map = texture;
+    sprite.material.needsUpdate = true; // Говорим Three.js обновить материал спрайта
+  });
+}
+
+watch(locale, (newValue) => {
+  if (newValue) {
+    updateTexts(); // Обновляем тексты при смене языка
+  }
+});
 
 const pageWrapper = ref(null);
 let currentIndex = ref(0); // Текущий индекс для отслеживания текущего положения
@@ -619,9 +658,19 @@ body {
   }
 }
 
+.video-container {
+  width: 100%; /* Контейнер занимает всю ширину */
+  height: 90vh; /* Высота контейнера - 90% от высоты экрана */
+  overflow: hidden; /* Скрыть части видео, выходящие за границы контейнера */
+  position: relative; /* Для позиционирования видео внутри */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .rounded-video {
-  width: 65%; /* Регулируйте размер видео */
-  border-radius: 20px; /* Закругленные углы */
+  width: auto; /* Автоматическая ширина для сохранения пропорций */
+  height: 100%; /* Высота видео равна высоте контейнера */
   opacity: 0; /* Изначально скрыт */
   transform: scale(0); /* Начать уменьшенным */
   animation: zoomIn 0.5s forwards; /* Анимация увеличения */
@@ -719,7 +768,6 @@ body {
   align-items: center;
   position: relative;
   background-color: #000;
-  margin-bottom: 300px;
 }
 
 

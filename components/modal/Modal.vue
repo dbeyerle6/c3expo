@@ -66,22 +66,22 @@
         </div>
       </div>
       <div class="modal_info" v-if="props.index === 200">
-        <h2>Unsere Mission</h2>
+        <h2>{{$t('our_mission.title')}}</h2>
         <div class="images_container">
           <img class="vision_image" src="/static/images/unsere_vision2.jpg" alt="">
         </div>
         <div class="modal_text_container">
           <p class="modal_text">
-            <strong>  Partnerschaftliches Handeln </strong> – Wir kommunizieren, agieren und handeln immer auf Augenhöhe, um die Bedürfnisse unserer Kunden bedienen zu können, bevor diese erst entstehen! Entscheidend hierfür ist, dass unser Handeln geprägt ist von Zuverlässigkeit und Vertrauen, die in der DNA unserer Firmenphilosophie tief verankert ist.
+            <strong>  {{$t('our_mission.text1')}} </strong> – {{$t('our_mission.text2')}}
           </p>
         </div>
         <div class="modal_text_container">
           <p class="modal_text">
-            <strong>Qualitätsversprechen </strong>– Ganz nach dem Motto <strong>„promise only what you can keep“</strong> ist die Herangehensweise unseres Handelns. Innerhalb aller Bereiche unseres Projektgeschäfts, halten wir unser Qualitätsversprechen. Das schafft Vertrauen bei unseren Kunden und bildet die Basis unserer Dienstleistung.</p>
+            <strong> {{$t('our_mission.text3')}} </strong>– {{$t('our_mission.text4')}}</p>
         </div>
       </div>
       <div class="modal_info" v-if="props.index === 156">
-        <h2>Unsere Expertise</h2>
+        <h2>{{$t('our_expertise.title')}}</h2>
 
         <p class="expertise_title">Design & Kreation</p>
         <div class="expertise_container">
@@ -476,4 +476,8 @@ img {
   transition: opacity 2s ease-out;
 }
 
+.colored_text {
+  font-weight: bold;
+  color: #00ffff;
+}
 </style>
