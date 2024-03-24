@@ -8,20 +8,13 @@
         <img class="modal_image" src="/static/images/daniel2.jpg" alt="">
         </div>
         <div class="modal_text_container">
-          <p class="modal_text">
-            Die C³ Expo ist ein Familienunternehmen, das bereits seit mehr als 25 Jahren im Livemarketing mit Schwerpunkt Messebau tätig ist.
-          </p>
+          <p class="modal_text" v-html="$t('ceo_statement.text1')"></p>
         </div>
         <div class="modal_text_container">
-          <p class="modal_text">
-            Das Produkt unserer Arbeit wird begleitet durch ein konsistentes Qualitätsversprechen und schafft dadurch nachhaltige Emotionen im Raum. Da die menschliche Begegnung ersatzlos ist, kreieren und schaffen wir einen Ort dafür, der die Plattform für die Begegnung als solches bildet, aber auch die Inszenierung von Marken und deren Geschichte, Werte und Produkte bietet.
-          </p>
+          <p class="modal_text" v-html="$t('ceo_statement.text2')"></p>
         </div>
         <div class="modal_text_container">
-          <p class="modal_text">
-            Die C³ Expo steht für Familienwerte wie Vertrauen, Verlässlichkeit, Respekt und Ehrlichkeit, die stets von unseren Mitarbeitern, Dienstleistern und Partnern, sowie unseren Kunden sehr geschätzt sind.
-            Die Erfolgsgeschichte der C³ Expo soll noch viele weitere Kapitel schreiben. Aus diesem Grund ist unser Wertegerüst durch den partnerschaftlichen Gedanken geprägt und bestimmt unser Handeln.
-          </p>
+          <p class="modal_text" v-html="$t('ceo_statement.text3')"></p>
         </div>
         <div class="modal_text_container">
           <p class="modal_text">
@@ -35,7 +28,7 @@
         <h2>References</h2>
         <div class="modal_text_container">
         <p>
-          BASF SE Mailand Expo - Das Motto war: Siehst du das Big Picture? Durch die Anordnung von Möbeln und Exponaten, die in ihrer Symbiose von einem bestimmten Blickwinkel ein großes Gesamtbild erkennen lässt. Jedes einzelne Möbelstück und Exponat beinhaltet einen kleinen Teil zur Gesamtkomposition. Konzeptioneller Ansatz kam DING3000 und  wurde mit unserer Kooperation in der historischen Altstadt von Mailand zum Leben erweckt.
+          {{$t('references.text1')}}
         </p>
         </div>
         <div class="images_container">
@@ -44,8 +37,7 @@
         </div>
         <div class="modal_text_container">
           <p class="modal_text">
-            BASF SE Düsseldorf Kunststoffmesse – Das Mekka für die internationale Kunststoffindustrie. Seit Beginn der 2000er, unterstützt die C³ Expo GmbH konstant alle vier Jahre die BASF bei der Konzepterarbeitung in der Inszenierung ihrer Exponate und Produkte und betreut diese von Beginn an, über die Ausführung vor Ort, bis hin zur Abwicklung des Projekts. Als Haus und Hof-Dienstleister steht die C³ Expo der BASF mit all ihrer Expertise in einer mittlerweile über 20 jährigen Partnerschaft, mit dem Schwergewicht der deutschen und internationalen Chemieindustrie, zur Seite.
-          </p>
+            {{$t('references.text2')}}   </p>
         </div>
         <div class="images_container">
           <img class="reference_image" src="/static/images/references3.jpg" alt="">
@@ -58,12 +50,7 @@
           <img class="vision_image" src="/static/images/unsere_vision1.jpg" alt="">
         </div>
         <div class="modal_text_container">
-          <p class="modal_text">
-
-            <strong> Nachhaltigkeit </strong> - Nicht nur in der Reduzierung von CO² Emissionen. Eine Begegnung sollte genauso nachhaltig sein, wie in dem Raum, wo die Begegnung stattfindet.
-            Auch das Unternehmen, in dem die Idee entsteht und in die Umsetzung gebracht wird, sollten alle soziale, ökonomische & ökologische Themen stets im Nachhaltigkeitsgedanken betrachtet werden!
-          </p>
-        </div>
+          <p class="modal_text" v-html="$t('our_vision.text')"></p></div>
       </div>
       <div class="modal_info" v-if="props.index === 200">
         <h2>{{$t('our_mission.title')}}</h2>
@@ -71,67 +58,59 @@
           <img class="vision_image" src="/static/images/unsere_vision2.jpg" alt="">
         </div>
         <div class="modal_text_container">
-          <p class="modal_text">
-            <strong>  {{$t('our_mission.text1')}} </strong> – {{$t('our_mission.text2')}}
-          </p>
+          <p class="modal_text" v-html="$t('our_mission.text1')"></p>
         </div>
         <div class="modal_text_container">
-          <p class="modal_text">
-            <strong> {{$t('our_mission.text3')}} </strong>– {{$t('our_mission.text4')}}</p>
+          <p class="modal_text" v-html="$t('our_mission.text2')"></p>
         </div>
       </div>
       <div class="modal_info" v-if="props.index === 156">
         <h2>{{$t('our_expertise.title')}}</h2>
 
-        <p class="expertise_title">Design & Kreation</p>
+        <p class="expertise_title">{{$t('our_expertise.design')}}</p>
         <div class="expertise_container">
           <img class="expertise_image" src="/static/images/unsere_expertiese1.jpg" alt="">
           <p class="expertise_text_container">
-            <p class="modal_text">Ganz am Anfang, da ist diese Idee, die in unseren Köpfen schwebt. Wir kreieren einen Raum, in dem diese Idee sich entfalten kann.
-            </p>
+            <p class="modal_text">{{$t('our_expertise.design_text1')}}</p>
             <p class="modal_text">
-              Wir erzählen Ihre Geschichte und betten sie zwischen moderner Architektur ein und heben Ihr Produkt hervor, so dass ein ganzheitlicher Ansatz geschaffen wird.
-            </p>
+              {{$t('our_expertise.design_text2')}}</p>
           </p>
         </div>
-        <p class="expertise_title">Ein Ansprechpartner</p>
+        <p class="expertise_title">{{$t('our_expertise.ansprechpartner')}}</p>
         <div class="expertise_container">
           <img class="expertise_image" src="/static/images/unsere_expertiese2.jpg" alt="">
           <p class="expertise_text_container">
-            <p class="modal_text">Unsere Devise lautet „single point of contact“.
+            <p class="modal_text">{{$t('our_expertise.ansprechpartner_text1')}}
             </p>
             <p class="modal_text">
-              Ein Ansprechpartner kümmert sich um all Ihre Belange. Er berät Sie, steuert alle internen und externen Aufgaben und betreut Sie, bis Ihr Projekt abgeschlossen ist.
-            </p>
+              {{$t('our_expertise.ansprechpartner_text2')}}</p>
           </p>
         </div>
-        <p class="expertise_title">Messebau</p>
+        <p class="expertise_title">{{$t('our_expertise.messebau')}}</p>
         <div class="expertise_container">
           <img class="expertise_image" src="/static/images/unsere_expertiese3.jpg" alt="">
           <p class="expertise_text_container">
-            <p class="modal_text">Unser Kernhandlungsfeld ist das Live Marketing mit Schwerpunkt Messen. Hier liegt unsere Passion und hierfür brennen wir. Seit über 25 Jahren im Markt tätig können wir unseren Kunden alles rund um Messen anbieten.
-            </p>
+            <p class="modal_text">{{$t('our_expertise.messebau_text')}}</p>
           </p>
         </div>
-        <p class="expertise_title">Events</p>
+        <p class="expertise_title">{{$t('our_expertise.events')}}</p>
         <div class="expertise_container">
           <img class="expertise_image" src="/static/images/unsere_expertiese4.jpg" alt="">
           <p class="expertise_text_container">
-            <p class="modal_text">Ein Event ist nur so gut, wie das Erlebnis, das ich daraus mitnehme. Diese nachhaltigen Emotionen schaffen wir und machen somit auch Ihr Event zum vollen Erfolg.  </p>
+            <p class="modal_text">{{$t('our_expertise.events_text')}}</p>
           </p>
         </div>
       </div>
 
 
       <div class="modal_info" v-if="props.index === 132">
-        <h2>Produkt</h2>
+        <h2>{{$t('product.title')}}</h2>
         <div class="images_container">
           <img style="width: 80%"  src="/static/images/produkt.jpg" alt="">
         </div>
         <div class="modal_text_container">
           <p class="modal_text">
-            Ein Messestand ist mehr als eine reine Komposition von verschiedenen Bauteilen! Der Besucher soll beim Betreten des Standes auf eine Reise mitgenommen werden, bei dem ihm eine Geschichte erzählt wird - über den Aussteller, seine Produkte und Innovationen, die Werte, für die er steht, aber vor allem, dass er persönlich für ihn da ist und seine Bedürfnisse bespricht und ihn berät. In diesem Umfeld von ausgewählten Materialien, Farben, Inszenierungen, Beleuchtungen und architektonischen Formen, entsteht der Raum der Begegnung. Kunden, Partner und sogar Freunde, treffen sich an einem Ort, der für ein paar Tage den Mittelpunkt von Besuchern und Ausstellern bildet.
-            Diesen Ort, kreieren wir, planen wir, produzieren ihn und bauen ihn, egal wo auf der Welt, für Sie auf!
+            {{$t('product.text')}}
           </p>
         </div>
 
@@ -140,9 +119,7 @@
 
         <h2>World wide network</h2>
         <div class="modal_text_container">
-          <p class="modal_text">
-            Wir sind nicht überall persönlich vertreten, aber wir verfügen über ein ausgewähltes globales Netzwerk an ausgewählten Partner, die uns durch die gleichen Werte und die Hingabe zur Branche verbinden. So sind wir in der Lage, für unsere Kunden, stets unser Qualitätsversprechen weltweit einhalten zu können.
-          </p>
+          <p class="modal_text">{{$t('world_wide_network.text')}}</p>
         </div>
         <div class="images_container">
           <img style="width: 90%"  src="/static/images/world.png" alt="">
@@ -160,30 +137,30 @@
             <p style="margin: 100px auto; font-size: 20px" >T.B. Bühnen + Messebau</p>
           </div>
         </div>
-        <div class="heritage_arrow">
-          <img src="/static/arrow.svg" alt="">
+        <div class="arrow_right">
+          <AnimatedArrow/>
         </div>
-        <div class="heritage_info">
+        <div class="heritage_info" style="margin-left: 500px">
           <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
             <p style="font-size: 30px" class="heritage_text">1997</p>
             <img class="heritage_image" style="width: 120px" src="/static/images/heritage2.png" alt="">
           </div>
           <p style="font-size: 24px" class="heritage_text">Aus T.B. Bühnen + Messebau wurde die 3B Kreative GbR</p>
         </div>
-        <div class="heritage_arrow">
-          <img src="/static/arrow.svg" alt="">
+        <div class="arrow_left">
+          <AnimatedArrow/>
         </div>
-        <div class="heritage_info">
+        <div class="heritage_info" style="margin-left: -500px">
           <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
             <p style="font-size: 30px" class="heritage_text">2003</p>
             <img class="heritage_image" style="width: 120px" src="/static/images/heritage3.jpg" alt="">
           </div>
           <p style="font-size: 24px" class="heritage_text">Danach ging die Reise alleine weiter, unter der Creative T.B. Systems Design</p>
         </div>
-        <div class="heritage_arrow">
-          <img src="/static/arrow.svg" alt="">
+        <div class="arrow_right">
+          <AnimatedArrow/>
         </div>
-        <div class="heritage_info">
+        <div class="heritage_info" style="margin-left: 500px">
           <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
             <p style="font-size: 30px" class="heritage_text">2011</p>
             <img class="heritage_image" style="width: 200px" src="/static/images/heritage4.png" alt="">
@@ -191,15 +168,14 @@
           <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen waren.</p>
         </div>
 
-        <div class="heritage_arrow">
-          <img src="/static/arrow.svg" alt="">
+        <div class="arrow_left">
+          <AnimatedArrow/>
         </div>
-        <div class="heritage_info">
+        <div class="heritage_info" style="margin-left: -500px">
           <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
             <p style="font-size: 30px; width: 100%" class="heritage_text">2024</p>
           </div>
           <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen waren.</p>
-
           <img class="heritage_image" style="width: 350px" src="/static/images/heritage5.png" alt="">
         </div>
 
@@ -241,7 +217,7 @@ watch(() => props.isVisible, (newValue) => {
         rootMargin: "0px"
       });
 
-      const elements = modalContentRef.value.querySelectorAll('.heritage_arrow, .modal_info, .modal_text, .modal_text, .modal_image, .images_container, .expertise_image, .expertise_container, .expertise_title, .expertise_text_container, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image');
+      const elements = modalContentRef.value.querySelectorAll('.heritage_arrow, .modal_info, .modal_text, .modal_text, .modal_image, .images_container, .expertise_image, .expertise_container, .expertise_title, .expertise_text_container, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image, .arrow_left, .arrow_right' );
       elements.forEach(el => observer.observe(el));
     }
   });
@@ -267,6 +243,7 @@ p, h2 {
   font-size: 20px;
   width: 75%;
   text-align: center;
+  max-width: 40%;
 }
 
 .heritage_info {
@@ -289,6 +266,13 @@ p, h2 {
   height: 80px;
 }
 
+.arrow_right {
+  margin-left: -220px
+}
+.arrow_left {
+  margin-left: 200px;
+  transform: rotateY(180deg);
+}
 
 .heritage_container {
   display: flex;
@@ -466,7 +450,7 @@ img {
   transition: opacity 2s ease-out;
 }
 
-.modal_info, .modal_text, .modal_image, .images_container, .expertise_container, .expertise_title, .expertise_text_container, .expertise_image, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image{
+.modal_info, .modal_text, .modal_image, .images_container, .arrow_right, .arrow_left .expertise_container, .expertise_title, .expertise_text_container, .expertise_image, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image{
   opacity: 0;
   transition: opacity 2s ease-out;
 }

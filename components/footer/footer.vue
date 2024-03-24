@@ -32,7 +32,7 @@
           <h2 class="title">{{ $t('links.contact_us') }}</h2>
           <div class="contact_us">
             <img class="contact_us_logo" src="/assets/phone-call-svgrepo-com.svg" alt=""/>
-            <a class="contact_us_text" href="tel:+490621554280">+49 (0) 621 - 55 428 0</a>
+            <a class="contact_us_text" href="tel:+490621554280">+49(0)621-554-280</a>
           </div>
           <div class="contact_us">
             <img class="contact_us_logo" src="/assets/mail-open-check-svgrepo-com.svg" alt=""/>
