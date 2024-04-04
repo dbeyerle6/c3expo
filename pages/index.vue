@@ -27,7 +27,7 @@
 <!--            <source src='/static/videos/c3expo-200px.mp4' type="video/mp4">-->
             Your browser does not support the video tag.
           </video>
-              <img class="mute_button" @click="toggleMute" v-if="!isMuted" src="/assets/mute.svg" alt="">
+              <img class="mute_button" @click="toggleMute"v-if="isMuted" src="/assets/mute.svg" alt="">
               <img class="mute_button" @click="toggleMute" v-else src="/assets/volume.svg" alt="">
 
           </div>
@@ -146,7 +146,7 @@ const handleActionPerformed = () => {
 const videoRef = ref(null);
 const isMuted = ref(false);
 function toggleMute() {
-  if (videoRef.value && isMuted.value) {
+  if (videoRef.value) {
     isMuted.value = !isMuted.value;
   }
 }
@@ -714,15 +714,6 @@ body {
   background-repeat: no-repeat;
 }
 
-.mute_button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  cursor: pointer;
-  z-index: 10;
-
-}
-
 @media  (min-width: 1024px) and (max-width: 1366px) {
   body {
     background-size: 300%;
@@ -818,5 +809,14 @@ body {
 }
 .isUnder > h2 {
   font-size: 30px;
+}
+
+.mute_button {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+  z-index: 10;
+  width: 30px;
 }
 </style>
