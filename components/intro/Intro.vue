@@ -89,6 +89,9 @@ watch(showClickableText, (newValue) => {
   font-family: 'Century Gothic', sans-serif; /* Используйте шрифт Century Gothic */
   font-size: 24px;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   bottom: 120px;
   left: 50%;
   width: 600px;
