@@ -1,12 +1,5 @@
 <template>
-  <div class="select-wrapper"></div>
-  <select class="lang_switcher" v-model="locale">
-    <option value="en">en <img src="assets/united-kingdom.png" alt="United kingdom"/></option>
-    <option value="de">de <img src="assets/germany.png" alt="Germany"/></option>
-  </select>
-  <div>
     <NuxtPage />
-  </div>
 </template>
 
 
@@ -29,7 +22,7 @@ const { locale } = useI18n()
   background-color: #303030;
   border: 1px solid #34495e;
   border-radius: 4px;
-  padding: 10px 40px 10px 10px;
+  padding: 5px 10px;
   color: #ecf0f1;
   font-size: 16px;
   cursor: pointer;

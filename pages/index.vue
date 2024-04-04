@@ -2,6 +2,14 @@
 <!--  <div v-if="isUnderConstruction" class="isUnder">-->
 <!--    <h2>Website is under construction</h2>-->
 <!--  </div>-->
+
+  <div v-if="!showIntro" class="logo-container">
+    <img src="/assets/logo.png" alt="Logo" class="logo"/>
+  </div>
+  <select v-if="!showIntro" class="lang_switcher" v-model="locale">
+    <option value="en">EN <img src="assets/united-kingdom.png" alt="United kingdom"/></option>
+    <option value="de">DE <img src="assets/germany.png" alt="Germany"/></option>
+  </select>
   <div class="container" @wheel="handleScroll">
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     <div v-if="showIntro" class="intro-container" :key="componentKey">
@@ -12,19 +20,27 @@
     <transition name="fade">
       <div v-if="!showIntro" class="page-wrapper" ref="pageWrapper">
         <div class="content-container" id="contentBlock">
-          <div class="logo-container">
-            <img src="/assets/logo.png" alt="Logo" class="logo"/>
-          </div>
+
           <div class="video-container">
-          <video class="rounded-video" ref="videoRef" autoplay>
-            <source src="https://c3-expo.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
+          <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay>
+            <source src="https://c3expotest.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
 <!--            <source src='/static/videos/c3expo-200px.mp4' type="video/mp4">-->
             Your browser does not support the video tag.
           </video>
+              <img class="mute_button" @click="toggleMute"v-if="isMuted" src="/assets/mute.svg" alt="">
+              <img class="mute_button" @click="toggleMute" v-else src="/assets/volume.svg" alt="">
+
           </div>
         </div>
-        <div  ref="threeContainer" class="three-container" id="threeJsBlock">
+
+        <div v-if="!isMobile" ref="threeContainer" class="three-container" id="threeJsBlock">
+
         </div>
+        <ul v-else class="mobile-menu">
+          <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">
+            {{ item.title }}
+          </li>
+        </ul>
         <Footer v-if="!showIntro" id="footerBlock"/>
       </div>
     </transition>
@@ -64,6 +80,8 @@ let savedCameraQuaternion = new THREE.Quaternion();
 const modalVisible = ref(false);
 const selectedIndex = ref(-1);
 let glowSprites = [];
+const isMobile = computed(() => window.innerWidth <= 768);
+
 function initThreeJs() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -113,28 +131,7 @@ function resizeVideo() {
   video.style.width = 'auto';
 }
 
-onMounted(() => {
-  window.addEventListener('resize', resizeVideo);
-  window.addEventListener('load', resizeVideo);
-  window.addEventListener('resize', onWindowResize);
-  window.addEventListener('mousemove', onMouseMove);
-  window.addEventListener('click', onMouseClick);
-  window.addEventListener('touchstart', onTouchStart);
-  window.addEventListener('touchmove', onTouchMove);
-  window.addEventListener('touchend', onTouchEnd);
 
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', onWindowResize);
-  window.removeEventListener('mousemove', onMouseMove);
-  window.removeEventListener('click', onMouseClick);
-  window.removeEventListener('touchstart', onTouchStart);
-  window.removeEventListener('touchmove', onTouchMove);
-  window.removeEventListener('touchend', onTouchEnd);
-  if (controls) controls.dispose();
-  if (renderer) renderer.dispose();
-});
 
 const componentKey = ref(0);
 const isActiveSphereClick = ref(false)
@@ -145,6 +142,14 @@ const handleActionPerformed = () => {
     componentKey.value++; // Изменение ключа приведет к ререндерингу и удалению Intro из DOM
   }, 4000); // Переключает на three-container через 5 секунд после события
 };
+
+const videoRef = ref(null);
+const isMuted = ref(false);
+function toggleMute() {
+  if (videoRef.value) {
+    isMuted.value = !isMuted.value;
+  }
+}
 
 function createGlowTexture() {
   const canvas = document.createElement('canvas');
@@ -328,13 +333,13 @@ function addTextLabelsToCylinders(selectedCylinders, texts) {
 function generateTextTexture(text) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
-  canvas.width = 256; // Размер может быть адаптирован под ваши нужды
+  canvas.width = 312; // Размер может быть адаптирован под ваши нужды
   canvas.height = 64; // Размер может быть адаптирован под ваши нужды
 
   context.fillStyle = '#5ed5eb'; // Цвет текста
-  context.font = 'Bold 30px Arial'; // Стиль шрифта
+  context.font = 'Bold 30px "Century Gothic"'; // Стиль шрифта
   context.textAlign = 'center';
-  context.fillText(text, 128, 40);
+  context.fillText(text, 168, 40);
 
 
   return new THREE.CanvasTexture(canvas);
@@ -363,9 +368,10 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-
-  const isMobile = window.innerWidth < 768; // Определение, является ли устройство мобильным
   const newSphereRadius = isMobile ? 3 : 5; // Новый радиус в зависимости от устройства
+
+  renderer.setSize(window.innerWidth, isMobile() ? window.innerHeight * 0.2 : window.innerHeight);
+
 
   // Обновляем геометрию сферы
   sphere.geometry.dispose(); // Удаление старой геометрии
@@ -391,18 +397,26 @@ function addInvisibleCubes() {
   });
 }
 
+
+
 function onMouseClick(event) {
   if (!showIntro.value) {
     event.preventDefault();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    // Коррекция координаты Y с учетом прокрутки страницы
+    const rect = renderer.domElement.getBoundingClientRect();
+    const correctedX = event.clientX - rect.left;
+    const correctedY = event.clientY - rect.top;
+
+    mouse.x = (correctedX / rect.width) * 2 - 1;
+    mouse.y = -(correctedY / rect.height) * 2 + 1;
+
 
     raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(clickableCubes, true); // Изменено на clickableCubes
+    const intersects = raycaster.intersectObjects(clickableCubes, true);
 
     for (let i = 0; i < intersects.length; i++) {
       if (intersects[i].object.userData.isClickable) {
-        isModalOpen.value = true
+        isModalOpen.value = true;
         onCylinderClick(intersects[i].object.userData.index);
         break;
       }
@@ -413,8 +427,12 @@ function onMouseClick(event) {
 function onMouseMove(event) {
   if (!camera) return;
 
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  const rect = renderer.domElement.getBoundingClientRect();
+  const correctedX = event.clientX - rect.left;
+  const correctedY = event.clientY - rect.top;
+
+  mouse.x = (correctedX / rect.width) * 2 - 1;
+  mouse.y = -(correctedY / rect.height) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects([...clickableCubes, ...textSprites], true);
@@ -447,6 +465,7 @@ watch(showIntro, (newValue) => {
 });
 const { locale } = useI18n();
 
+const menuItems = ref(texts.map((text, index) => ({ id: selectedCylinderIndexes[index], title: text })));
 function updateTexts() {
   const newTexts = [
     t('references.title'),
@@ -473,54 +492,15 @@ watch(locale, (newValue) => {
 });
 
 const pageWrapper = ref(null);
-let currentIndex = ref(0); // Текущий индекс для отслеживания текущего положения
-let isScrolling = false;
+let currentOffset = ref(0); // Текущее смещение фона
+let targetOffset = ref(0); // Целевое смещение фона
 
-let currentOffset = -800; // Начальное смещение фона
-let targetOffset = -400; // Целевое смещение фона
-
-const handleScrollDebounced = debounce(() => {
-  // Обновляем целевое смещение на основе положения прокрутки
-  targetOffset = -800 + window.pageYOffset * 0.1;
-  updateBackgroundPosition();
-}, 66); // 100 мс задержка
-
-function handleScroll(event) {
-  if (!pageWrapper.value || isModalOpen.value) return;
-
-  event.preventDefault();
-  const { deltaY } = event;
-  const elements = pageWrapper.value.querySelectorAll('.content-container, .three-container, #footerBlock');
-
-  if (deltaY > 0) { // Скролл вниз
-    if (currentIndex.value < elements.length - 1) {
-      currentIndex.value++;
-    }
-  } else { // Скролл вверх
-    if (currentIndex.value > 0) {
-      currentIndex.value--;
-    }
-  }
-
-  // Плавный переход к текущему элементу
-  elements[currentIndex.value].scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  handleScrollDebounced();
-}
-
-function updateBackgroundPosition() {
-  requestAnimationFrame(() => {
-    // Плавно изменяем текущее смещение к целевому
-    currentOffset += (targetOffset - currentOffset) * 0.1;
-
-    // Применяем измененное смещение к фону
-    document.body.style.backgroundPosition = `center ${currentOffset}px`;
-
-    // Если разница между текущим и целевым смещениями достаточно мала, останавливаем анимацию
-    if (Math.abs(targetOffset - currentOffset) > 0.1) {
-      updateBackgroundPosition();
-    }
-  });
+// Эта функция вызывается при каждом скролле
+function handleScroll() {
+  const yOffset = window.pageYOffset;
+  // Динамическое смещение добавляем к начальному смещению -500px
+  const dynamicOffset = -800 + (yOffset * -0.1); // Уменьшаем динамическое смещение
+  document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
 
@@ -565,17 +545,21 @@ function onTouchClick(event) {
 }
 
 onMounted(() => {
-  // Ensure that the event listener is added to the element that exists in the DOM
-  if (pageWrapper.value) {
-    pageWrapper.value.addEventListener('wheel', handleScroll);
-  }
+  window.addEventListener('resize', resizeVideo);
+  window.addEventListener('load', resizeVideo);
+  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('click', onMouseClick);
+  window.addEventListener('scroll', handleScroll);
 });
 
 onUnmounted(() => {
-  // Clean up the event listener when the component is unmounted
-  if (pageWrapper.value) {
-    pageWrapper.value.removeEventListener('wheel', handleScroll);
-  }
+  window.removeEventListener('resize', onWindowResize);
+  window.removeEventListener('mousemove', onMouseMove);
+  window.removeEventListener('click', onMouseClick);
+  window.removeEventListener('scroll', handleScroll);
+  if (controls) controls.dispose();
+  if (renderer) renderer.dispose();
 });
 
 defineExpose({
@@ -644,11 +628,30 @@ body {
 }
 
 .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 20px; /* Регулируйте по необходимости */
   opacity: 0; /* Изначально скрыт */
   transform: translateY(-100%); /* Начать за пределами экрана */
   animation: slideDown 0.1s forwards; /* Анимация появления */
   animation-delay: 1.2s; /* Задержка появления логотипа после видео */
+}
+
+@media (max-width: 768px) {
+  body {
+    background-size: 800% !important;
+  }
+
+  .logo-container > img {
+    width: 150px;
+  }
+  .lang_switcher {
+    position: absolute;
+    top: 35px;
+    right: 20px;
+    z-index: 100;
+  }
 }
 
 @keyframes slideDown {
@@ -666,6 +669,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.video-container button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 10;
+  margin-right: 10px;
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+#toggleMute {
+  left: auto;
+  right: 10px;
 }
 
 .rounded-video {
@@ -791,5 +809,14 @@ body {
 }
 .isUnder > h2 {
   font-size: 30px;
+}
+
+.mute_button {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+  z-index: 10;
+  width: 30px;
 }
 </style>

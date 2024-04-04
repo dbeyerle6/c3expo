@@ -43,7 +43,8 @@ export default defineI18nConfig(() => ({
   `,
                 text2: `The product of our work is accompanied by a consistent <span style="color: #36e4da">quality promise</span> and thereby creates sustainable <span style="color: #36e4da">emotions</span> in the space. Since human <span style="color: #36e4da">encounter</span> is irreplaceable, we create and provide a place for it, which forms the platform for the encounter as such, but also the <span style="color: #36e4da">staging</span> of <span style="color: #36e4da">brands</span> and their <span style="color: #36e4da">story</span>, <span style="color: #36e4da">values</span>, and <span style="color: #36e4da">products</span>.`,
                 text3: `The C³ Expo stands for <span style="color: #36e4da">family values</span> such as <span style="color: #36e4da">trust</span>, <span style="color: #36e4da">reliability</span>, <span style="color: #36e4da">respect</span>, and <span style="color: #36e4da">honesty</span>, which are always highly appreciated by our employees, service providers and partners, as well as our customers.
-    The <span style="color: #36e4da">success story</span> of C³ Expo is set to write many more chapters. For this reason, our <span style="color: #36e4da">value framework</span> is shaped by the partnership idea and determines our actions.
+    `,
+                text4: `The <span style="color: #36e4da">success story</span> of C³ Expo is set to write many more chapters. For this reason, our <span style="color: #36e4da">value framework</span> is shaped by the partnership idea and determines our actions.
   `,
             },
             references: {
@@ -53,15 +54,15 @@ export default defineI18nConfig(() => ({
             },
             links: {
                 privacy_name: 'Privacy Policy',
-                grc_name: 'General Terms and Conditions',
+                grc_name: 'GTC',
                 imprint_name: 'Imprint',
                 client_name: 'Client',
                 supplier_name: 'Supplier',
                 contact_us: 'Contact us',
                 jobs: 'Jobs',
                 gtc: {
-                    supplier: 'https://c3-expo.b-cdn.net/AGB_Subunternehmer_en.docx',
-                    client: 'https://c3-expo.b-cdn.net/AGB_Auftraggeber_en.docx',
+                    supplier: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Subunternehmer_en.docx',
+                    client: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Auftraggeber_en.docx',
                 },
                 privacy: 'https://c3-expo.b-cdn.net/Datenschutzerkl%C3%A4rung_en.docx',
                 imprint: 'https://c3-expo.b-cdn.net/Impressum_en.docx',
@@ -69,7 +70,7 @@ export default defineI18nConfig(() => ({
             }
         },
         de: {
-            ready_for_exp: 'BEREIT für DEIN Erlebnis, dann klick mich an!',
+            ready_for_exp: 'READY for YOUR experience, then click on me!',
             our_mission: {
                 title: 'Our Mission',
                 text1: `<strong>Partnerschaftliches Handeln</strong> - Wir <span style="color: #36e4da">kommunizieren</span>. <span style="color: #36e4da">agieren</span> und <span style="color: #36e4da">handeln</span> immer auf Augenhöhe, um die <span style="color: #36e4da">Bedürfnisse</span> unserer Kunden bedienen, zu können. bevor diese erst entstehen! Entscheidend, hierfür ist, dass unser Handeln geprägt, ist, von <span style="color: #36e4da">Zuverlässigkeit</span> und <span style="color: #36e4da">Vertrauen</span>, die in der <span style="color: #36e4da">DNA</span> unserer Firmenphilosophie tief verankert ist.`,
@@ -111,8 +112,8 @@ export default defineI18nConfig(() => ({
                 text2: `Das Produkt unserer Arbeit wird begleitet durch ein konsistentes <span style="color: #36e4da">Qualitätsversprechen</span> und schafft dadurch nachhaltige <span style="color: #36e4da">Emotionen</span> im Raum. Da die menschliche <span style="color: #36e4da">Begegnung</span> ersatzlos ist, kreieren und schaffen wir einen Ort dafür, der die Plattform für die Begegnung als solches bildet, aber auch die <span style="color: #36e4da">Inszenierung</span> von <span style="color: #36e4da">Marken</span> und deren <span style="color: #36e4da">Geschichte</span>, <span style="color: #36e4da">Werte</span> und <span style="color: #36e4da">Produkte</span> bietet.
           `,
                 text3: `Die C³ Expo steht für <span style="color: #36e4da">Familienwerte</span> wie <span style="color: #36e4da">Vertrauen</span>, <span style="color: #36e4da">Verlässlichkeit</span>, <span style="color: #36e4da">Respekt</span> und <span style="color: #36e4da">Ehrlichkeit</span>, die stets von unseren Mitarbeitern, Dienstleistern und Partnern, sowie unseren Kunden sehr geschätzt sind.
-            Die <span style="color: #36e4da">Erfolgsgeschichte</span> der C³ Expo soll noch viele weitere Kapitel schreiben. Aus diesem Grund ist unser <span style="color: #36e4da">Wertegerüst</span> durch den partnerschaftlichen Gedanken geprägt und bestimmt unser Handeln.
          `,
+                text4: `Die <span style="color: #36e4da">Erfolgsgeschichte</span> der C³ Expo soll noch viele weitere Kapitel schreiben. Aus diesem Grund ist unser <span style="color: #36e4da">Wertegerüst</span> durch den partnerschaftlichen Gedanken geprägt und bestimmt unser Handeln.`
             },
             references: {
                 title: 'References',
@@ -121,15 +122,15 @@ export default defineI18nConfig(() => ({
             },
             links: {
                 privacy_name: 'Datenschutzrichtlinie',
-                grc_name: 'Allgemeine Geschäftsbedingungen',
+                grc_name: 'AGB',
                 imprint_name: 'Impressum',
                 client_name: 'Klient',
                 supplier_name: 'Anbieter',
                 contact_us: 'Kontaktiere Sie uns',
                 jobs: 'Arbeitsplätze',
                 gtc: {
-                    supplier: 'https://c3-expo.b-cdn.net/AGB_Subunternehmer.docx',
-                    client: 'https://c3-expo.b-cdn.net/AGB_Auftraggeber.docx',
+                    supplier: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Subunternehmer.docx',
+                    client: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Auftraggeber.docx',
                 },
                 privacy: 'https://c3-expo.b-cdn.net/Datenschutzerkl%C3%A4rung.docx',
                 imprint: 'https://c3-expo.b-cdn.net/Impressum.docx',

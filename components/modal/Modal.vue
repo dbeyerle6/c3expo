@@ -1,193 +1,208 @@
 <template>
   <transition name="modal">
-  <div class="modal-container" v-if="isVisible">
-    <div class="modal-content" ref="modalContentRef">
-      <div class="modal_info" v-if="props.index === 180">
-        <h2>CEO Statement</h2>
-        <div class="ceo_info_images">
-        <img class="modal_image" src="/static/images/daniel2.jpg" alt="">
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text" v-html="$t('ceo_statement.text1')"></p>
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text" v-html="$t('ceo_statement.text2')"></p>
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text" v-html="$t('ceo_statement.text3')"></p>
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text">
-            CEO
-            Daniel Beyerle
-          </p>
-        </div>
-      </div>
+    <div class="modal-container" v-if="isVisible">
+      <div class="modal-content" ref="modalContentRef">
+        <div class="ceo_info" v-if="props.index === 180">
 
-      <div class="modal_info" v-if="props.index === 86">
-        <h2>References</h2>
-        <div class="modal_text_container">
-        <p>
-          {{$t('references.text1')}}
-        </p>
+          <div class="ceo_info_images">
+            <img class="ceo_image" src="/static/images/daniel2.jpg" alt="">
+          </div>
+          <div style="border-left: #36e4da 1px solid; padding-left: 30px">
+            <h2 class="ceo_title">Daniel Beyerle</h2>
+            <div class="ceo_header">
+              <div class="ceo_square"></div>
+              <p>Owner & CEO </p>
+            </div>
+            <div class="modal_text_container">
+              <p class="modal_text" v-html="$t('ceo_statement.text1')"></p>
+            </div>
+            <br>
+            <div class="modal_text_container">
+              <p class="modal_text" v-html="$t('ceo_statement.text2')"></p>
+            </div>
+            <br>
+            <div class="modal_text_container">
+              <p class="modal_text" v-html="$t('ceo_statement.text3')"></p>
+            </div>
+            <br>
+            <div class="modal_text_container">
+              <p class="modal_text" v-html="$t('ceo_statement.text4')"></p>
+            </div>
+            <br>
+          </div>
         </div>
-        <div class="images_container">
-          <img class="reference_image" src="/static/images/references1.jpg" alt="">
-          <img class="reference_image" src="/static/images/references2.jpg" alt="">
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text">
-            {{$t('references.text2')}}   </p>
-        </div>
-        <div class="images_container">
-          <img class="reference_image" src="/static/images/references3.jpg" alt="">
-          <img class="reference_image" src="/static/images/references4.jpg" alt="">
-        </div>
-      </div>
-      <div class="modal_info" v-if="props.index === 190">
-        <h2>Unsere Vision</h2>
-        <div class="images_container">
-          <img class="vision_image" src="/static/images/unsere_vision1.jpg" alt="">
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text" v-html="$t('our_vision.text')"></p></div>
-      </div>
-      <div class="modal_info" v-if="props.index === 200">
-        <h2>{{$t('our_mission.title')}}</h2>
-        <div class="images_container">
-          <img class="vision_image" src="/static/images/unsere_vision2.jpg" alt="">
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text" v-html="$t('our_mission.text1')"></p>
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text" v-html="$t('our_mission.text2')"></p>
-        </div>
-      </div>
-      <div class="modal_info" v-if="props.index === 156">
-        <h2>{{$t('our_expertise.title')}}</h2>
 
-        <p class="expertise_title">{{$t('our_expertise.design')}}</p>
-        <div class="expertise_container">
-          <img class="expertise_image" src="/static/images/unsere_expertiese1.jpg" alt="">
-          <p class="expertise_text_container">
-            <p class="modal_text">{{$t('our_expertise.design_text1')}}</p>
-            <p class="modal_text">
-              {{$t('our_expertise.design_text2')}}</p>
-          </p>
-        </div>
-        <p class="expertise_title">{{$t('our_expertise.ansprechpartner')}}</p>
-        <div class="expertise_container">
-          <img class="expertise_image" src="/static/images/unsere_expertiese2.jpg" alt="">
-          <p class="expertise_text_container">
-            <p class="modal_text">{{$t('our_expertise.ansprechpartner_text1')}}
+        <div class="modal_info" v-if="props.index === 86">
+          <h2>References</h2>
+          <div class="modal_text_container">
+            <p>
+              {{ $t('references.text1') }}
             </p>
+          </div>
+          <div class="images_container">
+            <img class="reference_image" src="/static/images/references1.jpg" alt="">
+            <img class="reference_image" src="/static/images/references2.jpg" alt="">
+          </div>
+          <div class="modal_text_container">
             <p class="modal_text">
-              {{$t('our_expertise.ansprechpartner_text2')}}</p>
-          </p>
+              {{ $t('references.text2') }} </p>
+          </div>
+          <div class="images_container">
+            <img class="reference_image" src="/static/images/references3.jpg" alt="">
+            <img class="reference_image" src="/static/images/references4.jpg" alt="">
+          </div>
         </div>
-        <p class="expertise_title">{{$t('our_expertise.messebau')}}</p>
-        <div class="expertise_container">
-          <img class="expertise_image" src="/static/images/unsere_expertiese3.jpg" alt="">
-          <p class="expertise_text_container">
-            <p class="modal_text">{{$t('our_expertise.messebau_text')}}</p>
-          </p>
+        <div class="modal_info" v-if="props.index === 190">
+          <h2>Unsere Vision</h2>
+          <div class="images_container">
+            <img class="vision_image" src="/static/images/unsere_vision1.jpg" alt="">
+          </div>
+          <div class="modal_text_container">
+            <p class="modal_text" v-html="$t('our_vision.text')"></p></div>
         </div>
-        <p class="expertise_title">{{$t('our_expertise.events')}}</p>
-        <div class="expertise_container">
-          <img class="expertise_image" src="/static/images/unsere_expertiese4.jpg" alt="">
-          <p class="expertise_text_container">
-            <p class="modal_text">{{$t('our_expertise.events_text')}}</p>
-          </p>
+        <div class="modal_info" v-if="props.index === 200">
+          <h2>{{ $t('our_mission.title') }}</h2>
+          <div class="images_container">
+            <img class="vision_image" src="/static/images/unsere_vision2.jpg" alt="">
+          </div>
+          <div class="modal_text_container">
+            <p class="modal_text" v-html="$t('our_mission.text1')"></p>
+          </div>
+          <div class="modal_text_container">
+            <p class="modal_text" v-html="$t('our_mission.text2')"></p>
+          </div>
         </div>
+        <div class="modal_info" v-if="props.index === 156">
+          <h2>{{ $t('our_expertise.title') }}</h2>
+
+          <p class="expertise_title">{{ $t('our_expertise.design') }}</p>
+          <div class="expertise_container">
+            <img class="expertise_image" src="/static/images/unsere_expertiese1.jpg" alt="">
+            <p class="expertise_text_container">
+              <p class="modal_text">{{ $t('our_expertise.design_text1') }}</p>
+              <p class="modal_text">
+                {{ $t('our_expertise.design_text2') }}</p>
+            </p>
+          </div>
+          <p class="expertise_title">{{ $t('our_expertise.ansprechpartner') }}</p>
+          <div class="expertise_container">
+            <img class="expertise_image" src="/static/images/unsere_expertiese2.jpg" alt="">
+            <p class="expertise_text_container">
+              <p class="modal_text">{{ $t('our_expertise.ansprechpartner_text1') }}
+              </p>
+              <p class="modal_text">
+                {{ $t('our_expertise.ansprechpartner_text2') }}</p>
+            </p>
+          </div>
+          <p class="expertise_title">{{ $t('our_expertise.messebau') }}</p>
+          <div class="expertise_container">
+            <img class="expertise_image" src="/static/images/unsere_expertiese3.jpg" alt="">
+            <p class="expertise_text_container">
+              <p class="modal_text">{{ $t('our_expertise.messebau_text') }}</p>
+            </p>
+          </div>
+          <p class="expertise_title">{{ $t('our_expertise.events') }}</p>
+          <div class="expertise_container">
+            <img class="expertise_image" src="/static/images/unsere_expertiese4.jpg" alt="">
+            <p class="expertise_text_container">
+              <p class="modal_text">{{ $t('our_expertise.events_text') }}</p>
+            </p>
+          </div>
+        </div>
+
+
+        <div class="modal_info" v-if="props.index === 132">
+          <h2>{{ $t('product.title') }}</h2>
+          <div class="images_container">
+            <img style="width: 80%" src="/static/images/produkt.jpg" alt="">
+          </div>
+          <div class="modal_text_container">
+            <p class="modal_text">
+              {{ $t('product.text') }}
+            </p>
+          </div>
+
+        </div>
+        <div class="modal_info" v-if="props.index === 92">
+
+          <h2>World wide network</h2>
+          <div class="modal_text_container">
+            <p class="modal_text">{{ $t('world_wide_network.text') }}</p>
+          </div>
+          <div class="images_container">
+            <img style="width: 90%" src="/static/images/world.png" alt="">
+          </div>
+
+
+        </div>
+
+        <div class="modal_info" v-if="props.index === 105">
+          <h2>Heritage</h2>
+          <div class="heritage_container">
+            <img class="heritage_image" src="/static/images/heritage1.jpg" alt="">
+            <div class="heritage_text_container">
+              <p class="heritage_text">Alles begann als Thomas Dieter Beyerle <strong
+                  style="font-size: 30px">1995</strong> die Vision hatte, Räume zu gestalten und zu schaffen, in denen
+                Begegnungen stattfinden können und bei denen Emotionen geweckt werden. Dies war der Startschuss für </p>
+              <p style="margin: 100px auto; font-size: 20px">T.B. Bühnen + Messebau</p>
+            </div>
+          </div>
+          <div class="arrow_right">
+            <AnimatedArrow/>
+          </div>
+          <div class="heritage_info" style="margin-left: 500px">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+              <p style="font-size: 30px" class="heritage_text">1997</p>
+              <img class="heritage_image" style="width: 120px" src="/static/images/heritage2.png" alt="">
+            </div>
+            <p style="font-size: 24px" class="heritage_text">Aus T.B. Bühnen + Messebau wurde die 3B Kreative GbR</p>
+          </div>
+          <div class="arrow_left">
+            <AnimatedArrow/>
+          </div>
+          <div class="heritage_info" style="margin-left: -500px">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+              <p style="font-size: 30px" class="heritage_text">2003</p>
+              <img class="heritage_image" style="width: 120px" src="/static/images/heritage3.jpg" alt="">
+            </div>
+            <p style="font-size: 24px" class="heritage_text">Danach ging die Reise alleine weiter, unter der Creative
+              T.B. Systems Design</p>
+          </div>
+          <div class="arrow_right">
+            <AnimatedArrow/>
+          </div>
+          <div class="heritage_info" style="margin-left: 500px">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+              <p style="font-size: 30px" class="heritage_text">2011</p>
+              <img class="heritage_image" style="width: 200px" src="/static/images/heritage4.png" alt="">
+            </div>
+            <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als
+              Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen
+              waren.</p>
+          </div>
+
+          <div class="arrow_left">
+            <AnimatedArrow/>
+          </div>
+          <div class="heritage_info" style="margin-left: -500px">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
+              <p style="font-size: 30px; width: 100%" class="heritage_text">2024</p>
+            </div>
+            <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als
+              Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen
+              waren.</p>
+            <img class="heritage_image" style="width: 350px" src="/static/images/heritage5.png" alt="">
+          </div>
+
+        </div>
+        <button class="close_button" @click="closeModal"><img src="/static/close.svg" alt=""></button>
       </div>
-
-
-      <div class="modal_info" v-if="props.index === 132">
-        <h2>{{$t('product.title')}}</h2>
-        <div class="images_container">
-          <img style="width: 80%"  src="/static/images/produkt.jpg" alt="">
-        </div>
-        <div class="modal_text_container">
-          <p class="modal_text">
-            {{$t('product.text')}}
-          </p>
-        </div>
-
-      </div>
-      <div class="modal_info" v-if="props.index === 92">
-
-        <h2>World wide network</h2>
-        <div class="modal_text_container">
-          <p class="modal_text">{{$t('world_wide_network.text')}}</p>
-        </div>
-        <div class="images_container">
-          <img style="width: 90%"  src="/static/images/world.png" alt="">
-        </div>
-
-
-      </div>
-
-      <div class="modal_info" v-if="props.index === 105">
-        <h2>Heritage</h2>
-        <div class="heritage_container">
-          <img class="heritage_image" src="/static/images/heritage1.jpg" alt="">
-          <div class="heritage_text_container">
-            <p class="heritage_text">Alles begann als Thomas Dieter Beyerle <strong style="font-size: 30px">1995</strong> die Vision hatte, Räume zu gestalten und zu schaffen, in denen Begegnungen stattfinden können und bei denen Emotionen geweckt werden. Dies war der Startschuss für   </p>
-            <p style="margin: 100px auto; font-size: 20px" >T.B. Bühnen + Messebau</p>
-          </div>
-        </div>
-        <div class="arrow_right">
-          <AnimatedArrow/>
-        </div>
-        <div class="heritage_info" style="margin-left: 500px">
-          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
-            <p style="font-size: 30px" class="heritage_text">1997</p>
-            <img class="heritage_image" style="width: 120px" src="/static/images/heritage2.png" alt="">
-          </div>
-          <p style="font-size: 24px" class="heritage_text">Aus T.B. Bühnen + Messebau wurde die 3B Kreative GbR</p>
-        </div>
-        <div class="arrow_left">
-          <AnimatedArrow/>
-        </div>
-        <div class="heritage_info" style="margin-left: -500px">
-          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
-            <p style="font-size: 30px" class="heritage_text">2003</p>
-            <img class="heritage_image" style="width: 120px" src="/static/images/heritage3.jpg" alt="">
-          </div>
-          <p style="font-size: 24px" class="heritage_text">Danach ging die Reise alleine weiter, unter der Creative T.B. Systems Design</p>
-        </div>
-        <div class="arrow_right">
-          <AnimatedArrow/>
-        </div>
-        <div class="heritage_info" style="margin-left: 500px">
-          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
-            <p style="font-size: 30px" class="heritage_text">2011</p>
-            <img class="heritage_image" style="width: 200px" src="/static/images/heritage4.png" alt="">
-          </div>
-          <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen waren.</p>
-        </div>
-
-        <div class="arrow_left">
-          <AnimatedArrow/>
-        </div>
-        <div class="heritage_info" style="margin-left: -500px">
-          <div style="display: flex; justify-content: center; align-items: center; gap: 20px">
-            <p style="font-size: 30px; width: 100%" class="heritage_text">2024</p>
-          </div>
-          <p style="font-size: 24px" class="heritage_text">Es folgte die Umschreibung in eine Kapitalgesellschaft als Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen waren.</p>
-          <img class="heritage_image" style="width: 350px" src="/static/images/heritage5.png" alt="">
-        </div>
-
-      </div>
-      <button class="close_button" @click="closeModal"><img src="/static/close.svg" alt=""></button>
     </div>
-  </div>
   </transition>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch, nextTick, defineEmits } from 'vue';
+import {ref, onMounted, onUnmounted, watch, nextTick, defineEmits} from 'vue';
 
 const props = defineProps({
   index: Number,
@@ -217,7 +232,7 @@ watch(() => props.isVisible, (newValue) => {
         rootMargin: "0px"
       });
 
-      const elements = modalContentRef.value.querySelectorAll('.heritage_arrow, .modal_info, .modal_text, .modal_text, .modal_image, .images_container, .expertise_image, .expertise_container, .expertise_title, .expertise_text_container, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image, .arrow_left, .arrow_right' );
+      const elements = modalContentRef.value.querySelectorAll('.heritage_arrow, .modal_info, .modal_text, .modal_text, .modal_image, .images_container, .expertise_image, .expertise_container, .expertise_title, .expertise_text_container, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image, .arrow_left, .arrow_right');
       elements.forEach(el => observer.observe(el));
     }
   });
@@ -239,6 +254,7 @@ p, h2 {
   font-family: Century Gothic, sans-serif;
   margin: 0;
 }
+
 .heritage_text {
   font-size: 20px;
   width: 75%;
@@ -253,6 +269,7 @@ p, h2 {
   flex-direction: column;
   gap: 20px;
 }
+
 .heritage_text_container {
   display: flex;
   flex-direction: column;
@@ -269,6 +286,7 @@ p, h2 {
 .arrow_right {
   margin-left: -220px
 }
+
 .arrow_left {
   margin-left: 200px;
   transform: rotateY(180deg);
@@ -280,6 +298,7 @@ p, h2 {
   justify-content: center;
   align-items: center;
 }
+
 .expertise_title {
   margin-bottom: -30px;
   font-size: 18px;
@@ -330,7 +349,7 @@ p, h2 {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-  width: 80%;
+  min-width: 80%;
   gap: 20px;
 }
 
@@ -342,7 +361,6 @@ p, h2 {
 .modal_image {
   width: 300px;
   height: 500px;
-  border-radius: 5%;
   object-fit: cover;
 }
 
@@ -362,6 +380,16 @@ p, h2 {
   gap: 40px;
 }
 
+.ceo_info {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+
+}
+
 .modal-container {
   position: fixed;
   bottom: 10%;
@@ -376,7 +404,6 @@ p, h2 {
 .modal-content {
   background-color: #303030;
   padding: 50px;
-  border-radius: 10px;
   height: 68vh;
   width: 80%;
   overflow-y: auto;
@@ -403,6 +430,80 @@ p, h2 {
   color: #fff;
 }
 
+.ceo_header {
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0 30px 0;
+
+}
+
+.ceo_square {
+  width: 8px;
+  height: 8px;
+  background-color: #36e4da;
+}
+
+.ceo_info {
+  display: flex; /* Используем Flexbox */
+  align-items: center; /* Центрируем содержимое по вертикали */
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+}
+
+.ceo_info_images {
+  flex: 0 0 20%; /* Занимает ровно 30% ширины, не растягивается и не сжимается */
+  display: flex; /* Делаем контейнер изображения также flex-контейнером */
+  justify-content: space-around; /* Центрируем изображение по горизонтали */
+  align-items: center; /* Центрируем изображение по вертикали */
+}
+
+.ceo_image {
+  width: 100%; /* Ширина изображения растягивается на всю ширину контейнера */
+  height: calc(100% - 300px); /* Высота будет на 80px меньше полной высоты контейнера */
+  object-fit: cover; /* Обрезка содержимого изображения, чтобы заполнить контейнер без искажения */
+  object-position: top; /* Выравнивание содержимого изображения по верху, чтобы обрезать нижнюю часть */
+}
+
+.ceo_info_images > img {
+  height: calc(100% - 80px) !important; /* Высота будет на 80px меньше полной высоты контейнера */
+  object-fit: cover; /* Обрезка содержимого изображения, чтобы заполнить контейнер без искажения */
+  object-position: top;
+}
+
+.modal_image {
+  width: 100%; /* Изображение займет всю ширину родительского элемента .ceo_info_images */
+  height: auto; /* Высота изображения будет изменяться пропорционально ширине */
+}
+
+
+.ceo_info > div:not(.ceo_info_images) {
+  flex: 0 0 50%; /* Занимает ровно 70% ширины, не растягивается и не сжимается */
+  padding-left: 30px; /* Отступ слева, как в вашем примере */
+}
+
+.ceo_title,
+.ceo_header,
+.modal_text_container {
+  text-align: left; /* Текст выровнен по левому краю */
+}
+
+
+.ceo_title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.ceo_span {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  margin: 20px 0;
+  left: 0;
+  bottom: 0;
+}
+
 .close_button {
   position: absolute;
   top: 10px;
@@ -417,23 +518,16 @@ p, h2 {
   border-radius: 5px;
 }
 
-img {
-  border-radius: 5px;
-}
-
-
 .modal-content::-webkit-scrollbar {
   width: 10px;
 }
 
 .modal-content::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 10px; /* Увеличенный радиус для более круглых углов */
 }
 
 .modal-content::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 10px; /* Увеличенный радиус для более круглых углов */
 }
 
 .modal-content::-webkit-scrollbar-thumb:hover {
@@ -450,7 +544,7 @@ img {
   transition: opacity 2s ease-out;
 }
 
-.modal_info, .modal_text, .modal_image, .images_container, .arrow_right, .arrow_left .expertise_container, .expertise_title, .expertise_text_container, .expertise_image, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image{
+.modal_info, .modal_text, .modal_image, .images_container, .arrow_right, .arrow_left .expertise_container, .expertise_title, .expertise_text_container, .expertise_image, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image {
   opacity: 0;
   transition: opacity 2s ease-out;
 }

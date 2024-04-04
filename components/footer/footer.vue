@@ -10,8 +10,10 @@
         <div class="column-content">
           <h2 class="title">{{ $t('links.grc_name') }}</h2>
           <div class="text_gap">
-          <div class="doc_button" @click="openModal('links.gtc.client')">{{ $t('links.client_name') }}</div>
-          <div class="doc_button" @click="openModal('links.gtc.supplier')">{{ $t('links.supplier_name') }}</div>
+            <a class="doc_button" :href="$t('links.gtc.supplier')" onClick="window.open($t('links.gtc.supplier'))" target="_blank">{{ $t('links.supplier_name') }}</a>
+            <a class="doc_button" :href="$t('links.gtc.client')" onClick="window.open($t('links.gtc.client'))" target="_blank">{{ $t('links.client_name') }}</a>
+<!--          <div class="doc_button" @click="openModal('links.gtc.client')">{{ $t('links.client_name') }}</div>-->
+<!--          <div class="doc_button" @click="openModal('links.gtc.supplier')">{{ $t('links.supplier_name') }}</div>-->
           </div>
         </div>
       </div>
@@ -114,8 +116,8 @@ function openModal(translationKey: any) {
   align-items: center;
   min-height: 230px;
   background-color: #303030; /* или любой другой цвет фона */
-  box-shadow: 0 -5px 15px -5px rgba(0, 0, 0, 0.3);
-
+  box-shadow: 0 -5px 15px -5px rgba(54, 228, 218, 0.3);
+  border-top: 2px solid #36e4da;
 
 }
 
@@ -126,6 +128,11 @@ function openModal(translationKey: any) {
   align-items: center;
   height: 200px;
   margin: 0 auto;
+}
+.text_gap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .footer-copyright-text {
@@ -185,14 +192,28 @@ function openModal(translationKey: any) {
   font-size: 16px;
   color: #C0BEBE;
   font-family: "Century Gothic", sans-serif;
+  text-underline: none;
+  text-decoration: none;
 }
 
 .title {
-  color: #C0BEBE;
+  color: #36e4da;
   font-size: 20px;
   font-family: "Century Gothic", sans-serif;
   line-height: 1;
 }
 
+
+@media (max-width: 768px) {
+  .footer-container-wrapper {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+  }
+}
 
 </style>
