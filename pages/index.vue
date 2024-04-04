@@ -29,7 +29,6 @@
           </video>
               <img class="mute_button" @click="toggleMute"v-if="isMuted" src="/assets/mute.svg" alt="">
               <img class="mute_button" @click="toggleMute" v-else src="/assets/volume.svg" alt="">
-
           </div>
         </div>
 
@@ -819,4 +818,25 @@ body {
   z-index: 10;
   width: 30px;
 }
+
+.mobile-menu {
+  text-decoration: none;
+  list-style-type: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  margin: 100px 0;
+  padding: 0;
+}
+
+.mobile-menu > li  {
+  color: #36e4da;
+  font-size: 24px;
+  font-family: "Century Gothic", sans-serif;
+  cursor: pointer;
+}
+
 </style>
