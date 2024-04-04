@@ -32,7 +32,7 @@
           </div>
         </div>
 
-        <div v-if="!isMobile" ref="threeContainer" class="three-container" id="threeJsBlock">
+        <div v-if="isMobile" ref="threeContainer" class="three-container" id="threeJsBlock">
 
         </div>
         <ul v-else class="mobile-menu">
