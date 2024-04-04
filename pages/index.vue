@@ -22,7 +22,7 @@
         <div class="content-container" id="contentBlock">
 
           <div class="video-container">
-          <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay>
+          <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop>
             <source src="https://c3expotest.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
 <!--            <source src='/static/videos/c3expo-200px.mp4' type="video/mp4">-->
             Your browser does not support the video tag.
