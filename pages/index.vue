@@ -2,7 +2,9 @@
 <!--  <div v-if="isUnderConstruction" class="isUnder">-->
 <!--    <h2>Website is under construction</h2>-->
 <!--  </div>-->
-
+  <div>
+    <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
+  </div>
   <div v-if="!showIntro" class="logo-container">
     <img src="/assets/logo.png" alt="Logo" class="logo"/>
   </div>
@@ -11,7 +13,6 @@
     <option value="de">DE <img src="assets/germany.png" alt="Germany"/></option>
   </select>
   <div class="container" @wheel="handleScroll">
-    <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     <div v-if="showIntro" class="intro-container" :key="componentKey">
       <transition name="intro-fade">
         <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>

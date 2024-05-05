@@ -12,5 +12,5 @@ export default defineNuxtConfig({
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default
   },
-  modules: ['@nuxtjs/i18n']
+  modules: ['@nuxtjs/i18n', '@vueuse/motion/nuxt']
 })

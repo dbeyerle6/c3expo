@@ -126,12 +126,13 @@ p, h2 {
     align-items: center;
     height: auto;
     width: 100%;
-    z-index: 1000000 !important;
+    z-index: 10;
+
 }
 
 .modal-content {
     background-color: #303030;
-    padding: 50px;
+
     border-radius: 10px;
     height: 68vh;
     width: 80%;

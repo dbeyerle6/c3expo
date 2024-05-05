@@ -1,79 +1,25 @@
 <template>
   <transition name="modal">
-    <div class="modal-container" v-if="isVisible">
+    <div class="modal-overlay" v-if="isVisible" @click="handleOverlay">
       <div class="modal-content" ref="modalContentRef">
-        <div class="ceo_info" v-if="props.index === 180">
 
-          <div class="ceo_info_images">
-            <img class="ceo_image" src="/static/images/daniel2.jpg" alt="">
-          </div>
-          <div style="border-left: #36e4da 1px solid; padding-left: 30px">
-            <h2 class="ceo_title">Daniel Beyerle</h2>
-            <div class="ceo_header">
-              <div class="ceo_square"></div>
-              <p>Owner & CEO </p>
-            </div>
-            <div class="modal_text_container">
-              <p class="modal_text" v-html="$t('ceo_statement.text1')"></p>
-            </div>
-            <br>
-            <div class="modal_text_container">
-              <p class="modal_text" v-html="$t('ceo_statement.text2')"></p>
-            </div>
-            <br>
-            <div class="modal_text_container">
-              <p class="modal_text" v-html="$t('ceo_statement.text3')"></p>
-            </div>
-            <br>
-            <div class="modal_text_container">
-              <p class="modal_text" v-html="$t('ceo_statement.text4')"></p>
-            </div>
-            <br>
-          </div>
+        <div class="logo">
+          <img src="/static/images/topic_logo.png" alt="EXPO">
         </div>
-
+        <button class="close_button" @click="closeModal"><img src="/static/close.svg" alt=""></button>
+              <CeoStatement v-if="props.index === 180"/>
         <div class="modal_info" v-if="props.index === 86">
-          <h2>References</h2>
-          <div class="modal_text_container">
-            <p>
-              {{ $t('references.text1') }}
-            </p>
-          </div>
-          <div class="images_container">
-            <img class="reference_image" src="/static/images/references1.jpg" alt="">
-            <img class="reference_image" src="/static/images/references2.jpg" alt="">
-          </div>
-          <div class="modal_text_container">
-            <p class="modal_text">
-              {{ $t('references.text2') }} </p>
-          </div>
-          <div class="images_container">
-            <img class="reference_image" src="/static/images/references3.jpg" alt="">
-            <img class="reference_image" src="/static/images/references4.jpg" alt="">
-          </div>
+          <References :showDiv1="showDiv1" :showDiv2="showDiv2"/>
         </div>
         <div class="modal_info" v-if="props.index === 190">
-          <h2>Unsere Vision</h2>
-          <div class="images_container">
-            <img class="vision_image" src="/static/images/unsere_vision1.jpg" alt="">
-          </div>
-          <div class="modal_text_container">
-            <p class="modal_text" v-html="$t('our_vision.text')"></p></div>
+          <OurVision />
         </div>
         <div class="modal_info" v-if="props.index === 200">
-          <h2>{{ $t('our_mission.title') }}</h2>
-          <div class="images_container">
-            <img class="vision_image" src="/static/images/unsere_vision2.jpg" alt="">
-          </div>
-          <div class="modal_text_container">
-            <p class="modal_text" v-html="$t('our_mission.text1')"></p>
-          </div>
-          <div class="modal_text_container">
-            <p class="modal_text" v-html="$t('our_mission.text2')"></p>
-          </div>
+          <OurMission />
         </div>
         <div class="modal_info" v-if="props.index === 156">
-          <h2>{{ $t('our_expertise.title') }}</h2>
+          <OurExpertise />
+<!--          <h2>{{ $t('our_expertise.title') }}</h2>
 
           <p class="expertise_title">{{ $t('our_expertise.design') }}</p>
           <div class="expertise_container">
@@ -107,21 +53,12 @@
             <p class="expertise_text_container">
               <p class="modal_text">{{ $t('our_expertise.events_text') }}</p>
             </p>
-          </div>
+          </div>-->
         </div>
 
 
         <div class="modal_info" v-if="props.index === 132">
-          <h2>{{ $t('product.title') }}</h2>
-          <div class="images_container">
-            <img style="width: 80%" src="/static/images/produkt.jpg" alt="">
-          </div>
-          <div class="modal_text_container">
-            <p class="modal_text">
-              {{ $t('product.text') }}
-            </p>
-          </div>
-
+          <ExhibitionBooth />
         </div>
         <div class="modal_info" v-if="props.index === 92">
 
@@ -137,7 +74,9 @@
         </div>
 
         <div class="modal_info" v-if="props.index === 105">
-          <h2>Heritage</h2>
+
+          <Herritage />
+<!--          <h2>Heritage</h2>
           <div class="heritage_container">
             <img class="heritage_image" src="/static/images/heritage1.jpg" alt="">
             <div class="heritage_text_container">
@@ -192,17 +131,25 @@
               Creative T.B. System Design GmbH als logischer Handlungsschritt, nachdem die Geschäfte weitergewachsen
               waren.</p>
             <img class="heritage_image" style="width: 350px" src="/static/images/heritage5.png" alt="">
-          </div>
-
+          </div>-->
+          111
         </div>
-        <button class="close_button" @click="closeModal"><img src="/static/close.svg" alt=""></button>
       </div>
     </div>
   </transition>
 </template>
 
 <script setup>
-import {ref, onMounted, onUnmounted, watch, nextTick, defineEmits} from 'vue';
+import {ref, onMounted, onUnmounted, watch, nextTick, defineEmits, provide} from 'vue';
+import Ceo_statement from "~/components/topics/CeoStatement.vue";
+import CeoStatement from "~/components/topics/CeoStatement.vue";
+import ExhibitionBooth from "~/components/topics/ExhibitionBooth.vue";
+import OurVision from "~/components/topics/OurVision.vue";
+import OurMission from "~/components/topics/OurMission.vue";
+import References from "~/components/topics/References.vue";
+import Herritage from "~/components/topics/Herritage.vue";
+import OurExpertise from "~/components/topics/OurExpertise.vue";
+
 
 const props = defineProps({
   index: Number,
@@ -211,6 +158,17 @@ const props = defineProps({
 const emit = defineEmits(['update:isVisible']);
 const modalContentRef = ref(null);
 let observer;
+
+const showDiv1 = ref(true);
+const showDiv2 = ref(false);
+let lastScrollTop = 0;
+
+
+const handleOverlay = () => {
+  if (event.target === event.currentTarget) {
+    closeModal();
+  }
+}
 
 function closeModal() {
   emit('update:isVisible', false);
@@ -240,6 +198,7 @@ watch(() => props.isVisible, (newValue) => {
 
 onMounted(() => {
   document.body.style.overflow = props.isVisible ? 'hidden' : '';
+
 });
 
 onUnmounted(() => {
@@ -392,23 +351,47 @@ p, h2 {
 
 .modal-container {
   position: fixed;
-  bottom: 10%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: auto;
+  top: 10%;
+  height: 80%;
   width: 100%;
-  z-index: 1000000 !important;
+  z-index: 9;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center; /* Центрирование по вертикали */
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
 }
 
 .modal-content {
-  background-color: #303030;
-  padding: 50px;
-  height: 68vh;
-  width: 80%;
-  overflow-y: auto;
+  position: relative;
+  background-color: #000;
+  min-height: 60%;
+  height: auto;
+  width: 80%; /* Занимает 50% ширины экрана */
+  max-height: 90%; /* Максимальная высота - 80% экрана */
+  overflow-y: auto; /* Включаем прокрутку при необходимости */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.logo {
+  position: absolute;
+  top: 3%;
+  left: 4%;
+  z-index: 100;
+}
+.logo img {
+  width: 120px;
+}
 
 .modal-enter-active, .modal-leave-active {
   transition: transform 0.5s ease-out, opacity 0.5s ease-out;
@@ -430,92 +413,20 @@ p, h2 {
   color: #fff;
 }
 
-.ceo_header {
 
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin: 10px 0 30px 0;
-
-}
-
-.ceo_square {
-  width: 8px;
-  height: 8px;
-  background-color: #36e4da;
-}
-
-.ceo_info {
-  display: flex; /* Используем Flexbox */
-  align-items: center; /* Центрируем содержимое по вертикали */
-  justify-content: center; /* Центрируем содержимое по горизонтали */
-}
-
-.ceo_info_images {
-  flex: 0 0 20%; /* Занимает ровно 30% ширины, не растягивается и не сжимается */
-  display: flex; /* Делаем контейнер изображения также flex-контейнером */
-  justify-content: space-around; /* Центрируем изображение по горизонтали */
-  align-items: center; /* Центрируем изображение по вертикали */
-}
-
-.ceo_image {
-  width: 100%; /* Ширина изображения растягивается на всю ширину контейнера */
-  height: calc(100% - 300px); /* Высота будет на 80px меньше полной высоты контейнера */
-  object-fit: cover; /* Обрезка содержимого изображения, чтобы заполнить контейнер без искажения */
-  object-position: top; /* Выравнивание содержимого изображения по верху, чтобы обрезать нижнюю часть */
-}
-
-.ceo_info_images > img {
-  height: calc(100% - 80px) !important; /* Высота будет на 80px меньше полной высоты контейнера */
-  object-fit: cover; /* Обрезка содержимого изображения, чтобы заполнить контейнер без искажения */
-  object-position: top;
-}
-
-.modal_image {
-  width: 100%; /* Изображение займет всю ширину родительского элемента .ceo_info_images */
-  height: auto; /* Высота изображения будет изменяться пропорционально ширине */
-}
-
-
-.ceo_info > div:not(.ceo_info_images) {
-  flex: 0 0 50%; /* Занимает ровно 70% ширины, не растягивается и не сжимается */
-  padding-left: 30px; /* Отступ слева, как в вашем примере */
-}
-
-.ceo_title,
-.ceo_header,
-.modal_text_container {
-  text-align: left; /* Текст выровнен по левому краю */
-}
-
-
-.ceo_title {
-  font-size: 30px;
-  font-weight: bold;
-}
-
-.ceo_span {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: #fff;
-  margin: 20px 0;
-  left: 0;
-  bottom: 0;
-}
 
 .close_button {
   position: absolute;
-  top: 10px;
-  right: 10%;
-
-  background-color: #303030;
+  top: 5%;
+  right: 2%;
+  background-color: #000;
   color: #fff;
   border: none;
   font-size: 20px;
   cursor: pointer;
   padding: 5px 10px;
   border-radius: 5px;
+  z-index: 1000;
 }
 
 .modal-content::-webkit-scrollbar {
@@ -544,7 +455,7 @@ p, h2 {
   transition: opacity 2s ease-out;
 }
 
-.modal_info, .modal_text, .modal_image, .images_container, .arrow_right, .arrow_left .expertise_container, .expertise_title, .expertise_text_container, .expertise_image, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image {
+.modal_text, .modal_image, .images_container, .arrow_right, .arrow_left .expertise_container, .expertise_title, .expertise_text_container, .expertise_image, .vision_image, .heritage_container, .heritage_text_container, .heritage_text, .heritage_arrow, .heritage_image, .ceo_info_images, .reference_image {
   opacity: 0;
   transition: opacity 2s ease-out;
 }
@@ -557,5 +468,29 @@ p, h2 {
 .colored_text {
   font-weight: bold;
   color: #00ffff;
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    width: 100%;
+    height: 100%;
+  }
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    max-height: 100%;
+    overflow-x: hidden;
+  }
+
+  .logo {
+    top: 10px;
+    left: 10%;
+  }
+  .close_button {
+    top: 40px;
+    right: 20px;
+  }
 }
 </style>
