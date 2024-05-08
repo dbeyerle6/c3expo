@@ -6,8 +6,9 @@
         <p v-html="$t('heritage.text1')">
         </p>
         <h3 class="fifth_title"> {{ $t('heritage.subtitle1') }}
-            <img class="heritage_image":src="heritageImage1" alt="">
         </h3>
+
+        <img class="heritage_image":src="heritageImage1" alt="">
         <h2 class="fifth_date">{{ $t('heritage.date1') }}
         </h2>
       </div>
@@ -635,6 +636,8 @@ svg {
   .fifth_box {
     width: 80%;
     height: 600px;
+    display: flex;
+    flex-direction: column;
   }
 
   .fifth_box > p {
@@ -643,8 +646,9 @@ svg {
   }
 
   .heritage_image {
-    height: 50%;
     right: 10%;
+    position: absolute;
+    height: 300px;
   }
 
   #info4 {

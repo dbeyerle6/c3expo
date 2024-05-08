@@ -147,7 +147,6 @@ function handleModalClose() {
   align-items: center;
   justify-content: flex-start;
   gap: 30px;
-  margin-left: 23px;
 }
 
 .contact_us_logo {
