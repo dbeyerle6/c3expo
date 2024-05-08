@@ -31,6 +31,19 @@ export default defineI18nConfig(() => ({
             },
             heritage: {
                 title: 'Heritage',
+                subtitle: 'Our Heritage',
+                text1: `It all began in <span style="color: #36e4da">1995</span> when Thomas Dieter Beyerle had the vision of designing and creating spaces in which encounters could take place and in which emotions could be awakened. This was the starting point for foundation of
+`,
+                date1: '1995',
+                subtitle1: 'T.B. Bühnen + Messebau',
+                text2: `T.B. Bühnen + Messebau became <strong>3B Kreative GbR</strong> `,
+                date2: '1997',
+                text3: 'The journey continued alone, under the Creative T.B. Systems Design',
+                date3: '2003',
+                text4: `This was followed by the change of name to a limited company, Creative T.B. System Design GmbH, as a logical next step after the business had continued to grow.`,
+                date4: '2011',
+                text5: `After his son Daniel Nico Beyerle took over the business, Creative T.B. System Design GmbH became <strong>C³ Expo GmbH</strong>`,
+                date5: `2024`,
             },
             product: {
                 title: 'Exhibition booth',
@@ -59,20 +72,20 @@ export default defineI18nConfig(() => ({
             },
             links: {
                 privacy_name: 'Privacy Policy',
-                grc_name: 'GTC',
+                grc_name: `GTC's`,
                 imprint_name: 'Imprint',
-                client_name: 'Client',
-                supplier_name: 'Supplier',
+                client_name: 'for clients',
+                supplier_name: 'for suppliers',
                 contact_us: 'Contact us',
                 jobs: 'Jobs',
                 gtc: {
-                    supplier: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Subunternehmer_en.docx',
-                    client: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Auftraggeber_en.docx',
+                    supplier: '/docs/AGB_Subunternehmer_en.docx',
+                    client: '/docs/AGB_Auftraggeber_en.docx',
                 },
-                privacy: 'https://c3-expo.b-cdn.net/Datenschutzerkl%C3%A4rung_en.docx',
-                imprint: 'https://c3-expo.b-cdn.net/Impressum_en.docx',
-
-            }
+                privacy: '/docs/Datenschutzerkl%C3%A4rung_en.docx',
+                imprint: '/docs/Impressum_en.docx',
+            },
+            cities : ['Germany', 'Switzerland', 'France', 'Italy', 'Austria', 'Spain', 'Sweden', 'Portugal', 'Belgium', 'Netherlands', 'United Kingdom', 'China', 'South Africa', 'Thailand', 'Madagascar', 'United Arab Emirates', 'United States of America', 'Australia', 'Algeria'],
         },
         de: {
             ready_for_exp: 'READY for YOUR experience, then click on me!',
@@ -103,6 +116,19 @@ export default defineI18nConfig(() => ({
             },
             heritage: {
                 title: 'Heritage',
+                subtitle: 'Unsere History',
+                text1: `Alles begann, als Thomas Dieter Beyerle <span style="color: #36e4da">1995</span> die Vision hatte, Räume zu schaffen, in denen Begegnungen stattfinden und Emotionen geweckt werden. Dies war der Startschuss für die Gründung von`,
+                date1: '1995',
+                subtitle1: 'T.B. Bühnen + Messebau',
+
+                text2: `Aus T.B. Bühnen + Messebau wurde die <strong>3B Kreative GbR</strong> `,
+                date2: '1997',
+                text3: 'Die Reise ging weiter, unter der Creative T.B. Systems Design',
+                date3: '2003',
+                text4: `Es folgte die Umschreibung in eine Kapitalgesellschaft – die Creative T.B. System Design GmbH, nachdem die Geschäfte stetig wuchsen.`,
+                date4: '2011',
+                text5: `Nach der Geschäftsübernahme durch den Sohn Daniel Nico Beyerle, wurde aus der Creative T.B. System Design GmbH die <strong>C³ Expo GmbH</strong>`,
+                date5: `2024`,
             },
             product: {
                 title: 'Messestand',
@@ -131,20 +157,20 @@ export default defineI18nConfig(() => ({
             },
             links: {
                 privacy_name: 'Datenschutzrichtlinie',
-                grc_name: 'AGB',
+                grc_name: `AGB's`,
                 imprint_name: 'Impressum',
-                client_name: 'Klient',
-                supplier_name: 'Anbieter',
-                contact_us: 'Kontaktiere Sie uns',
+                client_name: 'für Auftraggeber',
+                supplier_name: 'für Auftragnehmer',
+                contact_us: 'Kontaktieren Sie uns',
                 jobs: 'Arbeitsplätze',
                 gtc: {
-                    supplier: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Subunternehmer.docx',
-                    client: 'https://docs.google.com/viewerng/viewer?url=https://c3-expo.b-cdn.net/AGB_Auftraggeber.docx',
+                    supplier: '/docs/AGB_Subunternehmer.docx',
+                    client: '/docs/AGB_Auftraggeber.docx',
                 },
-                privacy: 'https://c3-expo.b-cdn.net/Datenschutzerkl%C3%A4rung.docx',
-                imprint: 'https://c3-expo.b-cdn.net/Impressum.docx',
-
-            }
+                privacy: '/docs/Datenschutzerkl%C3%A4rung.docx',
+                imprint: '/docs/Impressum.docx',
+            },
+            cities: ['Deutschland', 'Schweiz', 'Frankreich', 'Italien', 'Österreich', 'Spanien', 'Schweden', 'Portugal', 'Belgien', 'Niederlande', 'Großbritannien', 'China', 'Südafrika', 'Thailand', 'Madagaskar', 'Vereinigte Arabische Emirate', 'Vereinigten Staaten von Amerika', 'Australien', 'Algerien']
         }
     }
 }))

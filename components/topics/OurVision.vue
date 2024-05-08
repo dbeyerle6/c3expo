@@ -1,9 +1,12 @@
 <template>
   <div class="vision_container">
     <div class="box title">
-      <h1 class="vision_text" v-html="$t('our_vision.subtitle')"></h1>
+      <h1 class="vision_title" v-html="$t('our_vision.subtitle')"></h1>
     </div>
     <div class="box image">
+      <img src="/static/images/unsere_vision1.jpg" alt="Our vision">
+    </div>
+    <div class="box image2">
       <img src="/static/images/unsere_vision1.jpg" alt="Our vision">
     </div>
     <div class="box empty">
@@ -60,8 +63,10 @@
 
 .vision_text {
   color: #fff;
+  font-size: 20px;
   font-family: "Century Gothic", sans-serif;
   height: 100%;
+  line-height: 2;
 }
 
 .image img {
@@ -72,12 +77,26 @@
   display: block;
 }
 
+.vision_title {
+  font-size: 60px;
+  color: #fff;
+  font-family: "Century Gothic", sans-serif;
+  margin: 0;
+  padding: 20px 40px;
+  line-height: 2;
+}
+
 .empty {
+}
+
+
+.vision_container .box.image2 {
+  display: none;
 }
 
 .description {
   text-align: justify;
-  padding: 100px;
+  padding: 50px 50px;
   height: 100%;
   background: rgb(0,0,0);
   background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(123,123,123,1) 54%, rgba(111,111,111,1) 100%, rgba(255,255,255,1) 100%, rgba(0,0,0,1) 100%);
@@ -104,6 +123,18 @@
 
   .vision_container .box.image {
     order: 1; /* Изначально второй, но меняем на первое место */
+    display: none;
+  }
+
+  .vision_container .box.image2 {
+    order: 1; /* Изначально второй, но меняем на первое место */
+    height: 300px;
+    width: 100%;
+    display: flex;
+  }
+
+  .vision_container .box.image2 > img {
+    width: 100%;
   }
 
   .vision_container .box.empty {
@@ -111,8 +142,11 @@
   }
 
   .vision_container .box.description {
-    order: 4; /* Позиция может оставаться без изменений, если это четвертый блок */
+    order: 4;
+    margin: 0;
+    width: 100%;
   }
+
   .image {
     width: 100%;
     height: 100%;
@@ -132,13 +166,41 @@
   .description {
     width: 70%;
 
-    padding: 30px;
+    padding: 30px !important;
     margin-top: 100px;
+
   }
   .title {
-    margin-top: 120px;
     font-size: 16px;
-    padding: 40px 20px 0 0;
+    padding-right: 5%;
+  }
+
+  .description > p {
+    line-height: 2;
+  }
+
+  .vision_title {
+    padding: 0;
+  }
+}
+
+@media (max-width: 1366px) {
+  .image img {
+    position: absolute;
+    top: 120px;
+    display: block;
+    width: 65%;
+  }
+  .description {
+    text-align: justify;
+    padding: 50px 100px;
+    width: 70%;
+    margin-top: 20%;
+    height: 100%;
+    z-index: 10;
+  }
+  .vision_container {
+    justify-content: flex-end;
   }
 }
 </style>

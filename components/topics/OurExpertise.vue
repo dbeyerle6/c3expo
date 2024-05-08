@@ -138,7 +138,7 @@
 }
 
 .fade-in {
-  animation: fadeIn 1s;
+  animation: fadeIn 0.5s;
 }
 
 .creativity {
@@ -174,6 +174,36 @@
   opacity: 0;
 }
 
+@media (max-width: 768px) {
+  .expertise_container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .expertise_column_one {
+    width: 100%;
+    border-right: none;
+  }
+
+  .expertise_column_two {
+    width: 100%;
+    padding: 30px 10px;
+  }
+
+  .expertise_title {
+    font-size: 50px;
+  }
+  .expertise_text {
+    width: 80%;
+  }
+}
+
+
+@media (max-width: 1366px) {
+  .expertise_title {
+    font-size: 50px;
+  }
+}
 </style>
 <script setup lang="ts">
 import { ref } from 'vue';
@@ -188,22 +218,26 @@ import contact_person_icon from "@/static/images/contact_person_icon.svg"
 import production_icon from "@/static/images/production_icon.svg"
 import installation_icon from "@/static/images/installation_icon.svg"
 
-const images = [image1, image2, image3, image4, image5];
+const images = [image2, image3, image4, image5];
 
 const currentImageIndex = ref(0);
 const currentTextIndex = ref(-1);
 
 const isFirstClick = ref(true);  // Добавляем флаг для отслеживания первого клика
+const clickCount = ref(0);
 
 const nextImageAndText = () => {
+  // Увеличиваем счетчик кликов при каждом вызове функции
+  clickCount.value++;
+
   if (isFirstClick.value) {
     // Первый клик, только инкрементируем текст
     isFirstClick.value = false;
   } else {
-    // После первого клика, изменяем изображение
-    if (currentImageIndex.value < images.length - 1) {
+    // После первого клика, изменяем изображение, если кликов было меньше четырех
+    if (clickCount.value <= 4 && currentImageIndex.value < images.length - 1) {
       currentImageIndex.value++;
-    } else {
+    } else if (clickCount.value <= 4) {
       currentImageIndex.value = 0;
     }
   }
@@ -213,4 +247,6 @@ const nextImageAndText = () => {
     currentTextIndex.value++;
   }
 };
+
+
 </script>

@@ -30,6 +30,11 @@
   height: 100%;
   padding-bottom: 50px;
 
+  background-image: url("/assets/c3expoback.png");
+  background-size: 58%;
+  background-position: top -20% left 70%;
+  background-repeat: no-repeat;
+
 }
 
 .eb_image {
@@ -141,6 +146,45 @@
 
   .eb_text {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .eb_info_column h1 {
+    font-size: 60px;
+  }
+
+  .eb_info_column h2 {
+    font-size: 24px;
+  }
+
+  .eb_text {
+    font-size: 18px;
+  }
+
+  .eb_null_column {
+    display: none;
+  }
+
+  .eb_info_column {
+    flex: 40%;
+    display: flex;
+    flex-direction: column;
+    margin-right: 5%;
+    align-items: flex-end;
+    gap: 50px;
+    margin-top: 18%;
+  }
+
+  .eb_container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 50px;
+    flex-direction: column;
+  }
+  .eb_text {
+    padding: 0 30px;
   }
 }
 </style>

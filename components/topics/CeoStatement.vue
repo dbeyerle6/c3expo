@@ -26,6 +26,11 @@
   margin: 0 auto;
   padding: 40px;
   width: 90%;
+
+  background-image: url("/assets/c3expoback.png");
+  background-size: 58%;
+  background-position: top -20% left 80%;
+  background-repeat: space;
 }
 
 .ceo_profile {

@@ -32,12 +32,13 @@
         </div>
       </div>
     </div>
+    <div class="click-circle">Click!</div>
   </div>
 </template>
 
 <script setup>
 import {ref} from "vue";
-
+import gsap from "gsap";
 const showDiv1 = ref(true);
 const showDiv2 = ref(false);
 const props = defineProps({
@@ -45,15 +46,56 @@ const props = defineProps({
   showDiv2: Boolean
 });
 
-
+onMounted(() => {
+  // Анимация круга "Click!"
+  gsap.to('.click-circle', {
+    y: '-20%', // Двигать вверх на 20% от текущей позиции
+    repeat: -1, // Бесконечное повторение
+    yoyo: true, // Возврат в исходное положение
+    ease: 'power1.inOut', // Плавность движения
+    duration: 2 // Длительность одного цикла вверх-вниз
+  });
+});
 const toggleContent = () => {
-  showDiv1.value = !showDiv1.value;
-  showDiv2.value = !showDiv2.value;
+  if (showDiv1.value) {
+    // Анимация исчезновения влево для первого контейнера
+    gsap.to('.references_container', { x: -100, opacity: 0, onComplete: () => {
+        showDiv1.value = false;
+        showDiv2.value = true;
+        // Анимация появления справа для второго контейнера
+        gsap.fromTo('.slideTwo', { x: 100, opacity: 0 }, { x: 0, opacity: 1 });
+      }});
+  } else {
+    // Анимация исчезновения влево для второго контейнера
+    gsap.to('.slideTwo', { x: -100, opacity: 0, onComplete: () => {
+        showDiv2.value = false;
+        showDiv1.value = true;
+        // Анимация появления справа для первого контейнера
+        gsap.fromTo('.references_container', { x: 100, opacity: 0 }, { x: 0, opacity: 1 });
+      }});
+  }
 };
 </script>
 
 <style scoped>
-
+.click-circle {
+  position: fixed;
+  bottom: 10%; /* Начальная позиция в нижней части */
+  left: 50%; /* Центрирование по горизонтали */
+  transform: translateX(-50%); /* Точное центрирование текста */
+  width: 80px;
+  height: 80px;
+  background-color: #888888; /* Цвет фона */
+  color: white; /* Цвет текста */
+  border-radius: 50%; /* Сделать элемент круглым */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: "Century Gothic", sans-serif;
+}
 
 .slideTwo {
   display: flex; /* Используем flexbox для размещения колонок */

@@ -1,62 +1,41 @@
 <template>
   <footer class="footer-container">
-    <div class="footer-container-wrapper">
-<!--      <div class="column">-->
-<!--        <div class="column-content">-->
-
-<!--        </div>-->
-<!--      </div>-->
-      <div class="column">
-        <div class="column-content">
-          <h2 class="title">{{ $t('links.grc_name') }}</h2>
-          <div class="text_gap">
-            <a class="doc_button" :href="$t('links.gtc.supplier')" onClick="window.open($t('links.gtc.supplier'))" target="_blank">{{ $t('links.supplier_name') }}</a>
-            <a class="doc_button" :href="$t('links.gtc.client')" onClick="window.open($t('links.gtc.client'))" target="_blank">{{ $t('links.client_name') }}</a>
-<!--          <div class="doc_button" @click="openModal('links.gtc.client')">{{ $t('links.client_name') }}</div>-->
-<!--          <div class="doc_button" @click="openModal('links.gtc.supplier')">{{ $t('links.supplier_name') }}</div>-->
-          </div>
+    <div class="footer_logo"></div>
+    <div class="footer_nav">
+      <div class="footer_nav_gtc">
+        <h1 class="nav_gtc_title">{{$t('links.grc_name')}}</h1>
+        <div class="nav_gtc_links">
+          <p @click="openModal('links.gtc.client')">{{$t('links.client_name')}}</p>
+          <p @click="openModal('links.gtc.supplier')">{{$t('links.supplier_name')}}</p>
         </div>
       </div>
-      <div class="column">
-        <div class="column-content">
-          <div>
-            <h2 class="title">{{ $t('links.imprint_name') }}</h2>
-            <div class="doc_button" @click="openModal('links.imprint')">{{ $t('links.imprint_name') }}</div>
-          </div>
-          <div>
-            <h2 class="title">{{ $t('links.privacy_name') }}</h2>
-            <div class="doc_button" @click="openModal('links.privacy')">{{ $t('links.privacy_name') }}</div>
-          </div>
+      <div class="footer_nav_imprint">
+        <h1 @click="openModal('links.imprint')" class="nav_imprint_title">{{$t('links.imprint_name')}}</h1>
+      </div>
+      <div class="footer_nav_privacy">
+        <h1 @click="openModal('links.privacy')" class="nav_privacy_title">{{$t('links.privacy_name')}}</h1>
+      </div>
+      <div class="footer_nav_contacts">
+        <h1 class="nav_contacts_title">{{ $t('links.contact_us') }}</h1>
+        <div class="contact_us">
+          <img class="contact_us_logo" src="/static/images/footer_phone.png" alt=""/>
+          <a class="contact_us_text" href="tel:+490621554280">+49(0)621-554-280</a>
+        </div>
+        <div class="contact_us">
+          <img class="contact_us_logo" src="/static/images/footer_world.png" alt=""/>
+          <a class="contact_us_text" href="https://c3-expo.de">c3-expo.de</a>
+        </div>
+        <div class="contact_us">
+          <img class="contact_us_logo" src="/static/images/footer_mail.png" alt=""/>
+          <a class="contact_us_text" href="malito:info@c3expo.de">info@c3expo.de</a>
         </div>
       </div>
-      <div class="column">
-        <div class="column-content">
-          <h2 class="title">{{ $t('links.contact_us') }}</h2>
-          <div class="contact_us">
-            <img class="contact_us_logo" src="/assets/phone-call-svgrepo-com.svg" alt=""/>
-            <a class="contact_us_text" href="tel:+490621554280">+49(0)621-554-280</a>
-          </div>
-          <div class="contact_us">
-            <img class="contact_us_logo" src="/assets/mail-open-check-svgrepo-com.svg" alt=""/>
-            <a class="contact_us_text" href="malito:info@c3expo.de">info@c3expo.de</a>
-          </div>
-          <div class="contact_us">
-            <img class="contact_us_logo" src="/assets/earth-svgrepo-com.svg" alt=""/>
-            <a class="contact_us_text" href="https://c3-expo.de">c3-expo.de</a>
-          </div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="column-content jobs">
-          <div class="footer-logo"><img src="/assets/logo.png" alt=""></div>
-          <h2 class="doc_button" @click="openModal('links.gtc.client')">Jobs</h2>
-        </div>
+      <div class="footer_nav_jobs">
+        <h1>Jobs</h1>
       </div>
     </div>
-    <div class="footer-copyright">
-      <p class="footer-copyright-text">C3 EXPO. All rights reserved.</p>
-    </div>
-    <DocModal :isVisible="isModalVisible" :docUrl="currentDocUrl" @update:isVisible="isModalVisible = $event"/>
+    <div class="footer_copyright"></div>
+    <DocModal :isVisible="isModalVisible" :docUrl="currentDocUrl" @close="handleModalClose" />
   </footer>
 </template>
 
@@ -86,14 +65,89 @@ function openModal(translationKey: any) {
   currentDocUrl.value = t(translationKey);
   isModalVisible.value = true;
 }
+
+function handleModalClose() {
+  isModalVisible.value = false;
+}
 </script>
 
 <style scoped>
+
+@media (max-width: 768px) {
+  .footer_nav {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+}
+
+.footer_nav_imprint, .footer_nav_privacy, .footer_nav_jobs {
+  cursor: pointer;
+}
+
+.footer-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 230px;
+  background-color: #303030; /* или любой другой цвет фона */
+  box-shadow: 0 -5px 15px -5px rgba(54, 228, 218, 0.3);
+  border-top: 2px solid #36e4da;
+  padding-bottom: 30px;
+}
+
+.footer_nav {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  gap: 10px;
+  margin: 0 auto;
+
+}
+
+.footer_nav > div {
+  flex: 10%;
+  text-align: center;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer_nav > div > h1 {
+  color: #36e4da;
+  font-family: "Century Gothic", sans-serif;
+  font-size: 30px;
+  min-height: 40px;
+  margin: 30px 0 0 0
+}
+
+.nav_gtc_links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.nav_gtc_links > p {
+  margin: 0;
+  color: #fff;
+  font-family: "Century Gothic", sans-serif;
+  cursor: pointer;
+  font-size: 18px;
+}
+
 .contact_us {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 30px;
+  margin-left: 23px;
 }
 
 .contact_us_logo {
@@ -108,17 +162,10 @@ function openModal(translationKey: any) {
   font-family: "Century Gothic", sans-serif;
 }
 
-.footer-container {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 230px;
-  background-color: #303030; /* или любой другой цвет фона */
-  box-shadow: 0 -5px 15px -5px rgba(54, 228, 218, 0.3);
-  border-top: 2px solid #36e4da;
 
+.footer_nav_contacts > div > a {
+  color: #fff;
+  font-family: "Century Gothic", sans-serif;
 }
 
 .footer-container-wrapper {
@@ -129,6 +176,7 @@ function openModal(translationKey: any) {
   height: 200px;
   margin: 0 auto;
 }
+
 .text_gap {
   display: flex;
   flex-direction: column;
@@ -214,6 +262,10 @@ function openModal(translationKey: any) {
     height: 100%;
     margin: 0 auto;
   }
+}
+
+.contact_us_text {
+  font-weight: bold;
 }
 
 </style>

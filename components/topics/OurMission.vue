@@ -81,6 +81,7 @@
   height: 100%;
   background: rgb(0,0,0);
   background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(123,123,123,1) 100%, rgba(111,111,111,1) 100%, rgba(255,255,255,1) 100%, rgba(198,198,198,1) 100%);
+  flex-direction: column;
 }
 
 .description {

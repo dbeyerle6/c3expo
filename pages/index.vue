@@ -24,7 +24,7 @@
 
           <div class="video-container">
           <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop>
-            <source src="https://c3expotest.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
+            <source src="https://c3expo-europe.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
 <!--            <source src='/static/videos/c3expo-200px.mp4' type="video/mp4">-->
             Your browser does not support the video tag.
           </video>
@@ -36,7 +36,7 @@
         <div v-if="!isMobile" ref="threeContainer" class="three-container" id="threeJsBlock">
 
         </div>
-        <ul v-else class="mobile-menu">
+        <ul v-show="false" v-else class="mobile-menu">
           <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">
             {{ item.title }}
           </li>
