@@ -24,8 +24,8 @@
 
           <div class="video-container">
           <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop>
-            <source src="https://c3expo-europe.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
-<!--            <source src='/static/videos/c3expo-200px.mp4' type="video/mp4">-->
+            <source src="" type="video/mp4">
+<!--            https://c3expo-europe.b-cdn.net/c3expo-200px.mp4-->
             Your browser does not support the video tag.
           </video>
               <img class="mute_button" @click="toggleMute"v-if="isMuted" src="/assets/mute.svg" alt="">
@@ -84,7 +84,7 @@ const isMobile = computed(() => window.innerWidth <= 768);
 
 function initThreeJs() {
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 500);
   renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   threeContainer.value.appendChild(renderer.domElement);
@@ -93,6 +93,10 @@ function initThreeJs() {
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
   controls.enableZoom = false;
+  controls.enableRotate = true;
+  controls.enablePan = false;
+  controls.minPolarAngle = Math.PI / 2;
+  controls.maxPolarAngle = Math.PI / 2;
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
 
@@ -109,8 +113,8 @@ function initThreeJs() {
 
   camera.position.copy(initialCameraPosition);
 
-  const sphereRadius = window.innerWidth < 768 ? 2 : 5;
-  controls.minDistance = sphereRadius + 3; // Устанавливаем минимальное расстояние приближения
+  const sphereRadius = window.innerWidth < 768 ? 3 : 5;
+  controls.minDistance = sphereRadius + 1; // Устанавливаем минимальное расстояние приближения
 
   addSmallCylinders(sphereRadius, 300);
   addInvisibleCubes(); // Создаем невидимые кубы вокруг цилиндров
@@ -504,45 +508,9 @@ function handleScroll() {
 }
 
 
-function onTouchStart(event) {
-  if (event.touches.length === 1) {
-    // Сохраняем начальную позицию одиночного касания для скроллинга
-    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-  } else if (event.touches.length === 2) {
-    // Переключение OrbitControls для вращения сферы при двойном касании
-    controls.enabled = true;
-  }
-}
 
-function onTouchMove(event) {
-  if (event.touches.length === 1 && touchStart.value) {
-    // Вычисляем дельту движения для скроллинга
-    const deltaY = touchStart.value.y - event.touches[0].clientY;
-    window.scrollBy(0, deltaY);
-    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-  } else if (event.touches.length === 2) {
-    // Вращение сферы обрабатывается OrbitControls
-  }
-}
 
-function onTouchEnd(event) {
-  if (event.touches.length < 2) {
-    // Отключаем OrbitControls, когда количество касаний меньше двух
-    controls.enabled = false;
-  }
 
-  if (!event.touches.length && touchStart.value) {
-    // Обработка клика по цилиндру при одиночном касании
-    // Возможно, вам придется адаптировать логику onMouseClick для обработки касаний
-    onTouchClick(event);
-    touchStart.value = null;
-  }
-}
-
-function onTouchClick(event) {
-  // Здесь вам нужно адаптировать логику вашего onMouseClick для работы с событием касания
-  // Вместо event.clientX и event.clientY используйте event.changedTouches[0].clientX и event.changedTouches[0].clientY
-}
 
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
@@ -551,6 +519,9 @@ onMounted(() => {
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
   window.addEventListener('scroll', handleScroll);
+  window.addEventListener('touchstart', onTouchStart);
+  window.addEventListener('touchmove', onTouchMove);
+  window.addEventListener('touchend', onTouchEnd);
 });
 
 onUnmounted(() => {
@@ -558,9 +529,38 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('touchstart', onTouchStart);
+  window.removeEventListener('touchmove', onTouchMove);
+  window.removeEventListener('touchend', onTouchEnd);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
+
+function onTouchStart(event) {
+  if (event.touches.length === 1) {
+    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  } else if (event.touches.length === 2) {
+    controls.enabled = true;
+  }
+}
+
+function onTouchMove(event) {
+  if (event.touches.length === 1 && touchStart.value) {
+    const deltaY = touchStart.value.y - event.touches[0].clientY;
+    window.scrollBy(0, deltaY);
+    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  }
+}
+
+function onTouchEnd(event) {
+  if (event.touches.length < 2) {
+    controls.enabled = false;
+  }
+  if (!event.touches.length) {
+    touchStart.value = null;
+  }
+}
+
 
 defineExpose({
   handleScroll

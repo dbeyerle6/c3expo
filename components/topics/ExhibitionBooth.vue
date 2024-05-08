@@ -29,12 +29,10 @@
   width: 100%;
   height: 100%;
   padding-bottom: 50px;
-
   background-image: url("/assets/c3expoback.png");
   background-size: 58%;
   background-position: top -20% left 70%;
   background-repeat: no-repeat;
-
 }
 
 .eb_image {
@@ -94,60 +92,7 @@
   margin: 0;
   line-height: 1.5;
 }
-@media (max-width: 768px) {
-  .eb_container {
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .eb_image {
-    position: relative;
-    width: 100%;
-    margin-top: 20%;
-  }
-
-  .eb_image img {
-    position: relative;
-    width: 100%;
-
-  }
-
-  .eb_first_column {
-    display: none;
-    margin: 0 20px;
-  }
-
-  .eb_second_column {
-    margin: 0 20px;
-    padding-top: 50px;
-    width: 90%;
-  }
-
-  .eb_first_row {
-    flex-direction: column;
-  }
-
-  .eb_null_column {
-    display: none;
-  }
-
-  .eb_info_column {
-    flex: 100%;
-    margin-right: 0;
-  }
-
-  .eb_info_column h1 {
-    font-size: 48px;
-  }
-
-  .eb_info_column h2 {
-    font-size: 22px;
-  }
-
-  .eb_text {
-    font-size: 18px;
-  }
-}
 
 @media (max-width: 1366px) {
   .eb_info_column h1 {
@@ -185,6 +130,66 @@
   }
   .eb_text {
     padding: 0 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .eb_container {
+    flex-direction: column;
+    align-items: center;
+    background-image: url("/assets/c3expoback.png");
+    background-size: 58%;
+    background-position: top -20% left 70%;
+    background-repeat: no-repeat;
+  }
+
+  .eb_image {
+    position: relative;
+    width: 100%;
+    margin-top: 20%;
+  }
+
+  .eb_image img {
+    position: relative;
+    width: 100%;
+
+  }
+
+  .eb_first_column {
+    display: none;
+    margin: 0 20px;
+  }
+
+  .eb_second_column {
+    margin: 0 20px;
+    padding-top: 50px;
+    width: 90%;
+  }
+
+  .eb_first_row {
+    flex-direction: column;
+  }
+
+  .eb_null_column {
+    display: none;
+  }
+
+  .eb_info_column {
+    flex: 100%;
+    margin: 0;
+    align-items: flex-start;
+  }
+
+  .eb_info_column h1 {
+    font-size: 48px;
+  }
+
+  .eb_info_column h2 {
+    font-size: 22px;
+  }
+
+  .eb_text {
+    font-size: 18px;
   }
 }
 </style>
