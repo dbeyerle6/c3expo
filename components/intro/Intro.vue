@@ -1,5 +1,5 @@
 <template>
-
+  <div class="intro_container">
   <video class="intro-video" ref="videoRef" autoplay muted>
 <!--   <source src="https://c3expo.b-cdn.net/intro.mp4" type="video/mp4">-->
   <source src="/static/videos/intro.mp4" type="video/mp4">
@@ -11,6 +11,7 @@
       {{ $t('ready_for_exp')}}
     </div>
   </transition>
+  </div>
 </template>
 <script setup>
 
@@ -107,6 +108,27 @@ watch(showClickableText, (newValue) => {
       0 0 2px #929292, /* Блеск */
       0 0 10px #cccccc, /* Дополнительный блеск */
       0 0 20px #999999; /* Распространение света */
+}
+
+
+@media (max-width: 768px) {
+  .clickable-text {
+    font-size: 18px;
+    width: 60%;
+    text-align: center;
+    margin-bottom: 100px;
+  }
+
+  .intro-video {
+  }
+
+  .intro_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100vh;
+
+  }
 }
 
 

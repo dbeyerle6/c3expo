@@ -2,7 +2,9 @@
 <!--  <div v-if="isUnderConstruction" class="isUnder">-->
 <!--    <h2>Website is under construction</h2>-->
 <!--  </div>-->
-
+  <div>
+    <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
+  </div>
   <div v-if="!showIntro" class="logo-container">
     <img src="/assets/logo.png" alt="Logo" class="logo"/>
   </div>
@@ -11,7 +13,6 @@
     <option value="de">DE <img src="assets/germany.png" alt="Germany"/></option>
   </select>
   <div class="container" @wheel="handleScroll">
-    <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     <div v-if="showIntro" class="intro-container" :key="componentKey">
       <transition name="intro-fade">
         <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>
@@ -23,7 +24,7 @@
 
           <div class="video-container">
           <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop>
-            <source src="https://c3expotest.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
+            <source src="https://c3expo-europe.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
 <!--            <source src='/static/videos/c3expo-200px.mp4' type="video/mp4">-->
             Your browser does not support the video tag.
           </video>
@@ -35,7 +36,7 @@
         <div v-if="!isMobile" ref="threeContainer" class="three-container" id="threeJsBlock">
 
         </div>
-        <ul v-else class="mobile-menu">
+        <ul v-show="false" v-else class="mobile-menu">
           <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">
             {{ item.title }}
           </li>
