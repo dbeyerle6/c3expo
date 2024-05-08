@@ -33,14 +33,14 @@
           </div>
         </div>
 
-        <div v-if="!isMobile" ref="threeContainer" class="three-container" id="threeJsBlock">
+        <div ref="threeContainer" class="three-container" id="threeJsBlock">
 
         </div>
-        <ul v-show="false" v-else class="mobile-menu">
-          <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">
-            {{ item.title }}
-          </li>
-        </ul>
+<!--        <ul v-else class="mobile-menu">-->
+<!--          <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">-->
+<!--            {{ item.title }}-->
+<!--          </li>-->
+<!--        </ul>-->
         <Footer v-if="!showIntro" id="footerBlock"/>
       </div>
     </transition>
