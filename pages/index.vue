@@ -24,9 +24,8 @@
 
           <div class="video-container">
           <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop>
-            <source src="" type="video/mp4">
-<!--            https://c3expo-europe.b-cdn.net/c3expo-200px.mp4-->
-            Your browser does not support the video tag.
+            <source src="https://c3expo-europe.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
+            Your browser does not support the video.
           </video>
               <img class="mute_button" @click="toggleMute"v-if="isMuted" src="/assets/mute.svg" alt="">
               <img class="mute_button" @click="toggleMute" v-else src="/assets/volume.svg" alt="">
@@ -539,28 +538,29 @@ onUnmounted(() => {
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-  } else if (event.touches.length === 2) {
-    controls.enabled = true;
+    event.preventDefault(); // Может помочь предотвратить стандартное поведение скроллинга
   }
 }
 
 function onTouchMove(event) {
   if (event.touches.length === 1 && touchStart.value) {
+    const deltaX = touchStart.value.x - event.touches[0].clientX;
     const deltaY = touchStart.value.y - event.touches[0].clientY;
-    window.scrollBy(0, deltaY);
-    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
+      controls.handleMouseMoveRotate({ clientX: event.touches[0].clientX, clientY: event.touches[0].clientY });
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    } else {
+      window.scrollBy(0, deltaY); // Вертикальное движение
+      touchStart.value = { y: event.touches[0].clientY };
+    }
+    event.preventDefault(); // Это предотвращает дополнительный скролл
   }
 }
 
 function onTouchEnd(event) {
-  if (event.touches.length < 2) {
-    controls.enabled = false;
-  }
-  if (!event.touches.length) {
-    touchStart.value = null;
-  }
+  touchStart.value = null; // Сбросить начальную точку касания
 }
-
 
 defineExpose({
   handleScroll
