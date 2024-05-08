@@ -2,7 +2,9 @@
   <div v-if="isVisible" class="modal">
     <div class="modal-content">
       <span class="close" @click="closeModal">&times;</span>
-      <a class="download-button" :href="docUrl" download @click.stop>Download</a>
+      <a class="download-button" :href="docUrl" download @click.stop>
+        <img src="/static/images/download.svg" alt="">
+      </a>
       <div class="document-content" v-html="docContent" style="padding: 20px;"></div>
     </div>
   </div>
@@ -111,8 +113,6 @@ function closeModal() {
   position: absolute; /* Позиционирование относительно модального окна */
   top: 10px;
   right: 10px;
-  padding: 5px 10px;
-  background-color: #007BFF;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -120,9 +120,13 @@ function closeModal() {
   cursor: pointer;
   transition: 1s;
 }
+.download-button > img {
+
+  width: 30px;
+  height: 30px;
+}
 
 .download-button:hover {
-  background-color: #36e4da;
   transition: 1s;
 }
 

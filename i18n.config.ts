@@ -91,7 +91,6 @@ export default defineI18nConfig(() => ({
             ready_for_exp: 'READY for YOUR experience, then click on me!',
             our_mission: {
                 title: 'Our Mission',
-
                 subtitle: 'Mission',
                 text1: `<strong>Partnerschaftliches Handeln</strong> - Wir <span style="color: #36e4da">kommunizieren</span>. <span style="color: #36e4da">agieren</span> und <span style="color: #36e4da">handeln</span> immer auf Augenhöhe, um die <span style="color: #36e4da">Bedürfnisse</span> unserer Kunden bedienen, zu können. bevor diese erst entstehen! Entscheidend, hierfür ist, dass unser Handeln geprägt, ist, von <span style="color: #36e4da">Zuverlässigkeit</span> und <span style="color: #36e4da">Vertrauen</span>, die in der <span style="color: #36e4da">DNA</span> unserer Firmenphilosophie tief verankert ist.`,
                 text2: `<strong>Qualitätsversprechen</strong> - Ganz nach dem Motto „<span style="color: #36e4da">promise only what you can keep</span>" ist die Herangehensweise, unseres Handelns. Innerhalb aller Bereiche. unseres. <span style="color: #36e4da">Proiektaeschäfts</span>, halten wir unser <span style="color: #36e4da">Qualitätsversprechen</span>. Das schafft <span style="color: #36e4da">Vertrauen</span> bei unseren Kunden und bildet die Basis unserer Dienstleistung.`
