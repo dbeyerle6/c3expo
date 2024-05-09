@@ -29,6 +29,9 @@
         <div class="modal_info" v-if="props.index === 105">
           <Herritage/>
         </div>
+        <div class="modal_info" v-if="props.index === 777">
+          <Jobs/>
+        </div>
       </div>
     </div>
   </transition>
@@ -45,6 +48,7 @@ import References from "~/components/topics/References.vue";
 import Herritage from "~/components/topics/Herritage.vue";
 import OurExpertise from "~/components/topics/OurExpertise.vue";
 import WorldWideNetwork from "~/components/topics/WorldWideNetwork.vue";
+import Jobs from "~/components/topics/Jobs.vue";
 
 
 const props = defineProps({

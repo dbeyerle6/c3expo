@@ -118,7 +118,7 @@ watch(showClickableText, (newValue) => {
     font-size: 22px;
     width: 60%;
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
   }
 
   .intro-video {
