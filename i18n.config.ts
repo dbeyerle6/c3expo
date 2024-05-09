@@ -71,6 +71,12 @@ export default defineI18nConfig(() => ({
                 text1: 'BASF SE Milan Expo - The motto was: <span style="color: #36e4da">Can you see the big picture?</span> Through the arrangement of furniture and exhibits, which in their <span style="color: #36e4da">symbiosis</span> from a certain angle reveal a big overall picture. Each individual piece of furniture and exhibit contains a small part of the overall composition. The conceptual approach came from <span style="color: #36e4da">DING3000</span> and was brought to <span style="color: #36e4da">life</span> with our <span style="color: #36e4da">cooperation</span> in the historic old town of Milan.',
                 text2: 'BASF SE Düsseldorf Plastics Fair – The Mecca for the international <span style="color: #36e4da">plastics industry</span>. Since the beginning of the <span style="color: #36e4da">2000s</span>, <span style="color: #36e4da">C³ Expo GmbH</span> has been supporting BASF every four years with the <span style="color: #36e4da">developing concepts</span> for nthe <span style="color: #36e4da">staging</span> of its <span style="color: #36e4da">exhibits</span> and <span style="color: #36e4da">products</span> and has looked after them from the beginning, through the execution on site, right through to the completion of the project. As an <span style="color: #36e4da">in-house service provider</span>, C³ Expo supports BASF with all its <span style="color: #36e4da">expertise</span> in a <span style="color: #36e4da">partnership</span> that has now lasted more than 20 years with the heavyweight of the German and international chemical industry.',
             },
+            jobs: {
+                subtitle: 'Offene Stellen ',
+                text1: `Are you tired of a boring day at the office? Do you want to take on a challenge again and show what you can do?  Is the idea of service deeply rooted in your DNA and is customer orientation your top priority? If you've just nodded at least twice, then take a look at our vacancies! You can find out what we can offer you and what benefits you will enjoy at C³ Expo in the job profile.`,
+                text2: `Nothing for you, no problem! If you think you would be an absolute plus for the company, just send us your speculative application and we will see if we can offer you a position. 
+`
+            },
             links: {
                 privacy_name: 'Privacy Policy',
                 grc_name: `GTC's`,
@@ -86,7 +92,7 @@ export default defineI18nConfig(() => ({
                 privacy: '/docs/Datenschutzerkl%C3%A4rung_en.docx',
                 imprint: '/docs/Impressum_en.docx',
             },
-            cities : ['Germany', 'Switzerland', 'France', 'Italy', 'Austria', 'Spain', 'Sweden', 'Portugal', 'Belgium', 'Netherlands', 'United Kingdom', 'China', 'South Africa', 'Thailand', 'Madagascar', 'United Arab Emirates', 'United States of America', 'Australia', 'Algeria'],
+            cities: ['Germany', 'Switzerland', 'France', 'Italy', 'Austria', 'Spain', 'Sweden', 'Portugal', 'Belgium', 'Netherlands', 'United Kingdom', 'China', 'South Africa', 'Thailand', 'Madagascar', 'United Arab Emirates', 'United States of America', 'Australia', 'Algeria'],
         },
         de: {
             ready_for_exp: 'READY for YOUR experience, then click on me!',
@@ -156,6 +162,11 @@ export default defineI18nConfig(() => ({
                 title: 'Referenzen',
                 text1: 'BASF SE Mailand Expo - Das Motto war: <span style="color: #36e4da">Siehst du das Big Picture?</span> Durch die Anordnung von Möbeln und Exponaten, die in ihrer <span style="color: #36e4da">Symbiose</span> von einem bestimmten Blickwinkel ein großes Gesamtbild erkennen lässt. Jedes einzelne Möbelstück und Exponat beinhaltet einen kleinen Teil zur Gesamtkomposition. Konzeptioneller Ansatz kam <span style="color: #36e4da">DING3000</span> und wurde mit unserer <span style="color: #36e4da">Kooperation</span> in der historischen Altstadt von Mailand zum <span style="color: #36e4da">Leben</span> erweckt.',
                 text2: 'BASF SE Düsseldorf <span style="color: #36e4da">Kunststoffmesse</span> – Das Mekka für die internationale Kunststoffindustrie. Seit Beginn der <span style="color: #36e4da">2000er</span>, unterstützt die <span style="color: #36e4da">C³ Expo GmbH</span> konstant alle vier Jahre die BASF bei der <span style="color: #36e4da">Konzepterarbeitung</span> in der <span style="color: #36e4da">Inszenierung</span> ihrer <span style="color: #36e4da">Exponate</span> und <span style="color: #36e4da">Produkte</span> und betreut diese von Beginn an, über die Ausführung vor Ort, bis hin zur Abwicklung des Projekts. Als <span style="color: #36e4da">Haus und Hof-Dienstleister</span> steht die C³ Expo der BASF mit all ihrer Expertise in einer mittlerweile über 20 jährigen <span style="color: #36e4da">Partnerschaft</span>, mit dem Schwergewicht der deutschen und internationalen Chemieindustrie, zur Seite.',
+            },
+            jobs: {
+                subtitle: 'Offene Stellen ',
+                text1: 'Du hast keine Lust mehr auf einen langweiligen Alltag im Büro? Du möchtest dich mal wieder einer Herausforderung stellen und zeigen was du kannst?  Der Dienstleistungsgedanke ist tief in deiner DNA verankert und Kundenorientierung hat oberste Priorität für dich? Du hast gerade mindestens 2 mal genickt, dann schaue doch mal, was wir so an offenen Stellen haben! Was wir dir bieten können und welche Vorteile du bei der C³ Expo genießt, entnimmst du dem Stellenprofil.',
+                text2: 'Nichts dabei für dich? Kein Problem! Wenn du der Meinung bist, ein absolutes Plus für die Firma zu sein, dann schick uns einfach deine Initiativbewerbung zu und wir schauen, ob wir dir vielleicht doch eine Stelle anbieten können.',
             },
             links: {
                 privacy_name: 'Datenschutzrichtlinie',

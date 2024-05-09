@@ -31,11 +31,18 @@
         </div>
       </div>
       <div class="footer_nav_jobs">
-        <h1>Jobs</h1>
+        <h1 @click="openJobsModal">Jobs</h1>
       </div>
     </div>
-    <div class="footer_copyright"></div>
+    <div class="footer_copyright">
+        <div class="copyrights">
+          <img width="10" height="10" src="/static/images/copyright.svg" alt="">
+          <p>2024 – C³ Expo  GmbH</p>
+        </div>
+
+    </div>
     <DocModal :isVisible="isModalVisible" :docUrl="currentDocUrl" @close="handleModalClose" />
+    <Modal :isVisible="isJobsModalVisible" :index="777" @update:isVisible="closeModal" />
   </footer>
 </template>
 
@@ -46,6 +53,7 @@ import DocModal from "~/components/docmodal/DocModal.vue";
 
 const {t, locale} = useI18n();
 const isModalVisible = ref(false);
+const isJobsModalVisible = ref(false);
 const currentDocUrl = ref('');
 
 // Функция для обновления URL документа
@@ -57,6 +65,15 @@ function updateDocUrl() {
 watch(locale, () => {
   updateDocUrl();
 });
+
+function openJobsModal  () {
+  isJobsModalVisible.value = true;
+}
+
+function closeModal() {
+  isJobsModalVisible.value = false
+  resetCameraAndResumeAnimation(); // Возвращаем камеру к исходному положению
+}
 
 // Инициализация с текущим языком
 updateDocUrl();
@@ -161,6 +178,28 @@ function handleModalClose() {
   font-family: "Century Gothic", sans-serif;
 }
 
+.footer_copyright {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 5%;
+  margin-top: 10px;
+}
+.copyrights {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  height: 20px;
+  width: 50%;
+}
+
+.copyrights > p {
+  color: #fff;
+  font-family: "Century Gothic", sans-serif;
+  font-size: 12px;
+}
+
 
 .footer_nav_contacts > div > a {
   color: #fff;
@@ -260,6 +299,17 @@ function handleModalClose() {
     align-items: center;
     height: 100%;
     margin: 0 auto;
+  }
+
+  .footer_nav {
+    padding-top: 40px;
+  }
+  .footer_nav > div > h1 {
+    color: #36e4da;
+    font-family: "Century Gothic", sans-serif;
+    font-size: 26px;
+    min-height: 40px;
+    margin: 10px 0 0 0
   }
 }
 
