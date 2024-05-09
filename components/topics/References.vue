@@ -83,15 +83,15 @@ const toggleContent = () => {
   bottom: 10%; /* Начальная позиция в нижней части */
   left: 50%; /* Центрирование по горизонтали */
   transform: translateX(-50%); /* Точное центрирование текста */
-  width: 80px;
-  height: 80px;
+  width: 40px;
+  height: 40px;
   background-color: #888888; /* Цвет фона */
   color: white; /* Цвет текста */
   border-radius: 50%; /* Сделать элемент круглым */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 10px;
   text-transform: uppercase;
   font-weight: bold;
   font-family: "Century Gothic", sans-serif;

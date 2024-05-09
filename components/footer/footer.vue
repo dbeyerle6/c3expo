@@ -121,7 +121,7 @@ function handleModalClose() {
 .footer_nav > div > h1 {
   color: #36e4da;
   font-family: "Century Gothic", sans-serif;
-  font-size: 30px;
+  font-size: 26px;
   min-height: 40px;
   margin: 30px 0 0 0
 }

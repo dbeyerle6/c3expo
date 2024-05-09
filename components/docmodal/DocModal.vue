@@ -14,6 +14,7 @@
 import { ref, onMounted, watch } from 'vue';
 import mammoth from 'mammoth';
 
+
 const props = defineProps({
   isVisible: Boolean,
   docUrl: String
@@ -74,7 +75,7 @@ function closeModal() {
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 600px;
-  height: 800px;
+  height: 80vh;
   width: 80%;
   overflow-y: auto; /* Добавляет вертикальную прокрутку, если содержимое выходит за пределы высоты */
   margin: 20px; /* Дополнительные отступы от краев экрана */

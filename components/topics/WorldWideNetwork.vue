@@ -1,7 +1,7 @@
 <template>
     <div class="www">
       <div class="title_box">
-        <h1>Weltweites Messeprogramm? Kein Problem! <br> Hier waren wir bereits tätig!
+        <h1>{{ $t('world_wide_network.subtitle')}}
         </h1>
 
       </div>
@@ -75,6 +75,7 @@
   line-height: 2;
   background: rgb(87,87,87);
   background: linear-gradient(90deg, rgba(87,87,87,1) 0%, rgba(0,0,0,1) 100%);
+  width: 60%;
 }
 
 .map_marker {
