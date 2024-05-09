@@ -77,6 +77,7 @@ watch(showClickableText, (newValue) => {
 .intro-video {
   width: 100%;
   height: 99vh;
+  transform: none;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -112,14 +113,16 @@ watch(showClickableText, (newValue) => {
 
 
 @media (max-width: 768px) {
+
   .clickable-text {
-    font-size: 18px;
+    font-size: 22px;
     width: 60%;
     text-align: center;
     margin-bottom: 100px;
   }
 
   .intro-video {
+    transform: scale(1.80); /* Увеличивает видео на 35% */
   }
 
   .intro_container {
@@ -127,6 +130,7 @@ watch(showClickableText, (newValue) => {
     justify-content: center;
     align-items: center;
     max-height: 100vh;
+    overflow: hidden;
 
   }
 }

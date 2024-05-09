@@ -6,7 +6,6 @@ export default defineI18nConfig(() => ({
             ready_for_exp: 'READY for YOUR experience, then click on me!',
             our_mission: {
                 title: 'Our Mission',
-
                 subtitle: 'Mission',
                 text1: `<strong>Collaborative Action</strong> - We <span style="color: #36e4da">communicate</span>, <span style="color: #36e4da">act</span>, and <span style="color: #36e4da">conduct business</span> always at eye level, in order to serve the <span style="color: #36e4da">needs</span> of our clients even before they arise! Crucial for this is that our actions are characterized by <span style="color: #36e4da">reliability</span> and <span style="color: #36e4da">trust</span>, which are deeply rooted in the <span style="color: #36e4da">DNA</span> of our company philosophy.`,
                 text2: '<strong>Quality Promise</strong> - True to the motto "<span style="color: #36e4da">promise only what you can deliver</span>," is the approach to our actions. Within all areas of our <span style="color: #36e4da">project business</span>, we maintain our <span style="color: #36e4da">quality promise</span>. This creates <span style="color: #36e4da">trust</span> among our customers and forms the basis of our service.',
@@ -46,13 +45,15 @@ export default defineI18nConfig(() => ({
                 date5: `2024`,
             },
             product: {
-                title: 'Exhibition booth',
+                title: 'Product',
+                title2: 'Exhibition booth',
                 subtitle: 'Architecture as an advertising tool',
                 text1: 'An exhibition booth is more than just a composition of different components! Visitors should be taken on a journey when they enter the stand, where they are told a story - about the exhibitor, its products and innovations, the values it stands for, but above all that it is there for them personally,',
                 text2: 'taking care of their needs and advising them. It is in this environment of selected materials, colors, inserts, lighting and architectural forms that the space for encounters is created. Customers, partners and even friends meet in a place that is the hub of visitors and exhibitors for a few days. We create, plan, produce and build this space for you, wherever you are in the world!'
             },
             world_wide_network: {
                 title: 'World Wide Network',
+                subtitle: `Worldwide trade fair program, no problem, we have already been active here!`,
                 text: 'We are not personally represented everywhere, but we have a select global network of selected partners who unite us through the same values and dedication to the industry. This enables us to keep our quality promise for our customers worldwide.',
             },
             ceo_statement: {
@@ -114,7 +115,7 @@ export default defineI18nConfig(() => ({
                 text4_title: 'Montage',
             },
             heritage: {
-                title: 'Heritage',
+                title: 'Unsere Geschichte',
                 subtitle: 'Unsere History',
                 text1: `Alles begann, als Thomas Dieter Beyerle <span style="color: #36e4da">1995</span> die Vision hatte, Räume zu schaffen, in denen Begegnungen stattfinden und Emotionen geweckt werden. Dies war der Startschuss für die Gründung von`,
                 date1: '1995',
@@ -130,13 +131,15 @@ export default defineI18nConfig(() => ({
                 date5: `2024`,
             },
             product: {
-                title: 'Messestand',
+                title: 'Produkt',
+                title2: 'Messestand',
                 subtitle: 'Architektur als Werbemaßnahme',
                 text1: 'Ein Messestand ist mehr als eine reine Komposition von verschiedenen Bauteilen! Der Besucher soll beim Betreten des Standes auf eine Reise mitgenommen werden, bei dem ihm eine Geschichte erzählt wird – über den Aussteller, dessen Produkte und Innovationen, die Werte, für die er steht, aber vor allem, bekommt er das Gefühl vermittelt,',
                 text2: 'dass er persönlich bereut wird, sich seiner Bedürfnisse angenommen und er umfassend beraten wird. In diesem Umfeld von ausgewählten Materialien, Farben, Inszinierungen, Beleuchtungen und architektonischen Formen, entsteht der Raum der Begegnung. Kunden, Partner und sogar Freunde, treffen sich an einem Ort, der für ein paar Tage den Mittelpunkt von Besuchern und Ausstellern bildet. Diesen Ort kreieren wir, planen wir, produzieren und bauen wir, egal wo auf der Welt, für Sie!\n'
             },
             world_wide_network: {
-                title: 'World Wide Network',
+                title: 'Weltweites Netzwerk',
+                subtitle: `Weltweites Messeprogramm? Kein Problem! Hier waren wir bereits tätig!`,
                 text: 'Wir sind nicht überall persönlich vertreten, aber wir verfügen über ein ausgewähltes globales Netzwerk an ausgewählten Partner, die uns durch die gleichen Werte und die Hingabe zur Branche verbinden. So sind wir in der Lage, für unsere Kunden, stets unser Qualitätsversprechen weltweit einhalten zu können.',
             },
             ceo_statement: {
@@ -150,7 +153,7 @@ export default defineI18nConfig(() => ({
                 text4: `Die <span style="color: #36e4da">Erfolgsgeschichte</span> der C³ Expo soll noch viele weitere Kapitel schreiben. Aus diesem Grund ist unser <span style="color: #36e4da">Wertegerüst</span> durch den partnerschaftlichen Gedanken geprägt und bestimmt unser Handeln.`
             },
             references: {
-                title: 'References',
+                title: 'Referenzen',
                 text1: 'BASF SE Mailand Expo - Das Motto war: <span style="color: #36e4da">Siehst du das Big Picture?</span> Durch die Anordnung von Möbeln und Exponaten, die in ihrer <span style="color: #36e4da">Symbiose</span> von einem bestimmten Blickwinkel ein großes Gesamtbild erkennen lässt. Jedes einzelne Möbelstück und Exponat beinhaltet einen kleinen Teil zur Gesamtkomposition. Konzeptioneller Ansatz kam <span style="color: #36e4da">DING3000</span> und wurde mit unserer <span style="color: #36e4da">Kooperation</span> in der historischen Altstadt von Mailand zum <span style="color: #36e4da">Leben</span> erweckt.',
                 text2: 'BASF SE Düsseldorf <span style="color: #36e4da">Kunststoffmesse</span> – Das Mekka für die internationale Kunststoffindustrie. Seit Beginn der <span style="color: #36e4da">2000er</span>, unterstützt die <span style="color: #36e4da">C³ Expo GmbH</span> konstant alle vier Jahre die BASF bei der <span style="color: #36e4da">Konzepterarbeitung</span> in der <span style="color: #36e4da">Inszenierung</span> ihrer <span style="color: #36e4da">Exponate</span> und <span style="color: #36e4da">Produkte</span> und betreut diese von Beginn an, über die Ausführung vor Ort, bis hin zur Abwicklung des Projekts. Als <span style="color: #36e4da">Haus und Hof-Dienstleister</span> steht die C³ Expo der BASF mit all ihrer Expertise in einer mittlerweile über 20 jährigen <span style="color: #36e4da">Partnerschaft</span>, mit dem Schwergewicht der deutschen und internationalen Chemieindustrie, zur Seite.',
             },
