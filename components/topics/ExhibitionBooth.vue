@@ -1,55 +1,88 @@
 <template>
   <div class="eb_container">
+    <div>
     <div class="eb_image">
       <img src="/static/images/unsere_expertiese3.jpg" alt="">
     </div>
-
-    <div class="eb_first_column">
-
+    <div class="eb_info_column">
+      <h1 class="eb_title" v-html="$t('product.title2')"></h1>
+      <h2 class="eb_subtitle" v-html="$t('product.subtitle')"></h2>
+      <p class="eb_text" v-html="$t('product.text1')"></p>
     </div>
-    <div class="eb_second_column">
-      <div class="eb_first_row">
-        <div class="eb_null_column"></div>
-        <div class="eb_info_column">
-          <h1 class="eb_text" v-html="$t('product.title')"></h1>
-          <h2 class="eb_text" v-html="$t('product.subtitle')"></h2>
-          <p class="eb_text" v-html="$t('product.text1')"></p>
-        </div>
-      </div>
-      <div  class="eb_second_row">
-        <p class="eb_text" v-html="$t('product.text2')"></p>
-      </div>
     </div>
+    <div  class="eb_second_row">
+      <p class="eb_text" v-html="$t('product.text2')"></p>
+    </div>
+    <span class="gradient_background"></span>
   </div>
 
 </template>
 <style scoped>
+
+.gradient_background {
+  position: absolute;
+  background: rgb(0,0,0);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(93,90,90,1) 24%, rgba(59,58,58,1) 100%);
+  width: 73%;
+  z-index: 1;
+  height: 100%;
+  right: 0;
+  margin-top: 100px;
+}
+
 .eb_container {
   display: flex;
   width: 100%;
   height: 100%;
-  padding-bottom: 50px;
+  flex-direction: column;
   background-image: url("/assets/c3expoback.png");
-  background-size: 58%;
-  background-position: top -20% left 70%;
+  background-size: 20%;
+  background-position: bottom -30% left 5% ;
   background-repeat: no-repeat;
+
+}
+.eb_container > div {
+  display: flex;
+  flex-direction: row;
+}
+
+.eb_info_column, .eb_second_row, .eb_image {
+  z-index: 5;
 }
 
 .eb_image {
-  position: absolute;
+  width: 65%;
+  margin: 100px 40px 20px 0;
 }
 
 .eb_image img {
-  width: 65%;
+  width: 100%;
   padding-bottom: 2px;
   border-bottom: 1px solid #36e4da;
 }
 
+
+.eb_text {
+  text-align: justify;
+}
+
+.eb_second_row {
+  margin-right: 5%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.eb_second_row > p {
+  width: 70%;
+}
+
+
+
 .eb_first_column {
-  flex: 35%;
+  flex: 38%;
 }
 .eb_second_column {
-  flex: 65%;
+  flex: 62%;
   display: flex;
   flex-direction: column;
   z-index: 300;
@@ -61,15 +94,16 @@
 }
 
 .eb_null_column {
-  flex: 60%;
+  width: 50%;
+  height: 500px;
 }
 .eb_info_column {
   flex: 40%;
   display: flex;
   flex-direction: column;
   margin-right: 5%;
-  gap: 50px;
-  margin-top: 7%;
+  gap: 20px;
+  margin-top: 140px;
 }
 
 
@@ -83,6 +117,10 @@
   font-size: 26px;
   font-family: "Century Gothic", sans-serif;
   color: #fff;
+}
+
+.eb_title {
+  margin: 0;
 }
 
 .eb_text {
@@ -142,55 +180,42 @@
     background-position: top -20% left 70%;
     background-repeat: no-repeat;
   }
-
   .eb_image {
-    position: relative;
     width: 100%;
-    margin-top: 20%;
   }
 
-  .eb_image img {
-    position: relative;
+  .eb_image > img {
     width: 100%;
-
   }
 
-  .eb_first_column {
-    display: none;
-    margin: 0 20px;
-  }
-
-  .eb_second_column {
-    margin: 0 20px;
-    padding-top: 50px;
-    width: 90%;
-  }
-
-  .eb_first_row {
+  .eb_container > div {
+    display: flex;
     flex-direction: column;
   }
-
-  .eb_null_column {
-    display: none;
+  .gradient_background {
+    width: 100%;
+    min-height: 1300px;
+    height: 100%;
   }
 
   .eb_info_column {
     flex: 100%;
+    display: flex;
+    flex-direction: column;
     margin: 0;
     align-items: flex-start;
+    gap: 50px;
   }
 
-  .eb_info_column h1 {
-    font-size: 48px;
+  .eb_title, .eb_subtitle {
+    padding: 0 30px;
+    margin: 0;
   }
 
-  .eb_info_column h2 {
-    font-size: 22px;
+  .eb_second_row > p {
+    width: 90%;
   }
 
-  .eb_text {
-    font-size: 18px;
-  }
 }
 </style>
 <script setup lang="ts">

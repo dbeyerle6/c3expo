@@ -83,6 +83,7 @@
   margin-left: 10%;
   background: rgb(0,0,0);
   background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(123,123,123,1) 54%, rgba(111,111,111,1) 100%, rgba(255,255,255,1) 100%, rgba(0,0,0,1) 100%);
+  margin-right: -30px;
 }
 
 .expertise_title {

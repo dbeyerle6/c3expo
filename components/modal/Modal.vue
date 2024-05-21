@@ -2,11 +2,12 @@
   <transition name="modal">
     <div class="modal-overlay" v-if="isVisible" @click="handleOverlay">
       <div class="modal-content" ref="modalContentRef">
-
-        <div class="logo">
-          <img src="/static/images/topic_logo.png" alt="EXPO">
+        <div class="modal_header">
+          <div class="logo">
+          <img src="/static/images/topic_logo.png" alt="EXPO"></div>
+          <button class="close_button" @click="closeModal">&times;</button>
         </div>
-        <button class="close_button" @click="closeModal">&times;</button>
+
           <CeoStatement v-if="props.index === 180"/>
         <div class="modal_info" v-if="props.index === 86">
           <References :showDiv1="showDiv1" :showDiv2="showDiv2"/>
@@ -108,6 +109,20 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.modal_header {
+  width: 80%;
+  position: fixed;
+  z-index: 3000 !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+}
+
+.modal_header > * {
+  margin: 0 40px;
+}
+
 p, h2 {
   color: #fff;
   font-family: Century Gothic, sans-serif;
@@ -176,10 +191,6 @@ p, h2 {
 }
 
 .logo {
-  position: absolute;
-  top: 3%;
-  left: 4%;
-  z-index: 100;
 }
 
 .logo img {
@@ -207,9 +218,6 @@ p, h2 {
   height: 40px;
   color: #fff;
   font-weight: normal;
-  position: absolute;
-  top: 5%;
-  right: 2%;
   background: none;
   border: none;
   cursor: pointer;

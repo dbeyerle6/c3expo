@@ -2,6 +2,9 @@
 <!--  <div v-if="isUnderConstruction" class="isUnder">-->
 <!--    <h2>Website is under construction</h2>-->
 <!--https://c3expo-europe.b-cdn.net/c3expo-200px.mp4  </div>-->
+  <head>
+    <meta name="viewport">
+  </head>
   <div>
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
   </div>
@@ -23,7 +26,7 @@
         <div class="content-container" id="contentBlock">
 
           <div class="video-container">
-          <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop>
+          <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop playsinline>
             <source src="https://c3expo-europe.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
             Your browser does not support the video.
           </video>
@@ -94,8 +97,13 @@ function initThreeJs() {
   controls.enableZoom = false;
   controls.enableRotate = true;
   controls.enablePan = false;
-  controls.minPolarAngle = Math.PI / 2;
-  controls.maxPolarAngle = Math.PI / 2;
+  if (window.innerWidth < 768) {
+    controls.minPolarAngle = Math.PI / 2; // Ограничение только на горизонтальное вращение
+    controls.maxPolarAngle = Math.PI / 2;
+  } else {
+    controls.minPolarAngle = 0; // Полное вращение на десктопе
+    controls.maxPolarAngle = Math.PI;
+  }
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
 
@@ -506,9 +514,9 @@ function handleScroll() {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-
-
-
+const optimizedHandleScroll = () => {
+  requestAnimationFrame(handleScroll)
+}
 
 
 onMounted(() => {
@@ -517,17 +525,17 @@ onMounted(() => {
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
-  window.addEventListener('scroll', handleScroll);
-  window.addEventListener('touchstart', onTouchStart);
-  window.addEventListener('touchmove', onTouchMove);
-  window.addEventListener('touchend', onTouchEnd);
+  window.addEventListener('scroll', optimizedHandleScroll);
+  window.addEventListener('touchstart', onTouchStart, {passive: true});
+  window.addEventListener('touchmove', onTouchMove, {passive: true});
+  window.addEventListener('touchend', onTouchEnd, {passive: true});
 });
 
 onUnmounted(() => {
   window.removeEventListener('resize', onWindowResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
-  window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('scroll', optimizedHandleScroll);
   window.removeEventListener('touchstart', onTouchStart);
   window.removeEventListener('touchmove', onTouchMove);
   window.removeEventListener('touchend', onTouchEnd);
@@ -548,7 +556,7 @@ function onTouchMove(event) {
     const deltaY = touchStart.value.y - event.touches[0].clientY;
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-      controls.handleMouseMoveRotate({ clientX: event.touches[0].clientX, clientY: event.touches[0].clientY });
+      controls.rotateLeft(deltaX * 0.005); // Измените множитель для настройки скорости вращения
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
     } else {
       window.scrollBy(0, deltaY); // Вертикальное движение
@@ -729,6 +737,14 @@ body {
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
+    overflow-x: hidden;
+  }
+  .container {
+    width: 100vw !important;
+    height: auto;
+  }
+  .rounded-video {
+    width: 100%;
   }
 }
 
