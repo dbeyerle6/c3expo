@@ -60,7 +60,7 @@ import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
-import {throttle} from "lodash";
+import {throttle} from "lodash-es";
 
 const isModalOpen = ref(false);
 const threeContainer = ref(null);
