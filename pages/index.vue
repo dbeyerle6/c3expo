@@ -522,13 +522,10 @@ function onTouchStart(event) {
 
 function onTouchMove(event) {
   if (event.touches.length === 1 && touchStart.value) {
-    const deltaX = touchStart.value.x - event.touches[0].clientX;
     const deltaY = touchStart.value.y - event.touches[0].clientY;
 
-    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-      controls.rotateLeft(deltaX * 0.005); // Вращение
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-    } else { // Вертикальное движение
+    if (Math.abs(deltaY) > Math.abs(touchStart.value.x - event.touches[0].clientX)) { // Вертикальное движение
+      event.preventDefault(); // Предотвращаем дефолтное поведение браузера
       window.scrollBy(0, deltaY);
       touchStart.value = { y: event.touches[0].clientY };
     }
@@ -538,6 +535,7 @@ function onTouchMove(event) {
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
 }
+
 
 function reinitializeThreeJs() {
   // Очищаем предыдущую сцену
@@ -590,8 +588,12 @@ defineExpose({
 
 <style>
 
+body, html {
+  touch-action: none; /* Отключает дефолтное поведение тач-скролла */
+  overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
+}
 
-
+.
 body {
   margin: 0 !important;
   padding: 0 !important;
@@ -638,6 +640,7 @@ body {
   align-items: center;
   min-height: 50vh; /* Минимальная высота для обеспечения скролла */
   overflow-x: hidden; /* Добавьте это, чтобы обеспечить прокрутку в контейнере */
+  touch-action: pan-y; /* Разрешает только вертикальный скролл */
 }
 
 .content-container {
