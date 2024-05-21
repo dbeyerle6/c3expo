@@ -518,6 +518,35 @@ const optimizedHandleScroll = () => {
   requestAnimationFrame(handleScroll)
 }
 
+function onTouchStart(event) {
+  if (event.touches.length === 1) {
+    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    // event.preventDefault(); // Возможно, это следует удалить или закомментировать
+  }
+}
+
+function onTouchMove(event) {
+  if (event.touches.length === 1 && touchStart.value) {
+    const deltaX = touchStart.value.x - event.touches[0].clientX;
+    const deltaY = touchStart.value.y - event.touches[0].clientY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
+      controls.rotateLeft(deltaX * 0.005); // Измените множитель для настройки скорости вращения
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault(); // Оставляем только здесь для предотвращения горизонтального скролла
+    } else {
+      window.scrollBy(0, deltaY); // Вертикальное движение
+      touchStart.value = { y: event.touches[0].clientY };
+    }
+  }
+}
+
+
+function onTouchEnd(event) {
+  touchStart.value = null; // Сбросить начальную точку касания
+}
+
+
 
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
@@ -543,32 +572,6 @@ onUnmounted(() => {
   if (renderer) renderer.dispose();
 });
 
-function onTouchStart(event) {
-  if (event.touches.length === 1) {
-    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-    event.preventDefault(); // Может помочь предотвратить стандартное поведение скроллинга
-  }
-}
-
-function onTouchMove(event) {
-  if (event.touches.length === 1 && touchStart.value) {
-    const deltaX = touchStart.value.x - event.touches[0].clientX;
-    const deltaY = touchStart.value.y - event.touches[0].clientY;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-      controls.rotateLeft(deltaX * 0.005); // Измените множитель для настройки скорости вращения
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-    } else {
-      window.scrollBy(0, deltaY); // Вертикальное движение
-      touchStart.value = { y: event.touches[0].clientY };
-    }
-    event.preventDefault(); // Это предотвращает дополнительный скролл
-  }
-}
-
-function onTouchEnd(event) {
-  touchStart.value = null; // Сбросить начальную точку касания
-}
 
 defineExpose({
   handleScroll
@@ -611,10 +614,9 @@ body {
 }
 
 .three-container {
-  /* Ваши стили для three-container */
-  width: 100%; /* Пример */
-  height: 100vh; /* Пример */
-  /* Другие стили */
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 .logo {
   width: 200px;
@@ -624,6 +626,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 50vh; /* Минимальная высота для обеспечения скролла */
+  overflow-x: hidden; /* Добавьте это, чтобы обеспечить прокрутку в контейнере */
 }
 
 .content-container {
@@ -659,6 +663,10 @@ body {
     top: 35px;
     right: 20px;
     z-index: 100;
+  }
+
+  .container {
+    overflow-x: hidden;
   }
 }
 
