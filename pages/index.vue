@@ -522,15 +522,19 @@ function onTouchStart(event) {
 
 function onTouchMove(event) {
   if (event.touches.length === 1 && touchStart.value) {
+    const deltaX = touchStart.value.x - event.touches[0].clientX;
     const deltaY = touchStart.value.y - event.touches[0].clientY;
 
-    if (Math.abs(deltaY) > Math.abs(touchStart.value.x - event.touches[0].clientX)) { // Вертикальное движение
-      event.preventDefault(); // Предотвращаем дефолтное поведение браузера
+    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
+      controls.rotateLeft(deltaX * 0.005); // Вращение сферы
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    } else { // Вертикальное движение
       window.scrollBy(0, deltaY);
-      touchStart.value = { y: event.touches[0].clientY };
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
     }
   }
 }
+
 
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
@@ -562,7 +566,7 @@ onMounted(() => {
   window.addEventListener('click', onMouseClick);
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('touchstart', onTouchStart, {passive: true});
-  window.addEventListener('touchmove', onTouchMove, {passive: true});
+  window.addEventListener('touchmove', onTouchMove, {passive: false});
   window.addEventListener('touchend', onTouchEnd, {passive: true});
   window.addEventListener('orientationchange', reinitializeThreeJs);
 });
