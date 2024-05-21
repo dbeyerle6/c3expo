@@ -514,8 +514,6 @@ function handleScroll() {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-const optimizedHandleScroll = throttle(handleScroll, 100);
-
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
@@ -564,7 +562,7 @@ onMounted(() => {
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
-  window.addEventListener('scroll', optimizedHandleScroll);
+  window.addEventListener('scroll', handleScroll, {passive: true});
   window.addEventListener('touchstart', onTouchStart, {passive: true});
   window.addEventListener('touchmove', onTouchMove, {passive: true});
   window.addEventListener('touchend', onTouchEnd, {passive: true});
@@ -575,7 +573,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', onWindowResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
-  window.removeEventListener('scroll', optimizedHandleScroll);
+  window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('touchstart', onTouchStart);
   window.removeEventListener('touchmove', onTouchMove);
   window.removeEventListener('touchend', onTouchEnd);
