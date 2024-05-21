@@ -599,9 +599,9 @@ onMounted(() => {
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
   window.addEventListener('scroll', handleScroll);
-  document.addEventListener('pointerdown', onPointerDown);
-  document.addEventListener('pointermove', onPointerMove);
-  document.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('touchstart', onTouchStart, {passive: true});
+  window.addEventListener('touchmove', onTouchMove, {passive: false});
+  window.addEventListener('touchend', onTouchEnd, {passive: true});
   window.addEventListener('orientationchange', reinitializeThreeJs);
 });
 
@@ -610,9 +610,9 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   window.removeEventListener('scroll', handleScroll);
-  document.removeEventListener('pointerdown', onPointerDown);
-  document.removeEventListener('pointermove', onPointerMove);
-  document.removeEventListener('pointerup', onPointerUp);
+  window.removeEventListener('touchstart', onTouchStart);
+  window.removeEventListener('touchmove', onTouchMove);
+  window.removeEventListener('touchend', onTouchEnd);
   window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
