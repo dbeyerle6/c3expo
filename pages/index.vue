@@ -53,7 +53,7 @@
 <script setup>
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
-import { debounce } from 'lodash-es';
+import gsap from "gsap";
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -516,58 +516,51 @@ function handleScroll() {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
+let isScrolling = false;
+let scrollTarget = 0;
+
+function onTouchStart(event) {
+  if (event.touches.length === 1) {
+    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    isScrolling = false;
+  }
+}
+
+function onTouchMove(event) {
+  if (event.touches.length === 1 && touchStart.value) {
+    const deltaX = touchStart.value.x - event.touches[0].clientX;
+    const deltaY = touchStart.value.y - event.touches[0].clientY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
+      controls.rotateLeft(deltaX * 0.005); // Вращение
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault(); // Предотвращение горизонтального скролла страницы
+    } else { // Вертикальное движение
+      scrollTarget += deltaY;
+      if (!isScrolling) {
+        isScrolling = true;
+        gsap.to(window, {
+          scrollTo: scrollTarget,
+          duration: 0.5,
+          ease: "power1.out",
+          onComplete: () => {
+            isScrolling = false;
+          }
+        });
+      }
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
+    }
+  }
+}
+
+function onTouchEnd(event) {
+  touchStart.value = null; // Сбросить начальную точку касания
+  isScrolling = false; // Прекращаем плавное прокручивание при отпускании
+}
+
 onMounted(() => {
   if (typeof window !== 'undefined') {
-    let isScrolling = false;
-    let scrollTarget = window.scrollY;
-
-    function smoothScroll() {
-      if (isScrolling) {
-        const currentScroll = window.scrollY;
-        const scrollStep = (scrollTarget - currentScroll) / 8;
-
-        if (Math.abs(scrollStep) > 0.5) {
-          window.scrollBy(0, scrollStep);
-          requestAnimationFrame(smoothScroll);
-        } else {
-          isScrolling = false;
-        }
-      }
-    }
-
-    function onTouchStart(event) {
-      if (event.touches.length === 1) {
-        touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-        isScrolling = false; // Прекращаем плавное прокручивание при новом касании
-      }
-    }
-
-    function onTouchMove(event) {
-      if (event.touches.length === 1 && touchStart.value) {
-        const deltaX = touchStart.value.x - event.touches[0].clientX;
-        const deltaY = touchStart.value.y - event.touches[0].clientY;
-
-        if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-          controls.rotateLeft(deltaX * 0.005); // Вращение
-          touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-          event.preventDefault(); // Предотвращение горизонтального скролла страницы
-        } else { // Вертикальное движение
-          scrollTarget += deltaY;
-          if (!isScrolling) {
-            isScrolling = true;
-            requestAnimationFrame(smoothScroll);
-          }
-          touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-          event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
-        }
-      }
-    }
-
-    function onTouchEnd(event) {
-      touchStart.value = null; // Сбросить начальную точку касания
-      isScrolling = false; // Прекращаем плавное прокручивание при отпускании
-    }
-
     window.addEventListener('resize', resizeVideo);
     window.addEventListener('load', resizeVideo);
     window.addEventListener('resize', onWindowResize);
@@ -593,7 +586,6 @@ onUnmounted(() => {
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
-
 
 defineExpose({
   handleScroll
