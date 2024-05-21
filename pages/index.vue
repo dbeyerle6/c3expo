@@ -70,7 +70,7 @@ const raycaster = new THREE.Raycaster();
 const isUnderConstruction = ref(false)
 let touchStart = ref(null);
 const { t } = useI18n()
-const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132]; // Пример индексов
+const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132];
 const texts = [t('references.title'), t('our_vision.title'), t('heritage.title'), t('ceo_statement.title'), t('our_mission.title'), t('our_expertise.title'), t('world_wide_network.title'), t('product.title')]; // Пример текстов
 const showIntro = ref(true);
 const initialCameraPosition = new THREE.Vector3(0, 0, 10); // Замените на ваше исходное положение камеры
@@ -519,7 +519,6 @@ const optimizedHandleScroll = throttle(handleScroll, 100);
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-    // event.preventDefault(); // Возможно, это следует удалить или закомментировать
   }
 }
 
@@ -529,16 +528,14 @@ function onTouchMove(event) {
     const deltaY = touchStart.value.y - event.touches[0].clientY;
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-      controls.rotateLeft(deltaX * 0.005); // Измените множитель для настройки скорости вращения
+      controls.rotateLeft(deltaX * 0.005); // Вращение
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      event.preventDefault(); // Оставляем только здесь для предотвращения горизонтального скролла
-    } else {
-      window.scrollBy(0, deltaY); // Вертикальное движение
+    } else { // Вертикальное движение
+      window.scrollBy(0, deltaY);
       touchStart.value = { y: event.touches[0].clientY };
     }
   }
 }
-
 
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
