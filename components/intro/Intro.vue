@@ -1,8 +1,8 @@
 <template>
   <div class="intro_container">
-  <video class="intro-video" ref="videoRef" autoplay muted>
+  <video class="intro-video" ref="videoRef" autoplay muted playsinline>
 <!--   <source src="https://c3expo.b-cdn.net/intro.mp4" type="video/mp4">-->
-  <source src="/static/videos/intro.mp4" type="video/mp4">
+  <source src="/static/videos/intro.mp4" type="video/mp4" >
   </video>
   <transition name="fade">
     <div v-if="showClickableText" class="clickable-text" @click="continuePlaying">

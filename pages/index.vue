@@ -60,6 +60,7 @@ import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
+import {throttle} from "lodash";
 
 const isModalOpen = ref(false);
 const threeContainer = ref(null);
@@ -509,14 +510,11 @@ let targetOffset = ref(0); // Целевое смещение фона
 // Эта функция вызывается при каждом скролле
 function handleScroll() {
   const yOffset = window.pageYOffset;
-  // Динамическое смещение добавляем к начальному смещению -500px
   const dynamicOffset = -800 + (yOffset * -0.1); // Уменьшаем динамическое смещение
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-const optimizedHandleScroll = () => {
-  requestAnimationFrame(handleScroll)
-}
+const optimizedHandleScroll = throttle(handleScroll, 100);
 
 function onTouchStart(event) {
   if (event.touches.length === 1) {
@@ -546,6 +544,21 @@ function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
 }
 
+function reinitializeThreeJs() {
+  // Очищаем предыдущую сцену
+  if (scene) {
+    while (scene.children.length > 0) {
+      scene.remove(scene.children[0]);
+    }
+  }
+  if (renderer) {
+    renderer.dispose();
+  }
+
+  // Переинициализируем Three.js
+  initThreeJs();
+}
+
 
 
 onMounted(() => {
@@ -558,6 +571,7 @@ onMounted(() => {
   window.addEventListener('touchstart', onTouchStart, {passive: true});
   window.addEventListener('touchmove', onTouchMove, {passive: true});
   window.addEventListener('touchend', onTouchEnd, {passive: true});
+  window.addEventListener('orientationchange', reinitializeThreeJs);
 });
 
 onUnmounted(() => {
@@ -568,6 +582,7 @@ onUnmounted(() => {
   window.removeEventListener('touchstart', onTouchStart);
   window.removeEventListener('touchmove', onTouchMove);
   window.removeEventListener('touchend', onTouchEnd);
+  window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
@@ -732,7 +747,7 @@ body {
 
 @media  (min-width: 1024px) and (max-width: 1366px) {
   body {
-    background-size: 300%;
+    background-size: 500%;
     background-position: center -800px;
     background-attachment: fixed;
     background-repeat: no-repeat;
