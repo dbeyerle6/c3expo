@@ -53,7 +53,7 @@
 <script setup>
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
-import gsap from "gsap";
+import { debounce } from 'lodash-es';
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -516,13 +516,9 @@ function handleScroll() {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-let isScrolling = false;
-let scrollTarget = 0;
-
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-    isScrolling = false;
   }
 }
 
@@ -534,33 +530,41 @@ function onTouchMove(event) {
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
       controls.rotateLeft(deltaX * 0.005); // Вращение
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      event.preventDefault(); // Предотвращение горизонтального скролла страницы
     } else { // Вертикальное движение
-      scrollTarget += deltaY;
-      if (!isScrolling) {
-        isScrolling = true;
-        gsap.to(window, {
-          scrollTo: scrollTarget,
-          duration: 0.5,
-          ease: "power1.out",
-          onComplete: () => {
-            isScrolling = false;
-          }
-        });
-      }
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
+      window.scrollBy(0, deltaY);
+      touchStart.value = { y: event.touches[0].clientY };
     }
   }
 }
-
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
-  isScrolling = false; // Прекращаем плавное прокручивание при отпускании
 }
+
+function reinitializeThreeJs() {
+  // Очищаем предыдущую сцену
+  if (scene) {
+    while (scene.children.length > 0) {
+      scene.remove(scene.children[0]);
+    }
+  }
+  if (renderer) {
+    renderer.dispose();
+  }
+
+  // Переинициализируем Three.js
+  initThreeJs();
+}
+
+
 
 onMounted(() => {
   if (typeof window !== 'undefined') {
+    const { lengthX, lengthY } = useSwipe(document.body);
+
+    watch(lengthY, (newLengthY) => {
+      window.scrollBy(0, -newLengthY);
+    });
+
     window.addEventListener('resize', resizeVideo);
     window.addEventListener('load', resizeVideo);
     window.addEventListener('resize', onWindowResize);
@@ -574,18 +578,17 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', onWindowResize);
-    window.removeEventListener('mousemove', onMouseMove);
-    window.removeEventListener('click', onMouseClick);
-    window.removeEventListener('scroll', handleScroll);
-    window.removeEventListener('touchstart', onTouchStart);
-    window.removeEventListener('touchmove', onTouchMove);
-    window.removeEventListener('touchend', onTouchEnd);
-  }
+  window.removeEventListener('resize', onWindowResize);
+  window.removeEventListener('mousemove', onMouseMove);
+  window.removeEventListener('click', onMouseClick);
+  window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('touchstart', onTouchStart);
+  window.removeEventListener('touchmove', onTouchMove);
+  window.removeEventListener('touchend', onTouchEnd);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
+
 
 defineExpose({
   handleScroll
