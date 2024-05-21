@@ -526,8 +526,7 @@ function onTouchMove(event) {
     const deltaY = touchStart.value.y - event.touches[0].clientY;
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-      controls.rotateLeft(deltaX * 0.005); // Вращение сферы
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault();
     } else { // Вертикальное движение
       window.scrollBy(0, deltaY);
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
