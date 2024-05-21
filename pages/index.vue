@@ -516,58 +516,57 @@ function handleScroll() {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-function onTouchStart(event) {
-  if (event.touches.length === 1) {
-    touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-  }
-}
-
-function onTouchMove(event) {
-  if (event.touches.length === 1 && touchStart.value) {
-    const deltaX = touchStart.value.x - event.touches[0].clientX;
-    const deltaY = touchStart.value.y - event.touches[0].clientY;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-      controls.rotateLeft(deltaX * 0.005); // Вращение
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      event.preventDefault(); // Предотвращение горизонтального скролла страницы
-    } else { // Вертикальное движение
-      window.scrollBy(0, deltaY);
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
-    }
-  }
-}
-
-function onTouchEnd(event) {
-  touchStart.value = null; // Сбросить начальную точку касания
-}
-
-
-function reinitializeThreeJs() {
-  // Очищаем предыдущую сцену
-  if (scene) {
-    while (scene.children.length > 0) {
-      scene.remove(scene.children[0]);
-    }
-  }
-  if (renderer) {
-    renderer.dispose();
-  }
-
-  // Переинициализируем Three.js
-  initThreeJs();
-}
-
-
-
 onMounted(() => {
   if (typeof window !== 'undefined') {
-    const { lengthX, lengthY } = useSwipe(document.body);
+    let isScrolling = false;
+    let scrollTarget = window.scrollY;
 
-    watch(lengthY, (newLengthY) => {
-      window.scrollBy(0, -newLengthY);
-    });
+    function smoothScroll() {
+      if (isScrolling) {
+        const currentScroll = window.scrollY;
+        const scrollStep = (scrollTarget - currentScroll) / 8;
+
+        if (Math.abs(scrollStep) > 0.5) {
+          window.scrollBy(0, scrollStep);
+          requestAnimationFrame(smoothScroll);
+        } else {
+          isScrolling = false;
+        }
+      }
+    }
+
+    function onTouchStart(event) {
+      if (event.touches.length === 1) {
+        touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+        isScrolling = false; // Прекращаем плавное прокручивание при новом касании
+      }
+    }
+
+    function onTouchMove(event) {
+      if (event.touches.length === 1 && touchStart.value) {
+        const deltaX = touchStart.value.x - event.touches[0].clientX;
+        const deltaY = touchStart.value.y - event.touches[0].clientY;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
+          controls.rotateLeft(deltaX * 0.005); // Вращение
+          touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+          event.preventDefault(); // Предотвращение горизонтального скролла страницы
+        } else { // Вертикальное движение
+          scrollTarget += deltaY;
+          if (!isScrolling) {
+            isScrolling = true;
+            requestAnimationFrame(smoothScroll);
+          }
+          touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+          event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
+        }
+      }
+    }
+
+    function onTouchEnd(event) {
+      touchStart.value = null; // Сбросить начальную точку касания
+      isScrolling = false; // Прекращаем плавное прокручивание при отпускании
+    }
 
     window.addEventListener('resize', resizeVideo);
     window.addEventListener('load', resizeVideo);
@@ -582,13 +581,15 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', onWindowResize);
-  window.removeEventListener('mousemove', onMouseMove);
-  window.removeEventListener('click', onMouseClick);
-  window.removeEventListener('scroll', handleScroll);
-  window.removeEventListener('touchstart', onTouchStart);
-  window.removeEventListener('touchmove', onTouchMove);
-  window.removeEventListener('touchend', onTouchEnd);
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', onWindowResize);
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('click', onMouseClick);
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('touchstart', onTouchStart);
+    window.removeEventListener('touchmove', onTouchMove);
+    window.removeEventListener('touchend', onTouchEnd);
+  }
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
