@@ -534,7 +534,6 @@ function onTouchMove(event) {
     }
   }
 }
-
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
 }
