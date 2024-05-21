@@ -53,7 +53,7 @@
 <script setup>
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
-import { debounce } from 'lodash-es';
+import gsap from "gsap";
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -69,7 +69,6 @@ let camera, scene, renderer, controls, composer;
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 const isUnderConstruction = ref(false)
-let touchStart = ref(null);
 const { t } = useI18n()
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132];
 const texts = [t('references.title'), t('our_vision.title'), t('heritage.title'), t('ceo_statement.title'), t('our_mission.title'), t('our_expertise.title'), t('world_wide_network.title'), t('product.title')]; // Пример текстов
@@ -516,6 +515,8 @@ function handleScroll() {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
+const touchStart = ref(null);
+
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
@@ -530,41 +531,21 @@ function onTouchMove(event) {
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
       controls.rotateLeft(deltaX * 0.005); // Вращение
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault(); // Предотвращение горизонтального скролла страницы
     } else { // Вертикальное движение
       window.scrollBy(0, deltaY);
-      touchStart.value = { y: event.touches[0].clientY };
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
     }
   }
 }
+
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
 }
 
-function reinitializeThreeJs() {
-  // Очищаем предыдущую сцену
-  if (scene) {
-    while (scene.children.length > 0) {
-      scene.remove(scene.children[0]);
-    }
-  }
-  if (renderer) {
-    renderer.dispose();
-  }
-
-  // Переинициализируем Three.js
-  initThreeJs();
-}
-
-
-
 onMounted(() => {
   if (typeof window !== 'undefined') {
-    const { lengthX, lengthY } = useSwipe(document.body);
-
-    watch(lengthY, (newLengthY) => {
-      window.scrollBy(0, -newLengthY);
-    });
-
     window.addEventListener('resize', resizeVideo);
     window.addEventListener('load', resizeVideo);
     window.addEventListener('resize', onWindowResize);
@@ -578,17 +559,18 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', onWindowResize);
-  window.removeEventListener('mousemove', onMouseMove);
-  window.removeEventListener('click', onMouseClick);
-  window.removeEventListener('scroll', handleScroll);
-  window.removeEventListener('touchstart', onTouchStart);
-  window.removeEventListener('touchmove', onTouchMove);
-  window.removeEventListener('touchend', onTouchEnd);
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', onWindowResize);
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('click', onMouseClick);
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('touchstart', onTouchStart);
+    window.removeEventListener('touchmove', onTouchMove);
+    window.removeEventListener('touchend', onTouchEnd);
+  }
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
-
 
 defineExpose({
   handleScroll
