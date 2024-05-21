@@ -53,15 +53,14 @@
 <script setup>
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
-import gsap from "gsap";
+import { debounce } from 'lodash-es';
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
-
-import { useSwipe } from '@vueuse/core';
+import {throttle} from "lodash-es";
 
 const isModalOpen = ref(false);
 const threeContainer = ref(null);
@@ -69,6 +68,7 @@ let camera, scene, renderer, controls, composer;
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 const isUnderConstruction = ref(false)
+let touchStart = ref(null);
 const { t } = useI18n()
 const selectedCylinderIndexes = [86, 190, 105, 180, 200, 156, 92, 132];
 const texts = [t('references.title'), t('our_vision.title'), t('heritage.title'), t('ceo_statement.title'), t('our_mission.title'), t('our_expertise.title'), t('world_wide_network.title'), t('product.title')]; // Пример текстов
@@ -86,7 +86,6 @@ let glowSprites = [];
 const isMobile = computed(() => window.innerWidth <= 768);
 
 function initThreeJs() {
-
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 500);
   renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
@@ -515,8 +514,6 @@ function handleScroll() {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-const touchStart = ref(null);
-
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
@@ -531,11 +528,9 @@ function onTouchMove(event) {
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
       controls.rotateLeft(deltaX * 0.005); // Вращение
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      event.preventDefault(); // Предотвращение горизонтального скролла страницы
     } else { // Вертикальное движение
       window.scrollBy(0, deltaY);
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
+      touchStart.value = { y: event.touches[0].clientY };
     }
   }
 }
@@ -544,33 +539,49 @@ function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
 }
 
-onMounted(() => {
-  if (typeof window !== 'undefined') {
-    window.addEventListener('resize', resizeVideo);
-    window.addEventListener('load', resizeVideo);
-    window.addEventListener('resize', onWindowResize);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('click', onMouseClick);
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('touchstart', onTouchStart);
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
-    window.addEventListener('touchend', onTouchEnd);
+function reinitializeThreeJs() {
+  // Очищаем предыдущую сцену
+  if (scene) {
+    while (scene.children.length > 0) {
+      scene.remove(scene.children[0]);
+    }
   }
+  if (renderer) {
+    renderer.dispose();
+  }
+
+  // Переинициализируем Three.js
+  initThreeJs();
+}
+
+
+
+onMounted(() => {
+  window.addEventListener('resize', resizeVideo);
+  window.addEventListener('load', resizeVideo);
+  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('click', onMouseClick);
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('touchstart', onTouchStart, {passive: true});
+  window.addEventListener('touchmove', onTouchMove, {passive: true});
+  window.addEventListener('touchend', onTouchEnd, {passive: true});
+  window.addEventListener('orientationchange', reinitializeThreeJs);
 });
 
 onUnmounted(() => {
-  if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', onWindowResize);
-    window.removeEventListener('mousemove', onMouseMove);
-    window.removeEventListener('click', onMouseClick);
-    window.removeEventListener('scroll', handleScroll);
-    window.removeEventListener('touchstart', onTouchStart);
-    window.removeEventListener('touchmove', onTouchMove);
-    window.removeEventListener('touchend', onTouchEnd);
-  }
+  window.removeEventListener('resize', onWindowResize);
+  window.removeEventListener('mousemove', onMouseMove);
+  window.removeEventListener('click', onMouseClick);
+  window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('touchstart', onTouchStart);
+  window.removeEventListener('touchmove', onTouchMove);
+  window.removeEventListener('touchend', onTouchEnd);
+  window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
+
 
 defineExpose({
   handleScroll
