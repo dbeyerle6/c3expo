@@ -530,15 +530,19 @@ function onTouchMove(event) {
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
       controls.rotateLeft(deltaX * 0.005); // Вращение
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault(); // Предотвращение горизонтального скролла страницы
     } else { // Вертикальное движение
       window.scrollBy(0, deltaY);
-      touchStart.value = { y: event.touches[0].clientY };
+      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      event.preventDefault(); // Предотвращение вертикального скролла страницы в области трехмерной сферы
     }
   }
 }
+
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
 }
+
 
 function reinitializeThreeJs() {
   // Очищаем предыдущую сцену
@@ -558,12 +562,23 @@ function reinitializeThreeJs() {
 
 
 onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const { lengthX, lengthY } = useSwipe(document.body);
+
+    watch(lengthY, (newLengthY) => {
+      window.scrollBy(0, -newLengthY);
+    });
+
     window.addEventListener('resize', resizeVideo);
     window.addEventListener('load', resizeVideo);
     window.addEventListener('resize', onWindowResize);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('click', onMouseClick);
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('touchstart', onTouchStart);
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', onTouchEnd);
+  }
 });
 
 onUnmounted(() => {
@@ -571,6 +586,9 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('touchstart', onTouchStart);
+  window.removeEventListener('touchmove', onTouchMove);
+  window.removeEventListener('touchend', onTouchEnd);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
