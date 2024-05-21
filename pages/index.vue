@@ -60,7 +60,8 @@ import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
-import {throttle} from "lodash-es";
+
+import { useSwipe } from '@vueuse/core';
 
 const isModalOpen = ref(false);
 const threeContainer = ref(null);
@@ -86,6 +87,7 @@ let glowSprites = [];
 const isMobile = computed(() => window.innerWidth <= 768);
 
 function initThreeJs() {
+
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 500);
   renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
@@ -556,16 +558,25 @@ function reinitializeThreeJs() {
 
 
 onMounted(() => {
-  window.addEventListener('resize', resizeVideo);
-  window.addEventListener('load', resizeVideo);
-  window.addEventListener('resize', onWindowResize);
-  window.addEventListener('mousemove', onMouseMove);
-  window.addEventListener('click', onMouseClick);
-  window.addEventListener('scroll', handleScroll, {passive: true});
-  window.addEventListener('touchstart', onTouchStart, {passive: true});
-  window.addEventListener('touchmove', onTouchMove, {passive: true});
-  window.addEventListener('touchend', onTouchEnd, {passive: true});
-  window.addEventListener('orientationchange', reinitializeThreeJs);
+  if (typeof window !== 'undefined') {
+
+    const { lengthX, lengthY } = useSwipe(document.body);
+
+    watch(lengthX, (newLengthX) => {
+      controls.rotateLeft(newLengthX * 0.005);
+    });
+
+    watch(lengthY, (newLengthY) => {
+      window.scrollBy(0, -newLengthY);
+    });
+
+    window.addEventListener('resize', resizeVideo);
+    window.addEventListener('load', resizeVideo);
+    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('click', onMouseClick);
+    window.addEventListener('scroll', handleScroll);
+  }
 });
 
 onUnmounted(() => {
@@ -573,10 +584,6 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   window.removeEventListener('scroll', handleScroll);
-  window.removeEventListener('touchstart', onTouchStart);
-  window.removeEventListener('touchmove', onTouchMove);
-  window.removeEventListener('touchend', onTouchEnd);
-  window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
