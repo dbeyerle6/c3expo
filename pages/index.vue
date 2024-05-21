@@ -555,9 +555,9 @@ onMounted(() => {
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
   window.addEventListener('scroll', optimizedHandleScroll);
-  window.addEventListener('touchstart', onTouchStart, {passive: true});
-  window.addEventListener('touchmove', onTouchMove, {passive: true});
-  window.addEventListener('touchend', onTouchEnd, {passive: true});
+  // window.addEventListener('touchstart', onTouchStart, {passive: true});
+  // window.addEventListener('touchmove', onTouchMove, {passive: true});
+  // window.addEventListener('touchend', onTouchEnd, {passive: true});
 });
 
 onUnmounted(() => {
@@ -565,9 +565,9 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   window.removeEventListener('scroll', optimizedHandleScroll);
-  window.removeEventListener('touchstart', onTouchStart);
-  window.removeEventListener('touchmove', onTouchMove);
-  window.removeEventListener('touchend', onTouchEnd);
+  // window.removeEventListener('touchstart', onTouchStart);
+  // window.removeEventListener('touchmove', onTouchMove);
+  // window.removeEventListener('touchend', onTouchEnd);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
