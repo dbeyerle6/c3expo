@@ -97,7 +97,7 @@ function initThreeJs() {
   controls.enableZoom = false;
   controls.enableRotate = true;
   controls.enablePan = false;
-  if (window.innerWidth < 768) {
+  if (window.innerWidth < 1366 ) {
     controls.minPolarAngle = Math.PI / 2; // Ограничение только на горизонтальное вращение
     controls.maxPolarAngle = Math.PI / 2;
   } else {
