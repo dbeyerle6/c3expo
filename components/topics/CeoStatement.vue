@@ -28,9 +28,10 @@
   width: 90%;
 
   background-image: url("/assets/c3expoback.png");
-  background-size: 58%;
-  background-position: top -20% left 80%;
-  background-repeat: space;
+  background-size: 30%;
+  background-position: top right;
+  background-repeat: no-repeat;
+
 }
 
 .ceo_profile {
@@ -75,6 +76,7 @@
 .ceo_text {
   font-family: "Century Gothic", sans-serif;
   font-size: 20px;
+  text-align: justify;
 }
 
 .ceo_profile_content h1 {
@@ -122,6 +124,8 @@
     height: auto;
     padding: 0;
     width: 100%;
+    background-position: top -20% left 80%;
+    background-repeat: space;
   }
 
   .ceo_profile_image_placeholder {

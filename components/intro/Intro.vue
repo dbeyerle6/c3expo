@@ -28,6 +28,7 @@ const actionPerformed = async () => {
   await emit('actionPerformed');
 }
 onMounted(() => {
+
   if (videoRef.value) {
     videoRef.value.play()
         .then(() => {

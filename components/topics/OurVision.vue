@@ -78,7 +78,6 @@
 }
 
 .vision_title {
-  font-size: 60px;
   color: #fff;
   font-family: "Century Gothic", sans-serif;
   margin: 0;
@@ -89,6 +88,10 @@
 .empty {
 }
 
+
+.empty, .description {
+  border-top: 1px solid #36e4da;
+}
 
 .vision_container .box.image2 {
   display: none;
