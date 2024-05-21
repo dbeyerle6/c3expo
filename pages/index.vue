@@ -558,25 +558,12 @@ function reinitializeThreeJs() {
 
 
 onMounted(() => {
-  if (typeof window !== 'undefined') {
-
-    const { lengthX, lengthY } = useSwipe(document.body);
-
-    watch(lengthX, (newLengthX) => {
-      controls.rotateLeft(newLengthX * 0.005);
-    });
-
-    watch(lengthY, (newLengthY) => {
-      window.scrollBy(0, -newLengthY);
-    });
-
     window.addEventListener('resize', resizeVideo);
     window.addEventListener('load', resizeVideo);
     window.addEventListener('resize', onWindowResize);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('click', onMouseClick);
     window.addEventListener('scroll', handleScroll);
-  }
 });
 
 onUnmounted(() => {
