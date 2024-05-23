@@ -35,14 +35,14 @@
           </div>
         </div>
 
-<!--        <div ref="threeContainer" class="three-container" id="threeJsBlock">-->
+        <div ref="threeContainer" class="three-container" id="threeJsBlock">
 
-<!--        </div>-->
-        <ul class="mobile-menu">
-          <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">
-            {{ item.title }}
-          </li>
-        </ul>
+        </div>
+<!--        <ul v-else class="mobile-menu">-->
+<!--          <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">-->
+<!--            {{ item.title }}-->
+<!--          </li>-->
+<!--        </ul>-->
         <Footer v-if="!showIntro" id="footerBlock"/>
       </div>
     </transition>
@@ -586,9 +586,9 @@ onMounted(() => {
   window.addEventListener('click', onMouseClick);
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('orientationchange', reinitializeThreeJs);
-  window.addEventListener('touchstart', onTouchStart);
-  window.addEventListener('touchmove', onTouchMove);
-  window.addEventListener('touchend', onTouchEnd);
+  window.addEventListener('touchstart', onTouchStart, {passive: false});
+  window.addEventListener('touchmove', onTouchMove, {passive: false});
+  window.addEventListener('touchend', onTouchEnd, {passive: false});
 });
 
 onUnmounted(() => {
