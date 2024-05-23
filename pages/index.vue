@@ -565,13 +565,14 @@ function handleScroll(newY) {
 
 
 const { y } = useScroll(window);
-
-const { isSwiping, direction, lengthY } = usePointerSwipe(threeContainer, {
+const { isSwiping, direction, lengthY } = useSwipe(document, {
   threshold: 30, // Минимальная длина для распознавания свайпа
 });
 
-watch(y, (newY) => {
-  handleScroll(newY);
+watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
+  if (swiping && (dir === 'UP' || dir === 'DOWN')) {
+    window.scrollBy(0, dir === 'UP' ? -lenY : lenY);
+  }
 });
 
 watch(y, (newY) => {
@@ -615,12 +616,18 @@ body, html {
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
+.
 body {
   margin: 0 !important;
   padding: 0 !important;
   overflow-x: hidden;
 }
 
+.three-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
 
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1s;
@@ -645,6 +652,7 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  touch-action: auto;
 }
 .logo {
   width: 200px;
@@ -656,6 +664,7 @@ body {
   align-items: center;
   min-height: 50vh; /* Минимальная высота для обеспечения скролла */
   overflow-x: hidden; /* Добавьте это, чтобы обеспечить прокрутку в контейнере */
+  touch-action: pan-y; /* Разрешает только вертикальный скролл */
 }
 
 .content-container {
