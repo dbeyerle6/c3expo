@@ -38,7 +38,7 @@
 <!--        <div ref="threeContainer" class="three-container" id="threeJsBlock">-->
 
 <!--        </div>-->
-        <ul v-else class="mobile-menu">
+        <ul class="mobile-menu">
           <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">
             {{ item.title }}
           </li>
