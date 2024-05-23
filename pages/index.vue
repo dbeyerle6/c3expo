@@ -519,6 +519,7 @@ function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
     isTouching.value = true; // Устанавливаем флаг при начале тача
+    event.preventDefault(); // Предотвращаем конфликт с браузерными событиями
   }
 }
 
@@ -542,7 +543,6 @@ function onTouchEnd(event) {
 }
 
 
-
 function reinitializeThreeJs() {
   // Очищаем предыдущую сцену
   if (scene) {
@@ -559,7 +559,7 @@ function reinitializeThreeJs() {
 }
 
 const { y } = useScroll(window);
-const { isSwiping, direction, lengthY } = useSwipe(window, { // Используем window для глобальных свайпов
+const { isSwiping, direction, lengthY } = useSwipe(window, {
   threshold: 30, // Минимальная длина для распознавания свайпа
 });
 
