@@ -317,4 +317,16 @@ function handleModalClose() {
   font-weight: bold;
 }
 
+@media screen and (min-device-width: 768px) and (max-device-width: 1366px) {
+  .footer_nav {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .footer_nav > div {
+    flex: none;
+  }
+
+}
+
 </style>

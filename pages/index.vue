@@ -788,11 +788,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
   .page-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
 }
 
