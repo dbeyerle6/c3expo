@@ -800,7 +800,7 @@ body {
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape){
   body {
-    background-size: 500%;
+    background-size: 700%;
     background-position: center -800px;
     background-attachment: fixed;
     background-repeat: no-repeat;
