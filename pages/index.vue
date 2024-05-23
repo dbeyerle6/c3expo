@@ -508,12 +508,15 @@ let currentOffset = ref(0); // Текущее смещение фона
 let targetOffset = ref(0); // Целевое смещение фона
 
 // Эта функция вызывается при каждом скролле
-
+let isTouching = ref(false)
 
 
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    isTouching.value = true; // Устанавливаем флаг при начале тача
+    controls.enabled = false; // Отключаем управление контроллером при начале тача
+    event.preventDefault(); // Предотвращаем конфликт с браузерными событиями
   }
 }
 
@@ -524,16 +527,21 @@ function onTouchMove(event) {
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
       event.preventDefault();
+      controls.enabled = true; // Включаем управление контроллером для горизонтального движения
     } else { // Вертикальное движение
       window.scrollBy(0, deltaY);
       touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      controls.enabled = false; // Отключаем управление контроллером для вертикального движения
     }
   }
 }
 
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
+  isTouching.value = false; // Сбрасываем флаг при завершении тача
+  controls.enabled = true; // Включаем управление контроллером по завершении тача
 }
+
 
 
 function reinitializeThreeJs() {
