@@ -563,9 +563,11 @@ function handleScroll(newY) {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
+import { usePointerSwipe } from "@vueuse/core";
 
 const { y } = useScroll(window);
-const { isSwiping, direction, lengthY } = useSwipe(document, {
+
+const { isSwiping, direction, lengthY } = usePointerSwipe(threeContainer, {
   threshold: 30, // Минимальная длина для распознавания свайпа
 });
 
@@ -574,17 +576,16 @@ watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
     window.scrollBy(0, dir === 'UP' ? -lenY : lenY);
   }
 });
-
 watch(y, (newY) => {
   handleScroll(newY);
 });
+
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
   window.addEventListener('load', resizeVideo);
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
-  window.addEventListener('scroll', handleScroll);
   window.addEventListener('orientationchange', reinitializeThreeJs);
 });
 
@@ -592,12 +593,10 @@ onUnmounted(() => {
   window.removeEventListener('resize', onWindowResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
-  window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
-
 
 
 defineExpose({
@@ -608,7 +607,7 @@ defineExpose({
 <style>
 
 body, html {
-  touch-action: none; /* Отключает дефолтное поведение тач-скролла */
+  touch-action: pan-y; /* Отключает дефолтное поведение тач-скролла */
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
@@ -619,12 +618,6 @@ body {
   overflow-x: hidden;
 }
 
-.three-container {
-  width: 80%;
-  height: 100vh;
-  overflow: hidden;
-  margin: 0 auto;
-}
 
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1s;
@@ -649,7 +642,6 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  touch-action: auto;
 }
 .logo {
   width: 200px;
