@@ -620,9 +620,10 @@ body {
 }
 
 .three-container {
-  width: 100%;
+  width: 80%;
   height: 100vh;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .fade-enter-active, .fade-leave-active {
