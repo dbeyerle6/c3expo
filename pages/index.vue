@@ -412,6 +412,7 @@ function addInvisibleCubes() {
 
 
 function onMouseClick(event) {
+  if (isTouching.value) return;
   if (!showIntro.value) {
     event.preventDefault();
     // Коррекция координаты Y с учетом прокрутки страницы
@@ -437,6 +438,7 @@ function onMouseClick(event) {
 }
 
 function onMouseMove(event) {
+  if (isTouching.value) return;
   if (!camera) return;
 
   const rect = renderer.domElement.getBoundingClientRect();
@@ -511,9 +513,12 @@ let targetOffset = ref(0); // Целевое смещение фона
 
 
 
+let isTouching = ref(false); // Флаг для отслеживания состояния тача
+
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    isTouching.value = true; // Устанавливаем флаг при начале тача
   }
 }
 
@@ -533,7 +538,9 @@ function onTouchMove(event) {
 
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
+  isTouching.value = false; // Сбрасываем флаг при завершении тача
 }
+
 
 
 function reinitializeThreeJs() {
@@ -552,27 +559,24 @@ function reinitializeThreeJs() {
 }
 
 const { y } = useScroll(window);
-
-function handleScroll(newY) {
-  const dynamicOffset = -800 + (newY * -0.1); // Уменьшаем динамическое смещение
-  document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
-}
-
-// В watch следим за изменением значения y и вызываем handleScroll
-watch(y, (newY) => {
-  handleScroll(newY);
-});
-// Инициализация useSwipe для обработки свайпов
-const { isSwiping, direction, lengthY } = useSwipe(document, {
+const { isSwiping, direction, lengthY } = useSwipe(window, { // Используем window для глобальных свайпов
   threshold: 30, // Минимальная длина для распознавания свайпа
 });
 
-// Обработка свайпов для скролла
 watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
   if (swiping && (dir === 'UP' || dir === 'DOWN')) {
     window.scrollBy(0, dir === 'UP' ? -lenY : lenY);
   }
 });
+
+watch(y, (newY) => {
+  handleScroll(newY);
+});
+
+function handleScroll(newY) {
+  const dynamicOffset = -800 + (newY * -0.1); // Уменьшаем динамическое смещение
+  document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
+}
 
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
