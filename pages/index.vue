@@ -608,7 +608,7 @@ defineExpose({
 <style>
 
 canvas {
-  touch-action: pan-y;
+  touch-action: pan-y !important;
 }
 
 body, html {
