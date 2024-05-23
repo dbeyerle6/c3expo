@@ -609,7 +609,7 @@ defineExpose({
 <style>
 
 body, html {
-  touch-action: none; /* Отключает дефолтное поведение тач-скролла */
+  touch-action: auto; /* Отключает дефолтное поведение тач-скролла */
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
