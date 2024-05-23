@@ -563,7 +563,6 @@ function handleScroll(newY) {
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-import { usePointerSwipe } from "@vueuse/core";
 
 const { y } = useScroll(window);
 
@@ -571,21 +570,20 @@ const { isSwiping, direction, lengthY } = usePointerSwipe(threeContainer, {
   threshold: 30, // Минимальная длина для распознавания свайпа
 });
 
-watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
-  if (swiping && (dir === 'UP' || dir === 'DOWN')) {
-    window.scrollBy(0, dir === 'UP' ? -lenY : lenY);
-  }
-});
 watch(y, (newY) => {
   handleScroll(newY);
 });
 
+watch(y, (newY) => {
+  handleScroll(newY);
+});
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
   window.addEventListener('load', resizeVideo);
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
+  window.addEventListener('scroll', handleScroll);
   window.addEventListener('orientationchange', reinitializeThreeJs);
 });
 
@@ -593,10 +591,12 @@ onUnmounted(() => {
   window.removeEventListener('resize', onWindowResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
+  window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
+
 
 
 defineExpose({
@@ -606,12 +606,15 @@ defineExpose({
 
 <style>
 
+canvas {
+  touch-action: pan-y;
+}
+
 body, html {
-  touch-action: pan-y; /* Отключает дефолтное поведение тач-скролла */
+  touch-action: none; /* Отключает дефолтное поведение тач-скролла */
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
-.
 body {
   margin: 0 !important;
   padding: 0 !important;
@@ -653,7 +656,6 @@ body {
   align-items: center;
   min-height: 50vh; /* Минимальная высота для обеспечения скролла */
   overflow-x: hidden; /* Добавьте это, чтобы обеспечить прокрутку в контейнере */
-  touch-action: pan-y; /* Разрешает только вертикальный скролл */
 }
 
 .content-container {
