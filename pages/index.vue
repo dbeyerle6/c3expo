@@ -767,7 +767,7 @@ body {
   background-repeat: no-repeat;
 }
 
-@media  (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) and (orientation: landscape){
+@media  (min-width: 1024px) and (max-width: 1366px){
   body {
     background-size: 500%;
     background-position: center -800px;
