@@ -550,30 +550,26 @@ function reinitializeThreeJs() {
   // Переинициализируем Three.js
   initThreeJs();
 }
-
-const { y } = useScroll(window);
-
 function handleScroll(newY) {
   const dynamicOffset = -800 + (newY * -0.1); // Уменьшаем динамическое смещение
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
 }
 
-// В watch следим за изменением значения y и вызываем handleScroll
-watch(y, (newY) => {
-  handleScroll(newY);
-});
-// Инициализация useSwipe для обработки свайпов
+
+const { y } = useScroll(window);
 const { isSwiping, direction, lengthY } = useSwipe(document, {
   threshold: 30, // Минимальная длина для распознавания свайпа
 });
 
-// Обработка свайпов для скролла
 watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
   if (swiping && (dir === 'UP' || dir === 'DOWN')) {
     window.scrollBy(0, dir === 'UP' ? -lenY : lenY);
   }
 });
 
+watch(y, (newY) => {
+  handleScroll(newY);
+});
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
   window.addEventListener('load', resizeVideo);
@@ -601,6 +597,7 @@ onUnmounted(() => {
 });
 
 
+
 defineExpose({
   handleScroll
 });
@@ -609,7 +606,7 @@ defineExpose({
 <style>
 
 body, html {
-  touch-action: auto; /* Отключает дефолтное поведение тач-скролла */
+  touch-action: none; /* Отключает дефолтное поведение тач-скролла */
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
