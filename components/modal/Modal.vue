@@ -112,11 +112,12 @@ onUnmounted(() => {
 .modal_header {
   width: 80%;
   position: fixed;
-  z-index: 3000 !important;
+  z-index: 3000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 120px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal_header > * {
@@ -127,6 +128,7 @@ p, h2 {
   color: #fff;
   font-family: Century Gothic, sans-serif;
   margin: 0;
+  text-align: justify;
 }
 
 .heritage_text {
@@ -234,18 +236,25 @@ p, h2 {
 
 .modal-content::-webkit-scrollbar {
   width: 10px;
+  z-index: 100;
 }
 
 .modal-content::-webkit-scrollbar-track {
   background: #f1f1f1;
+
+  z-index: 100;
 }
 
 .modal-content::-webkit-scrollbar-thumb {
   background: #888;
+
+  z-index: 100;
 }
 
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: #555;
+
+  z-index: 100;
 }
 
 .fade-enter-to, .fade-enter-active {
@@ -274,6 +283,17 @@ p, h2 {
 }
 
 @media (max-width: 768px) {
+
+  .modal_header {
+    width: 100%;
+    position: fixed;
+    z-index: 3000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
   .modal-overlay {
     width: 100%;
     height: 100%;

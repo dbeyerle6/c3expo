@@ -78,6 +78,11 @@ const toggleContent = () => {
 </script>
 
 <style scoped>
+
+p {
+  text-align: justify;
+}
+
 .click-circle {
   position: fixed;
   bottom: 10%; /* Начальная позиция в нижней части */
@@ -166,7 +171,7 @@ const toggleContent = () => {
 
 
 .references_container {
-  margin-top: 80px;
+  margin-top: 100px;
   display: flex;
   flex-wrap: wrap;
   height: inherit;
@@ -201,7 +206,7 @@ const toggleContent = () => {
 .small_image img {
   height: 100%;
   width: 70%;
-  margin-right: -100px;
+  margin-right: -50px;
 }
 
 .box {
@@ -272,7 +277,7 @@ const toggleContent = () => {
   display: flex;
   flex-direction: column;
   text-align: justify;
-  padding: 0px 100px 0 35px;
+  padding: 0px 50px 0 50px;
   height: 100%;
   margin-top: -150px;
   background: rgb(0, 0, 0);

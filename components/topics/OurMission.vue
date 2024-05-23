@@ -20,7 +20,7 @@
 
 <style scoped>
 .mission_container {
-  margin-top: 80px;
+  margin-top: 100px;
   display: flex;
   flex-wrap: wrap;
   height: inherit;

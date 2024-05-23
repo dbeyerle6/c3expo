@@ -45,7 +45,7 @@
         </p>
       </div>
       <div class="second_image">
-        <img src="/static/images/2003.jpg" alt="">
+        <img src="/static/images/2003.png" alt="">
       </div>
     </div>
     <div class="infoBlock" id="info3" style="position: absolute; top: 3140px; left: 20%;">
@@ -148,6 +148,10 @@ onMounted(async () => {
 svg {
   z-index: 10;
   position: relative;
+}
+
+.third_container > img {
+  width: 60%;
 }
 
 .heritageContainer {

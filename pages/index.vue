@@ -53,14 +53,14 @@
 <script setup>
 import {onMounted, onUnmounted, watch, nextTick} from 'vue';
 import * as THREE from 'three';
-import { debounce } from 'lodash-es';
 import { OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {BokehPass} from 'three/examples/jsm/postprocessing/BokehPass.js';
 import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
-import {throttle} from "lodash-es";
+import { useScroll, useSwipe } from '@vueuse/core';
+
 
 const isModalOpen = ref(false);
 const threeContainer = ref(null);
@@ -508,47 +508,9 @@ let currentOffset = ref(0); // Текущее смещение фона
 let targetOffset = ref(0); // Целевое смещение фона
 
 // Эта функция вызывается при каждом скролле
-function handleScroll() {
-  const yOffset = window.pageYOffset;
-  const dynamicOffset = -800 + (yOffset * -0.1); // Уменьшаем динамическое смещение
-  document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
-}
-let isDragging = false;
-let lastY = 0;
-let startX, startY;
 
-function onPointerDown(event) {
-  if (event.isPrimary) {
-    isDragging = true;
-    startX = event.clientX;
-    startY = event.clientY;
-    lastY = event.clientY;
-    event.target.setPointerCapture(event.pointerId);
-  }
-}
 
-function onPointerMove(event) {
-  if (isDragging && event.isPrimary) {
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
 
-    if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-      controls.rotateLeft(deltaX * 0.005); // Вращение сферы
-      startX = event.clientX;
-      startY = event.clientY;
-    } else { // Вертикальное движение
-      window.scrollBy(0, lastY - event.clientY);
-      lastY = event.clientY;
-    }
-  }
-}
-
-function onPointerUp(event) {
-  if (event.isPrimary) {
-    isDragging = false;
-    event.target.releasePointerCapture(event.pointerId);
-  }
-}
 function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
@@ -568,7 +530,6 @@ function onTouchMove(event) {
     }
   }
 }
-
 
 function onTouchEnd(event) {
   touchStart.value = null; // Сбросить начальную точку касания
@@ -590,7 +551,28 @@ function reinitializeThreeJs() {
   initThreeJs();
 }
 
+const { y } = useScroll(window);
 
+function handleScroll(newY) {
+  const dynamicOffset = -800 + (newY * -0.1); // Уменьшаем динамическое смещение
+  document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
+}
+
+// В watch следим за изменением значения y и вызываем handleScroll
+watch(y, (newY) => {
+  handleScroll(newY);
+});
+// Инициализация useSwipe для обработки свайпов
+const { isSwiping, direction, lengthY } = useSwipe(document, {
+  threshold: 30, // Минимальная длина для распознавания свайпа
+});
+
+// Обработка свайпов для скролла
+watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
+  if (swiping && (dir === 'UP' || dir === 'DOWN')) {
+    window.scrollBy(0, dir === 'UP' ? -lenY : lenY);
+  }
+});
 
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
@@ -599,10 +581,10 @@ onMounted(() => {
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
   window.addEventListener('scroll', handleScroll);
-  window.addEventListener('touchstart', onTouchStart, {passive: true});
-  window.addEventListener('touchmove', onTouchMove, {passive: false});
-  window.addEventListener('touchend', onTouchEnd, {passive: true});
   window.addEventListener('orientationchange', reinitializeThreeJs);
+  window.addEventListener('touchstart', onTouchStart);
+  window.addEventListener('touchmove', onTouchMove);
+  window.addEventListener('touchend', onTouchEnd);
 });
 
 onUnmounted(() => {
@@ -610,10 +592,10 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('orientationchange', reinitializeThreeJs);
   window.removeEventListener('touchstart', onTouchStart);
   window.removeEventListener('touchmove', onTouchMove);
   window.removeEventListener('touchend', onTouchEnd);
-  window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
@@ -631,7 +613,6 @@ body, html {
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
-.
 body {
   margin: 0 !important;
   padding: 0 !important;

@@ -1,7 +1,9 @@
 <template>
   <div v-if="isVisible" class="modal">
     <div class="modal-content">
-      <span class="close" @click="closeModal">&times;</span>
+      <div class="modal_header">
+        <span class="close" @click="closeModal">&times;</span>
+      </div>
       <a class="download-button" :href="docUrl" download @click.stop>
         <img src="/static/images/download.svg" alt="">
       </a>
@@ -70,6 +72,13 @@ function closeModal() {
   z-index: 1000; /* Убедитесь, что модальное окно находится поверх других элементов */
 }
 
+.modal_header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .modal-content {
   background-color: #fff;
   padding: 20px;
@@ -82,11 +91,12 @@ function closeModal() {
 }
 
 .close {
-  float: right; /* Позиционирование крестика справа */
+  float: left; /* Позиционирование крестика справа */
   font-size: 28px; /* Размер шрифта крестика */
   font-weight: bold; /* Жирность шрифта */
   cursor: pointer; /* Курсор в виде указателя */
   transition: 0.3s ease-in-out;
+  position: fixed;
 }
 
 .close:hover {
