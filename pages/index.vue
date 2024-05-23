@@ -776,6 +776,24 @@ body {
   }
 }
 
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: portrait){
+  body {
+    background-size: 500%;
+    background-position: center -800px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: portrait){
+  body {
+    background-size: 500%;
+    background-position: center -800px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+}
+
 @media  (max-width: 768px) {
   body {
     background-size: 500%;
