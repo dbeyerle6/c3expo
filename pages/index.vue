@@ -783,6 +783,17 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape){
