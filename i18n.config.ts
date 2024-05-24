@@ -86,11 +86,11 @@ export default defineI18nConfig(() => ({
                 contact_us: 'Contact us',
                 jobs: 'Jobs',
                 gtc: {
-                    supplier: '/docs/AGB_Subunternehmer_en.docx',
-                    client: '/docs/AGB_Auftraggeber_en.docx',
+                    supplier: '/docs/AGB_Subunternehmer_en.docx.pdf',
+                    client: '/docs/AGB_Auftraggeber_en.docx.pdf',
                 },
-                privacy: '/docs/Datenschutzerkl%C3%A4rung_en.docx',
-                imprint: '/docs/Impressum_en.docx',
+                privacy: '/docs/Datenschutzerkl%C3%A4rung_en.docx.pdf',
+                imprint: '/docs/Impressum_en.docx.pdf',
             },
             cities: ['Germany', 'Switzerland', 'France', 'Italy', 'Austria', 'Spain', 'Sweden', 'Portugal', 'Belgium', 'Netherlands', 'United Kingdom', 'China', 'South Africa', 'Thailand', 'Madagascar', 'United Arab Emirates', 'United States of America', 'Australia', 'Algeria'],
         },
@@ -177,11 +177,11 @@ export default defineI18nConfig(() => ({
                 contact_us: 'Kontaktieren Sie uns',
                 jobs: 'Arbeitsplätze',
                 gtc: {
-                    supplier: '/docs/AGB_Subunternehmer.docx',
-                    client: '/docs/AGB_Auftraggeber.docx',
+                    supplier: '/docs/AGB_Subunternehmer.docx.pdf',
+                    client: '/docs/AGB_Auftraggeber.docx.pdf',
                 },
-                privacy: '/docs/Datenschutzerkl%C3%A4rung.docx',
-                imprint: '/docs/Impressum.docx',
+                privacy: '/docs/Datenschutzerkl%C3%A4rung.docx.pdf',
+                imprint: '/docs/Impressum.docx.pdf',
             },
             cities: ['Deutschland', 'Schweiz', 'Frankreich', 'Italien', 'Österreich', 'Spanien', 'Schweden', 'Portugal', 'Belgien', 'Niederlande', 'Großbritannien', 'China', 'Südafrika', 'Thailand', 'Madagaskar', 'Vereinigte Arabische Emirate', 'Vereinigten Staaten von Amerika', 'Australien', 'Algerien']
         }

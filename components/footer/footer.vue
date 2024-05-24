@@ -5,15 +5,15 @@
       <div class="footer_nav_gtc">
         <h1 class="nav_gtc_title">{{$t('links.grc_name')}}</h1>
         <div class="nav_gtc_links">
-          <p @click="openModal('links.gtc.client')">{{$t('links.client_name')}}</p>
-          <p @click="openModal('links.gtc.supplier')">{{$t('links.supplier_name')}}</p>
+          <p @click="openPDF('links.gtc.client')">{{$t('links.client_name')}}</p>
+          <p @click="openPDF('links.gtc.supplier')">{{$t('links.supplier_name')}}</p>
         </div>
       </div>
       <div class="footer_nav_imprint">
-        <h1 @click="openModal('links.imprint')" class="nav_imprint_title">{{$t('links.imprint_name')}}</h1>
+        <h1 @click="openPDF('links.imprint')" class="nav_imprint_title">{{$t('links.imprint_name')}}</h1>
       </div>
       <div class="footer_nav_privacy">
-        <h1 @click="openModal('links.privacy')" class="nav_privacy_title">{{$t('links.privacy_name')}}</h1>
+        <h1 @click="openPDF('links.privacy')" class="nav_privacy_title">{{$t('links.privacy_name')}}</h1>
       </div>
       <div class="footer_nav_contacts">
         <h1 class="nav_contacts_title">{{ $t('links.contact_us') }}</h1>
@@ -27,7 +27,7 @@
         </div>
         <div class="contact_us">
           <img class="contact_us_logo" src="/static/images/footer_mail.png" alt=""/>
-          <a class="contact_us_text" href="malito:info@c3expo.de">info@c3expo.de</a>
+          <a class="contact_us_text" href="mailto:info@c3expo.de">info@c3expo.de</a>
         </div>
       </div>
       <div class="footer_nav_jobs">
@@ -35,59 +35,33 @@
       </div>
     </div>
     <div class="footer_copyright">
-        <div class="copyrights">
-          <img width="10" height="10" src="/static/images/copyright.svg" alt="">
-          <p>2024 – C³ Expo  GmbH</p>
-        </div>
-
+      <div class="copyrights">
+        <img width="10" height="10" src="/static/images/copyright.svg" alt="">
+        <p>2024 – C³ Expo  GmbH</p>
+      </div>
     </div>
-    <DocModal :isVisible="isModalVisible" :docUrl="currentDocUrl" @close="handleModalClose" />
-    <Modal :isVisible="isJobsModalVisible" :index="777" @update:isVisible="closeModal" />
   </footer>
 </template>
 
-
 <script setup lang="ts">
-import {ref} from 'vue';
-import DocModal from "~/components/docmodal/DocModal.vue";
+import { ref } from 'vue';
 
-const {t, locale} = useI18n();
-const isModalVisible = ref(false);
+const { t, locale } = useI18n();
 const isJobsModalVisible = ref(false);
-const currentDocUrl = ref('');
 
-// Функция для обновления URL документа
-function updateDocUrl() {
-  currentDocUrl.value = t('links.gtc.client');
-}
-
-// Отслеживаем изменение языка и обновляем URL документа
-watch(locale, () => {
-  updateDocUrl();
-});
-
-function openJobsModal  () {
+function openJobsModal() {
   isJobsModalVisible.value = true;
 }
 
 function closeModal() {
-  isJobsModalVisible.value = false
-  resetCameraAndResumeAnimation(); // Возвращаем камеру к исходному положению
+  isJobsModalVisible.value = false;
 }
 
-// Инициализация с текущим языком
-updateDocUrl();
-
-function openModal(translationKey: any) {
-  currentDocUrl.value = t(translationKey);
-  isModalVisible.value = true;
-}
-
-function handleModalClose() {
-  isModalVisible.value = false;
+function openPDF(translationKey: string) {
+  const pdfUrl = t(translationKey);
+  window.open(pdfUrl, '_blank');
 }
 </script>
-
 <style scoped>
 
 @media (max-width: 768px) {
