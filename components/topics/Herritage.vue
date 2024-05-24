@@ -232,7 +232,7 @@ svg {
   justify-content: flex-end;
   align-items: center;
   padding-right: 5%;
-  padding-left: 10%;
+  padding-left: 25%;
   border-right: 1px solid #36e4da;
 }
 
@@ -284,6 +284,7 @@ svg {
   right: 20%;
   padding-right: 10%;
   padding-top: 50px;
+  border-right: 1px solid #36e4da;
 }
 
 .second_date {
@@ -328,7 +329,7 @@ svg {
   transform: translateX(-25%);
   padding-right: 5%;
   border-right: 1px solid #36e4da;
-  padding-left: 10%;
+  padding-left: 25%;
   padding-top: 100px;
 }
 
@@ -672,6 +673,11 @@ svg {
   #info1 {
     left: 26% !important;
   }
+
+  #info2 {
+    border-right: 1px solid #36e4da;
+  }
+
   #info3 {
     left: 22%!important;
   }

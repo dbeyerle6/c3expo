@@ -585,7 +585,6 @@ onMounted(() => {
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
   window.addEventListener('scroll', handleScroll);
-  window.addEventListener('orientationchange', reinitializeThreeJs);
 });
 
 onUnmounted(() => {
@@ -593,7 +592,6 @@ onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
   window.removeEventListener('scroll', handleScroll);
-  window.removeEventListener('orientationchange', reinitializeThreeJs);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
@@ -776,7 +774,7 @@ body {
   }
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: portrait){
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366x) and (orientation: portrait){
   body {
     background-size: 800%;
     background-position: center -800px;

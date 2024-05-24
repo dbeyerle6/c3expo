@@ -143,4 +143,14 @@
     padding: 40px 20px 0 0;
   }
 }
+
+@media all and (min-device-width: 768px) and (max-device-width: 1366px) {
+  .mission_container {
+    flex-direction: column;
+
+  }
+  .box {
+    width: 100%;
+  }
+}
 </style>

@@ -3,7 +3,7 @@
     <div class="ceo_profile">
       <div class="ceo_profile_image_placeholder">
         <span class="ceo_gradient"></span>
-        <img src="/static/images/daniel2.jpg" alt="">
+        <img src="/static/images/Daniel-26.jpg" alt="">
       </div>
       <div class="ceo_profile_content">
         <h1>Daniel Beyerle</h1>
@@ -166,6 +166,34 @@
     margin: 5%;
   }
 }
+
+@media all and (min-device-width: 768px) and (max-device-width: 1366px) {
+  .ceo_profile {
+    flex-direction: column;
+  }
+  .ceo_gradient {
+    display: none;
+  }
+
+  .ceo_profile_image_placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .ceo_profile_image_placeholder img {
+    height: 500px;
+    -o-object-fit: none;
+    object-fit: cover;
+    width: 400px;
+    border-right: none;
+  }
+
+  .ceo_profile_content {
+    margin-left: 0;
+  }
+}
+
+
 </style>
 <script setup lang="ts">
 </script>

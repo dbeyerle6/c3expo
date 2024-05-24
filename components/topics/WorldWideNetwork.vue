@@ -128,6 +128,40 @@
   }
 }
 
+@media all and (min-device-width: 768px) and (max-device-width: 1366px) {
+  .title_box > h1 {
+    width: 100%;
+  }
+
+  .www {
+    width: 100%;
+    min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: url("/static/images/www_background.png");
+    background-position-y: 160px;
+    background-size: cover;
+    overflow-x: hidden;
+  }
+  .world_box {
+    width: 100%;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .cities_list {
+    width: 50%;
+    justify-content: center;
+  }
+
+  .world_map {
+    width: 90%;
+  }
+}
+
 </style>
 <script setup lang="ts">
 
