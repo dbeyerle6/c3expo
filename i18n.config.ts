@@ -86,11 +86,11 @@ export default defineI18nConfig(() => ({
                 contact_us: 'Contact us',
                 jobs: 'Jobs',
                 gtc: {
-                    supplier: '/docs/AGB_Subunternehmer_en.docx.pdf',
-                    client: '/docs/AGB_Auftraggeber_en.docx.pdf',
+                    supplier: '/docs/AGB_Subunternehmer_en.pdf',
+                    client: '/docs/AGB_Auftraggeber_en.pdf',
                 },
-                privacy: '/docs/Datenschutzerkl%C3%A4rung_en.docx.pdf',
-                imprint: '/docs/Impressum_en.docx.pdf',
+                privacy: '/docs/Datenschutzerklärung_en.pdf',
+                imprint: '/docs/Impressum_en.pdf',
             },
             vacancies: {
                 project_manager_title : 'Projekt Manager',
@@ -183,11 +183,11 @@ export default defineI18nConfig(() => ({
                 contact_us: 'Kontaktieren Sie uns',
                 jobs: 'Arbeitsplätze',
                 gtc: {
-                    supplier: '/docs/AGB_Subunternehmer.docx.pdf',
-                    client: '/docs/AGB_Auftraggeber.docx.pdf',
+                    supplier: '/docs/AGB_Subunternehmer.pdf',
+                    client: '/docs/AGB_Auftraggeber.pdf',
                 },
-                privacy: '/docs/Datenschutzerkl%C3%A4rung.docx.pdf',
-                imprint: '/docs/Impressum.docx.pdf',
+                privacy: '/docs/Datenschutzerklärung.pdf',
+                imprint: '/docs/Impressum.pdf',
             },
             vacancies: {
                 project_manager_title : 'Projekt Manager',
