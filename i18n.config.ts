@@ -92,6 +92,12 @@ export default defineI18nConfig(() => ({
                 privacy: '/docs/Datenschutzerkl%C3%A4rung_en.docx.pdf',
                 imprint: '/docs/Impressum_en.docx.pdf',
             },
+            vacancies: {
+                project_manager_title : 'Projekt Manager',
+                project_manager : '/docs/Projektmanger_en.pdf',
+                spatial_designer_title: 'Spatial Designer',
+                spatial_designer: '/docs/Spatial_Designer_en.pdf'
+            },
             cities: ['Germany', 'Switzerland', 'France', 'Italy', 'Austria', 'Spain', 'Sweden', 'Portugal', 'Belgium', 'Netherlands', 'United Kingdom', 'China', 'South Africa', 'Thailand', 'Madagascar', 'United Arab Emirates', 'United States of America', 'Australia', 'Algeria'],
         },
         de: {
@@ -183,7 +189,14 @@ export default defineI18nConfig(() => ({
                 privacy: '/docs/Datenschutzerkl%C3%A4rung.docx.pdf',
                 imprint: '/docs/Impressum.docx.pdf',
             },
-            cities: ['Deutschland', 'Schweiz', 'Frankreich', 'Italien', 'Österreich', 'Spanien', 'Schweden', 'Portugal', 'Belgien', 'Niederlande', 'Großbritannien', 'China', 'Südafrika', 'Thailand', 'Madagaskar', 'Vereinigte Arabische Emirate', 'Vereinigten Staaten von Amerika', 'Australien', 'Algerien']
+            vacancies: {
+                project_manager_title : 'Projekt Manager',
+                project_manager : '/docs/Projektmanger.pdf',
+                spatial_designer_title: 'Spatial Designer',
+                spatial_designer: '/docs/Spatial_Designer.pdf'
+            },
+            cities: ['Deutschland', 'Schweiz', 'Frankreich', 'Italien', 'Österreich', 'Spanien', 'Schweden', 'Portugal', 'Belgien', 'Niederlande', 'Großbritannien', 'China', 'Südafrika', 'Thailand', 'Madagaskar', 'Vereinigte Arabische Emirate', 'Vereinigten Staaten von Amerika', 'Australien', 'Algerien'],
+
         }
     }
 }))

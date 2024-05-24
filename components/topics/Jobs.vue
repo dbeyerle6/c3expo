@@ -21,13 +21,9 @@
       <div class="jobs_vacancies">
         <div class="jobs_subtitle"><h2>{{ $t('jobs.subtitle') }}</h2></div>
         <div class="jobs_wrapper">
-          <div class="jobs_job"><p>(Senior) – Project Manager (m/f/d)
+          <div class="jobs_job" @click="openPDF('vacancies.project_manager')"><p>(Senior) – Project Manager (m/f/d)
           </p></div>
-          <div class="jobs_job"><p>Junior Project Manager (m/f/d)
-          </p></div>
-          <div class="jobs_job"><p>Spatial Designer (m/f/d)
-          </p></div>
-          <div class="jobs_job"><p>Visual Designer (m/f/d)
+          <div class="jobs_job" @click="openPDF('vacancies.spatial_designer')"><p>Spatial Designer (m/f/d)
           </p></div>
         </div>
       </div>
@@ -190,4 +186,10 @@ h2 {
 }
 </style>
 <script setup lang="ts">
+
+const { t, locale } = useI18n();
+function openPDF(translationKey: string) {
+  const pdfUrl = t(translationKey);
+  window.open(pdfUrl, '_blank');
+}
 </script>
