@@ -204,6 +204,28 @@
   .expertise_title {
     font-size: 50px;
   }
+  .expertise_container {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  .expertise_column_one {
+    width: 100%;
+    border-right: none;
+  }
+
+  .expertise_column_two {
+    width: 100%;
+    padding: 30px 10px;
+  }
+
+  .expertise_title {
+    font-size: 50px;
+  }
+  .expertise_text {
+    width: 80%;
+  }
 }
 </style>
 <script setup lang="ts">

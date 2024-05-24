@@ -2,9 +2,6 @@
 <!--  <div v-if="isUnderConstruction" class="isUnder">-->
 <!--    <h2>Website is under construction</h2>-->
 <!--https://c3expo-europe.b-cdn.net/c3expo-200px.mp4  </div>-->
-  <head>
-    <meta name="viewport">
-  </head>
   <div>
     <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
   </div>
@@ -774,7 +771,7 @@ body {
   }
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1366x) and (orientation: portrait){
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: portrait){
   body {
     background-size: 800%;
     background-position: center -800px;

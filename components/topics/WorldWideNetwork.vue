@@ -150,6 +150,7 @@
     justify-content: center;
     align-items: center;
     padding: 0;
+    margin-top: 120px;
   }
 
   .cities_list {

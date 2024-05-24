@@ -173,7 +173,21 @@ h2 {
   }
 
 }
+@media screen and (min-device-width: 768px) and (max-device-width: 1366px) {
 
+  .jobs_header {
+    flex-direction: column;
+  }
+  .jobs_content {
+    flex-direction: column;
+  }
+  .jobs_image {
+    width: 100%;
+  }
+  .jobs_title {
+    width: 100%;
+  }
+}
 </style>
 <script setup lang="ts">
 </script>
