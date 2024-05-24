@@ -2,7 +2,7 @@
   <div style="max-height: 1200px; ;overflow-y: auto" @click="toggleContent">
     <div v-show="showDiv1" class="references_container">
       <div class="box title">
-        <h1 class="references_title">{{$t('references.title')}}}</h1>
+        <h1 class="references_title">{{$t('references.title')}}</h1>
       </div>
       <div class="box image">
         <img src="/static/images/references1.jpg" alt="Our references">
@@ -495,5 +495,24 @@ p {
 
 
 
+}
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .references_title {
+    font-size: 60px !important;
+  }
+
+  .references_container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .image > img {
+    border-right: none;
+  }
 }
 </style>

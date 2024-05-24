@@ -40,7 +40,9 @@
         <p>2024 – C³ Expo  GmbH</p>
       </div>
     </div>
+    <Modal :isVisible="isJobsModalVisible" :index="777" @update:isVisible="closeModal" />
   </footer>
+
 </template>
 
 <script setup lang="ts">
