@@ -136,7 +136,7 @@
 }
 
 
-@media screen and (min-device-width: 768px) and (max-device-width: 1366px) {
+@media screen and (min-device-width: 768px) and (max-device-width: 1365px) {
 
   .eb_row {
     flex-direction: column;

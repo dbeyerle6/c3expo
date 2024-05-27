@@ -132,7 +132,6 @@
 
   .empty {
     width: 90%;
-
     padding: 30px;
     display: flex;
     flex-direction: column;
