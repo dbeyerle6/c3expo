@@ -633,7 +633,6 @@ canvas {
 }
 
 body, html {
-  touch-action: none; /* Отключает дефолтное поведение тач-скролла */
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
