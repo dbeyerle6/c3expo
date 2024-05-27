@@ -726,5 +726,19 @@ svg {
   .third_container > img {
     width: 130%;
   }
+
+  .fourth_image > img {
+
+    width: 100%;
+  }
+
+  .fourth_text > p {
+    width: 100%;
+  }
+
+  .fifth_box {
+    padding-top: 100px;
+  }
+
 }
 </style>
