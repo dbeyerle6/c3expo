@@ -66,9 +66,6 @@ function openPDF(translationKey: string) {
 </script>
 <style scoped>
 
-* {
-  border: 1px solid red;
-}
 
 @media (max-width: 768px) {
   .footer_nav {

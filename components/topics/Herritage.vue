@@ -740,5 +740,10 @@ svg {
     padding-top: 100px;
   }
 
+  .third_container {
+    width: 80%;
+  }
 }
+
+
 </style>
