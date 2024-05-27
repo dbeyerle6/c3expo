@@ -1,6 +1,6 @@
 <template>
   <div class="map_container">
-    <img src="/static/images/map.png" alt="">
+    <img src="/static/images/map.png" class="map" alt="">
     <img width="20" height="20" class="point1" src="/static/images/map-marker.svg" alt="">
     <img width="20" height="20" class="point2" src="/static/images/map-marker.svg" alt="">
     <img width="20" height="20" class="point3" src="/static/images/map-marker.svg" alt="">
@@ -40,6 +40,7 @@
     width: 100%;
     height: 100%;
   }
+
 
 
   .point1 {
@@ -117,14 +118,14 @@
     position: absolute;
     width: 1.2rem !important;
     height: 5px;
-    top: 33%;
+    top: 31%;
     left: 52%;
   }
   .point11 {
     position: absolute;
     width: 1.2rem !important;
     height: 5px;
-    top: 31%;
+    top: 29%;
     left: 54%;
   }
   .point12 {
@@ -145,8 +146,8 @@
     position: absolute;
     width: 1.2rem !important;
     height: 5px;
-    top: 25%;
-    left: 59.5%;
+    top: 23%;
+    left: 59%;
   }
   .point15 {
     position: absolute;

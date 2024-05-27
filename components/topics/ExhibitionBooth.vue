@@ -132,6 +132,7 @@
   font-size: 20px;
   margin: 0;
   line-height: 1.5;
+  text-align: justify;
 }
 
 

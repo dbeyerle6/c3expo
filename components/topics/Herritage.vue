@@ -150,6 +150,10 @@ svg {
   position: relative;
 }
 
+
+.fifth_box > p {
+  text-align: justify;
+}
 .third_container > img {
   width: 60%;
 }

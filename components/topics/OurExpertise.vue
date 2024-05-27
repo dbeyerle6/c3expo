@@ -40,10 +40,32 @@
         </div>
       </div>
     </div>
+    <div class="click-circle">Click!</div>
   </div>
 </template>
 
 <style scoped>
+
+.click-circle {
+  position: fixed;
+  bottom: 10%; /* Начальная позиция в нижней части */
+  left: 50%; /* Центрирование по горизонтали */
+  transform: translateX(-50%); /* Точное центрирование текста */
+  width: 40px;
+  height: 40px;
+  background-color: #888888; /* Цвет фона */
+  color: white; /* Цвет текста */
+  border-radius: 50%; /* Сделать элемент круглым */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #36e4da;
+  font-family: "Century Gothic", sans-serif;
+}
+
 .expertise_container {
   display: flex;
   width: 100% !important;
@@ -108,6 +130,7 @@
   transition: opacity 1s ease-in-out;
   display: flex;
   gap: 20px;
+  width: 71%;
 }
 
 
@@ -127,6 +150,8 @@
   font-size: 17px;
   color: #fff;
   font-family: "Century Gothic", sans-serif;
+  text-align: justify;
+
 }
 
 
@@ -229,7 +254,7 @@
 }
 </style>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 import image1 from '@/static/images/our_expertise/4.jpg'
 import image2 from '@/static/images/our_expertise/4.jpg'
@@ -240,6 +265,8 @@ import creativity_icon from "@/static/images/creativity_icon.png"
 import contact_person_icon from "@/static/images/contact_person_icon.svg"
 import production_icon from "@/static/images/production_icon.svg"
 import installation_icon from "@/static/images/installation_icon.svg"
+import gsap from "gsap";
+
 
 const images = [image2, image3, image4, image5];
 
@@ -249,6 +276,17 @@ const currentTextIndex = ref(-1);
 const isFirstClick = ref(true);  // Добавляем флаг для отслеживания первого клика
 const clickCount = ref(0);
 
+
+onMounted(() => {
+  // Анимация круга "Click!"
+  gsap.to('.click-circle', {
+    y: '-20%', // Двигать вверх на 20% от текущей позиции
+    repeat: -1, // Бесконечное повторение
+    yoyo: true, // Возврат в исходное положение
+    ease: 'power1.inOut', // Плавность движения
+    duration: 1 // Длительность одного цикла вверх-вниз
+  });
+});
 const nextImageAndText = () => {
   // Увеличиваем счетчик кликов при каждом вызове функции
   clickCount.value++;

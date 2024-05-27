@@ -28,7 +28,7 @@
           <img src="/static/images/references3.jpg" alt="Our references">
         </div>
         <div class="slideTwo_text">
-          <p class="references_text big" v-html="$t('references.text1')"></p>
+          <p class="references_text big" v-html="$t('references.text2')"></p>
         </div>
       </div>
     </div>
@@ -52,8 +52,8 @@ onMounted(() => {
     y: '-20%', // Двигать вверх на 20% от текущей позиции
     repeat: -1, // Бесконечное повторение
     yoyo: true, // Возврат в исходное положение
-    ease: 'power1.inOut', // Плавность движения
-    duration: 2 // Длительность одного цикла вверх-вниз
+    ease: 'elastic', // Плавность движения
+    duration: 1 // Длительность одного цикла вверх-вниз
   });
 });
 const toggleContent = () => {

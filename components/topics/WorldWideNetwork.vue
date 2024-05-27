@@ -19,6 +19,8 @@
     </div>
 </template>
 <style scoped>
+
+
 .www {
   width: 100%;
   min-height: 400px;

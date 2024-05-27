@@ -284,6 +284,10 @@ function addSmallCylinders(sphereRadius, count) {
       onCylinderClick(event.target.userData.index);
     });
 
+    cylinder.addEventListener('touchstart', (event) => {
+      event.preventDefault();
+      onCylinderClick(event.target.userData.index);
+    });
     scene.add(cylinder);
     allCylinders.push(cylinder); // Добавляем цилиндр в массив
   }
@@ -411,7 +415,6 @@ function addInvisibleCubes() {
 function onMouseClick(event) {
   if (!showIntro.value) {
     event.preventDefault();
-    // Коррекция координаты Y с учетом прокрутки страницы
     const rect = renderer.domElement.getBoundingClientRect();
     const correctedX = event.clientX - rect.left;
     const correctedY = event.clientY - rect.top;
@@ -508,12 +511,35 @@ let targetOffset = ref(0); // Целевое смещение фона
 let isTouching = ref(false)
 
 
-function onTouchStart(event) {
+/*function onTouchStart(event) {
   if (event.touches.length === 1) {
     touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
     isTouching.value = true; // Устанавливаем флаг при начале тача
     controls.enabled = false; // Отключаем управление контроллером при начале тача
     event.preventDefault(); // Предотвращаем конфликт с браузерными событиями
+  }
+}*/
+
+function onTouchStart(event) {
+  if (!showIntro.value) {
+    event.preventDefault();
+    const rect = renderer.domElement.getBoundingClientRect();
+    const correctedX = event.touches[0].clientX - rect.left;
+    const correctedY = event.touches[0].clientY - rect.top;
+
+    mouse.x = (correctedX / rect.width) * 2 - 1;
+    mouse.y = -(correctedY / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(clickableCubes, true);
+
+    for (let i = 0; i < intersects.length; i++) {
+      if (intersects[i].object.userData.isClickable) {
+        isModalOpen.value = true;
+        onCylinderClick(intersects[i].object.userData.index);
+        break;
+      }
+    }
   }
 }
 

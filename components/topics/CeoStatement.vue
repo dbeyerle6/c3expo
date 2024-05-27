@@ -52,10 +52,11 @@
 
 .ceo_profile_image_placeholder img {
   height: 500px;
-  object-fit: none;
-  width: 400px;
+  object-fit: cover;
+  width: 350px;
   object-position: 0 5%;
   margin-top: 15%;
+  padding-right: 15%;
   border-right: 1px solid #36e4da;
 
 }
