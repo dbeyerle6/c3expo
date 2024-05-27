@@ -711,6 +711,7 @@ body {
 @media (max-width: 768px) {
   body {
     background-size: 800% !important;
+    cursor: pointer;
   }
 
   .logo-container > img {
