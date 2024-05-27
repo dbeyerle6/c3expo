@@ -698,16 +698,33 @@ svg {
 }
 
 
-@media screen and (max-device-width: 384px){
+@media screen and (max-device-width: 512px){
+  .third_date {
+    width: 120%;
+    margin-left: 12%;
+  }
+
   .third_container > p {
-    width: 90%;
+    width: 100%;
+    text-align: justify;
   }
 
   #info1 {
     left: 5% !important;
+
+    height: auto;
   }
   #info2 {
     right: 28%;
+    height: auto;
+  }
+
+  #info3 {
+    height: auto;
+  }
+
+  .third_container > img {
+    width: 130%;
   }
 }
 </style>
