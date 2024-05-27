@@ -27,7 +27,7 @@
         </div>
         <div class="contact_us">
           <img class="contact_us_logo" src="/static/images/footer_mail.png" alt=""/>
-          <a class="contact_us_text" href="mailto:info@c3expo.de">info@c3expo.de</a>
+          <a class="contact_us_text" href="mailto:info@c3expo.de" target="_blank">info@c3expo.de</a>
         </div>
       </div>
       <div class="footer_nav_jobs">
@@ -66,6 +66,10 @@ function openPDF(translationKey: string) {
 </script>
 <style scoped>
 
+* {
+  border: 1px solid red;
+}
+
 @media (max-width: 768px) {
   .footer_nav {
     flex-direction: column;
@@ -101,7 +105,6 @@ function openPDF(translationKey: string) {
 }
 
 .footer_nav > div {
-  flex: 10%;
   text-align: center;
   padding: 10px;
   display: flex;
@@ -150,7 +153,7 @@ function openPDF(translationKey: string) {
 .contact_us_text {
   color: #C0BEBE;
   text-underline: none;
-  text-decoration: none;
+  text-decoration: underline; /* Измените это */
   font-family: "Century Gothic", sans-serif;
 }
 

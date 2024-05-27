@@ -45,6 +45,11 @@ h2 {
   font-weight: bold;
 }
 
+.jobs_text {
+  text-align: justify;
+  width: 95%;
+}
+
 .jobs_container {
   width: 100%;
   display: flex;

@@ -27,8 +27,8 @@
             <source src="https://c3expo-test-cdn.b-cdn.net/c3expo-200px-v2.mp4" type="video/mp4">
             Your browser does not support the video.
           </video>
-              <img class="mute_button" @click="toggleMute"v-if="isMuted" src="/assets/mute.svg" alt="">
-              <img class="mute_button" @click="toggleMute" v-else src="/assets/volume.svg" alt="">
+              <img class="mute_button" @click="toggleMute"v-if="isMuted" src="/assets/mute.png" alt="">
+              <img class="mute_button" @click="toggleMute" v-else src="/assets/volume.png" alt="">
           </div>
         </div>
 
@@ -927,11 +927,11 @@ body {
 
 .mute_button {
   position: absolute;
-  bottom: 30px;
+  top: 30px;
   right: 30px;
   cursor: pointer;
   z-index: 10;
-  width: 30px;
+  width: 40px;
 }
 
 .mobile-menu {

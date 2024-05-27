@@ -256,11 +256,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
-import image1 from '@/static/images/our_expertise/4.jpg'
-import image2 from '@/static/images/our_expertise/4.jpg'
+import image1 from '@/static/images/our_expertise/1.jpg'
+import image2 from '@/static/images/our_expertise/2.jpg'
 import image3 from '@/static/images/our_expertise/3.jpg'
-import image4 from '@/static/images/our_expertise/2.jpg'
-import image5 from '@/static/images/our_expertise/1.jpg'
+import image4 from '@/static/images/our_expertise/4.jpg'
+import image5 from '@/static/images/our_expertise/5.jpg'
 import creativity_icon from "@/static/images/creativity_icon.png"
 import contact_person_icon from "@/static/images/contact_person_icon.svg"
 import production_icon from "@/static/images/production_icon.svg"
@@ -268,7 +268,7 @@ import installation_icon from "@/static/images/installation_icon.svg"
 import gsap from "gsap";
 
 
-const images = [image2, image3, image4, image5];
+const images = [image1, image2, image3, image4, image5];
 
 const currentImageIndex = ref(0);
 const currentTextIndex = ref(-1);
@@ -290,17 +290,11 @@ onMounted(() => {
 const nextImageAndText = () => {
   // Увеличиваем счетчик кликов при каждом вызове функции
   clickCount.value++;
-
-  if (isFirstClick.value) {
-    // Первый клик, только инкрементируем текст
-    isFirstClick.value = false;
-  } else {
-    // После первого клика, изменяем изображение, если кликов было меньше четырех
     if (clickCount.value <= 4 && currentImageIndex.value < images.length - 1) {
       currentImageIndex.value++;
     } else if (clickCount.value <= 4) {
       currentImageIndex.value = 0;
-    }
+
   }
 
   // Изменяем текст только если текущий индекс меньше 3

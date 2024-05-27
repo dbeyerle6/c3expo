@@ -696,4 +696,18 @@ svg {
     right: 28%;
   }
 }
+
+
+@media screen and (max-device-width: 384px){
+  .third_container > p {
+    width: 90%;
+  }
+
+  #info1 {
+    left: 5% !important;
+  }
+  #info2 {
+    right: 28%;
+  }
+}
 </style>
