@@ -26,12 +26,11 @@
   margin: 0 auto;
   padding: 40px;
   width: 90%;
-
   background-image: url("/assets/c3expoback.png");
   background-size: 30%;
   background-position: top right;
   background-repeat: no-repeat;
-
+  overflow-x: hidden;
 }
 
 .ceo_profile {
@@ -167,6 +166,7 @@
 }
 
 @media all and (min-device-width: 768px) and (max-device-width: 1366px) {
+
   .ceo_profile {
     flex-direction: column;
   }

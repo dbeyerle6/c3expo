@@ -100,7 +100,6 @@ function openPDF(translationKey: string) {
   width: 80%;
   margin: 0 auto;
   max-width: 1200px;
-
 }
 
 .footer_nav > div {

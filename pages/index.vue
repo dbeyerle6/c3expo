@@ -636,6 +636,7 @@
 
   canvas {
     touch-action: pan-y !important;
+    cursor: pointer;
   }
 
   body, html {
@@ -654,6 +655,7 @@
     overflow: hidden;
     cursor: pointer;
     margin: 0 auto;
+
   }
 
   .fade-enter-active, .fade-leave-active {
