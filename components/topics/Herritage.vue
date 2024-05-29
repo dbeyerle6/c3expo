@@ -3,12 +3,14 @@
     <div class="infoBlock" id="info5">
       <img class="fifthBackground" src="/static/images/heritage_header.png" alt="">
       <div class="fifth_box">
+        <div class="heritage_headline">
         <p v-html="$t('heritage.text1')">
         </p>
+          <img class="heritage_image":src="heritageImage1" alt="">
+        </div>
         <h3 class="fifth_title"> {{ $t('heritage.subtitle1') }}
         </h3>
 
-        <img class="heritage_image":src="heritageImage1" alt="">
         <h2 class="fifth_date">{{ $t('heritage.date1') }}
         </h2>
       </div>
@@ -145,6 +147,22 @@ onMounted(async () => {
 
 <style scoped>
 
+.heritage_headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.heritage_headline > p {
+  text-align: justify;
+  width: 45%;
+  font-size: 20px;
+}
+
+.heritage_headline > img {
+  margin: 20px 0;
+}
+
 svg {
   z-index: 10;
   position: relative;
@@ -197,12 +215,9 @@ svg {
 
 
 .heritage_image {
-  margin: 100px 0;
-  height: 70%;
-  position: absolute;
-  right: 50px;
+  width: 50%;
   top: 50px;
-  margin: 0;
+  height: 95%;
 }
 
 
@@ -425,7 +440,7 @@ svg {
 .fifth_box {
   width: 40%;
   position: absolute;
-  height: 500px;
+  height: auto;
   right: 0;
   top: 100px;
   background: rgb(0,0,0);
