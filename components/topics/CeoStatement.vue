@@ -50,22 +50,20 @@
   z-index: 2;
 }
 
+.ceo_profile_content {
+  flex: 2;
+  color: #fff;
+}
+
 .ceo_profile_image_placeholder img {
   height: 500px;
   object-fit: cover;
   width: 350px;
   object-position: 0 5%;
   margin-top: 15%;
-  padding-right: 15%;
+  padding-right: 55px;
   border-right: 1px solid #36e4da;
-
-}
-
-.ceo_profile_content {
-  flex: 2;
-  margin-left: 40px;
-  color: #fff;
-  margin-top: 50px
+  margin-right: 55px;
 }
 
 .ceo_profile_title {

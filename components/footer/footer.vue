@@ -79,6 +79,8 @@ function openPDF(translationKey: string) {
   cursor: pointer;
 }
 
+
+
 .footer-container {
   display: flex;
   width: 100%;
@@ -96,8 +98,8 @@ function openPDF(translationKey: string) {
   display: flex;
   justify-content: space-between;
   width: 80%;
-  gap: 10px;
   margin: 0 auto;
+  max-width: 1200px;
 
 }
 
