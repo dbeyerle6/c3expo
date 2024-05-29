@@ -866,7 +866,7 @@
 
   @media  screen and (max-width: 512px) {
     body {
-      background-size: 1400%;
+      background-size: 1400% !important;
       background-position: center -800px;
       background-attachment: fixed;
       background-repeat: no-repeat;
