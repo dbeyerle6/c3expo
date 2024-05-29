@@ -681,6 +681,7 @@
     height: 100vh;
     overflow: hidden;
     touch-action: auto;
+    cursor: pointer;
   }
   .logo {
     width: 200px;
