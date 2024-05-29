@@ -284,6 +284,10 @@
         onCylinderClick(event.target.userData.index);
       });
 
+      cylinder.addEventListener('click', (event) => {
+        onCylinderClick(event.target.userData.index);
+      });
+
       cylinder.addEventListener('touchstart', (event) => {
         event.preventDefault();
         onCylinderClick(event.target.userData.index);
@@ -515,82 +519,34 @@
   // Эта функция вызывается при каждом скролле
   let isTouching = ref(false)
 
-
-  /*function onTouchStart(event) {
-    if (event.touches.length === 1) {
-      touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      isTouching.value = true; // Устанавливаем флаг при начале тача
-      controls.enabled = false; // Отключаем управление контроллером при начале тача
-      event.preventDefault(); // Предотвращаем конфликт с браузерными событиями
-    }
-  }*/
-
-  function onTouchStart(event) {
-    if (!showIntro.value) {
-      event.preventDefault();
-      const rect = renderer.domElement.getBoundingClientRect();
-      const correctedX = event.touches[0].clientX - rect.left;
-      const correctedY = event.touches[0].clientY - rect.top;
-
-      mouse.x = (correctedX / rect.width) * 2 - 1;
-      mouse.y = -(correctedY / rect.height) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(clickableCubes, true);
-
-      for (let i = 0; i < intersects.length; i++) {
-        if (intersects[i].object.userData.isClickable) {
-          isModalOpen.value = true;
-          onCylinderClick(intersects[i].object.userData.index);
-          break;
-        }
-      }
-    }
-  }
-
-  function onTouchMove(event) {
-    if (event.touches.length === 1 && touchStart.value) {
-      const deltaX = touchStart.value.x - event.touches[0].clientX;
-      const deltaY = touchStart.value.y - event.touches[0].clientY;
-
-      if (Math.abs(deltaX) > Math.abs(deltaY)) { // Горизонтальное движение
-        event.preventDefault();
-        controls.enabled = true; // Включаем управление контроллером для горизонтального движения
-      } else { // Вертикальное движение
-        window.scrollBy(0, deltaY);
-        touchStart.value = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-        controls.enabled = false; // Отключаем управление контроллером для вертикального движения
-      }
-    }
-  }
-
-  function onTouchEnd(event) {
-    touchStart.value = null; // Сбросить начальную точку касания
-    isTouching.value = false; // Сбрасываем флаг при завершении тача
-    controls.enabled = true; // Включаем управление контроллером по завершении тача
-  }
-
-
-
-  function reinitializeThreeJs() {
-    // Очищаем предыдущую сцену
-    if (scene) {
-      while (scene.children.length > 0) {
-        scene.remove(scene.children[0]);
-      }
-    }
-    if (renderer) {
-      renderer.dispose();
-    }
-
-    // Переинициализируем Three.js
-    initThreeJs();
-  }
   function handleScroll(newY) {
     const dynamicOffset = -800 + (newY * -0.1); // Уменьшаем динамическое смещение
     document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
   }
 
+  function onTouchStart(event) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const correctedX = event.touches[0].clientX - rect.left;
+    const correctedY = event.touches[0].clientY - rect.top;
+
+    mouse.x = (correctedX / rect.width) * 2 - 1;
+    mouse.y = -(correctedY / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(clickableCubes, true);
+
+    for (let i = 0; i < intersects.length; i++) {
+      if (intersects[i].object.userData.isClickable) {
+        isModalOpen.value = true;
+        onCylinderClick(intersects[i].object.userData.index);
+        break;
+      }
+    }
+  }
+
+  function onTouchEnd(event) {
+    touchStart.value = null;
+  }
 
   const { y } = useScroll(window);
   const { isSwiping, direction, lengthY } = useSwipe(document, {
@@ -613,6 +569,8 @@
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('click', onMouseClick);
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('touchstart', onTouchStart);
+    window.addEventListener('touchend', onTouchEnd);
     onWindowResize();
   });
 
@@ -620,6 +578,8 @@
     window.removeEventListener('resize', onWindowResize);
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('click', onMouseClick);
+    window.removeEventListener('touchstart', onTouchStart);
+    window.removeEventListener('touchend', onTouchEnd);
     window.removeEventListener('scroll', handleScroll);
     if (controls) controls.dispose();
     if (renderer) renderer.dispose();
@@ -719,7 +679,7 @@
 
   @media (max-width: 768px) {
     body {
-      background-size: 800% !important;
+      background-size: 800%;
       cursor: pointer;
     }
 
@@ -866,7 +826,7 @@
 
   @media  screen and (max-width: 512px) {
     body {
-      background-size: 1400% !important;
+      background-size: 1400%;
       background-position: center -800px;
       background-attachment: fixed;
       background-repeat: no-repeat;
