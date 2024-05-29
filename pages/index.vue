@@ -2,6 +2,8 @@
   <!--  <div v-if="isUnderConstruction" class="isUnder">-->
   <!--    <h2>Website is under construction</h2>-->
   <!--https://c3expo-europe.b-cdn.net/c3expo-200px.mp4  </div>-->
+    <Loader :is-visible="isLoading" />
+    <div v-if="!isLoading">
     <div>
       <Modal :isVisible="modalVisible" :index="selectedIndex" @update:isVisible="closeModal" />
     </div>
@@ -44,7 +46,7 @@
         </div>
       </transition>
     </div>
-
+    </div>
   </template>
 
   <script setup>
@@ -81,7 +83,41 @@
   const selectedIndex = ref(-1);
   let glowSprites = [];
   const isMobile = computed(() => window.innerWidth <= 768);
+  const isLoading = ref(true);
+  const isLoading1 = ref(true);
+  const imagesLoaded = ref(false);
+  const videosLoaded = ref(false);
 
+  onMounted(() => {
+    const images = Array.from(document.images);
+    const videos = Array.from(document.querySelectorAll('video'));
+
+    const imagesPromise = Promise.all(images.map(img => {
+      return new Promise((resolve) => {
+        if (img.complete) {
+          resolve();
+        } else {
+          img.onload = resolve;
+          img.onerror = resolve;
+        }
+      });
+    }));
+
+    const videosPromise = Promise.all(videos.map(video => {
+      return new Promise((resolve) => {
+        if (video.readyState >= 3) {
+          resolve();
+        } else {
+          video.oncanplaythrough = resolve;
+          video.onerror = resolve;
+        }
+      });
+    }));
+
+    Promise.all([imagesPromise, videosPromise]).then(() => {
+      isLoading.value = false;
+    });
+  });
   function initThreeJs() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 500);

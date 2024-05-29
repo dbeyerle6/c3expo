@@ -169,6 +169,10 @@ svg {
 }
 
 
+p {
+  text-align: justify;
+}
+
 .fifth_box > p {
   text-align: justify;
 }
@@ -484,6 +488,21 @@ svg {
 
 @media (max-width: 768px) {
 
+  .fifth_box {
+    padding: 0;
+    width: 100%;
+  }
+
+  .heritage_headline {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .heritage_headline > p {
+    width: 100%;
+  }
+
   .third_date {
     display: flex;
     margin-left: 0;
@@ -714,6 +733,47 @@ svg {
 
 
 @media screen and (max-device-width: 512px){
+
+  .fifth_box > h3 {
+    font-size: 28px;
+    width: 80% ;
+    margin: 0 auto;
+  }
+  .fifth_box > h2 {
+    font-size: 28px;
+    width: 80% ;
+    margin: 0 auto;
+    padding-bottom: 20px;
+  }
+
+
+  .fifth_box {
+    width: 100%;
+    height: auto;
+    padding-top: 50px;
+  }
+
+  .heritage_image {
+    position: static;
+  }
+
+  .heritage_headline {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .heritage_headline > p {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .heritage_headline > img {
+    width: 50%;
+    margin-bottom: 30px;
+  }
   .third_date {
     width: 120%;
     margin-left: 12%;
@@ -724,12 +784,17 @@ svg {
     text-align: justify;
   }
 
+  .second_image > img {
+    width: 200px;
+    height: auto;
+  }
+
   #info1 {
     left: 5% !important;
-
     height: auto;
   }
   #info2 {
+    width: 80%;
     right: 28%;
     height: auto;
   }
@@ -751,12 +816,15 @@ svg {
     width: 100%;
   }
 
-  .fifth_box {
-    padding-top: 100px;
-  }
-
   .third_container {
     width: 80%;
+  }
+  .second_date {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 

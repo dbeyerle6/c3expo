@@ -165,6 +165,10 @@ h2 {
     flex: 100%;
   }
 
+  .jobs_text {
+    width: 100%;
+  }
+
   .jobs_job {
     height: 60px;
   }
