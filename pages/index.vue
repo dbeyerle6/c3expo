@@ -642,7 +642,6 @@
     overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
   }
 
-  .
   body {
     margin: 0 !important;
     padding: 0 !important;
