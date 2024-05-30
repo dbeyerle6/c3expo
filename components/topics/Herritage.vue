@@ -171,6 +171,7 @@ svg {
 
 p {
   text-align: justify;
+  word-break: normal;
 }
 
 .fifth_box > p {
@@ -250,6 +251,7 @@ p {
   left: 0;
   height: 600px;
   background: rgb(0, 0, 0);
+  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
   display: flex;
   justify-content: flex-end;
@@ -299,6 +301,7 @@ p {
   width: 40%;
   transform: translateX(0%);
   background: rgb(0, 0, 0);
+  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
   display: flex;
   align-items: flex-end;
@@ -345,8 +348,8 @@ p {
   width: 50%;
   height: 300px;
   background: rgb(0, 0, 0);
+  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
-  display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   transform: translateX(-25%);
@@ -381,6 +384,7 @@ p {
   width: 60%;
   height: 300px;
   background: rgb(0, 0, 0);
+  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
   display: flex;
   justify-content: center;
@@ -448,7 +452,8 @@ p {
   right: 0;
   top: 100px;
   background: rgb(0,0,0);
-  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(145,145,145,1) 100%, rgba(0,0,0,1) 100%);
+  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

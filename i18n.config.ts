@@ -81,7 +81,7 @@ export default defineI18nConfig(() => ({
             links: {
                 privacy_name: 'Privacy Policy',
                 grc_name: `GTC's`,
-                aeb_name: `AEB'S`,
+                aeb_name: `GPC's`,
                 imprint_name: 'Imprint',
                 client_name: 'for clients',
                 supplier_name: 'for suppliers',
