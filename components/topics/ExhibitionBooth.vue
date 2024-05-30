@@ -7,13 +7,11 @@
       <div class="eb_info_column">
         <h1 class="eb_title" v-html="$t('product.title2')"></h1>
         <h2 class="eb_subtitle" v-html="$t('product.subtitle')"></h2>
-        <p class="eb_text" v-html="$t('product.text1')"></p>
       </div>
     </div>
     <div class="eb_second_row">
-      <p class="eb_text" v-html="$t('product.text2')"></p>
+      <p class="eb_text" v-html="$t('product.text1')"></p>
     </div>
-    <span class="gradient_background"></span>
   </div>
 
 </template>
@@ -22,7 +20,6 @@
 .gradient_background {
   position: absolute;
   background: rgb(0, 0, 0);
-  background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(93, 90, 90, 1) 24%, rgba(59, 58, 58, 1) 100%);
   width: 73%;
   z-index: 1;
   height: 100%;
@@ -36,8 +33,8 @@
   height: 100%;
   flex-direction: column;
   background-image: url("/assets/c3expoback.png");
-  background-size: 20%;
-  background-position: bottom -30% left 5%;
+  background-size: 40%;
+  background-position: top right;
   background-repeat: no-repeat;
 
 }
@@ -53,13 +50,12 @@
 
 .eb_image {
   width: 65%;
-  margin: 100px 40px 20px 0;
+  margin: 100px 40px -5px 0;
 }
 
 .eb_image img {
   width: 100%;
   padding-bottom: 2px;
-  border-bottom: 1px solid #36e4da;
 }
 
 
@@ -69,13 +65,17 @@
 }
 
 .eb_second_row {
-  margin-right: 5%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(93, 90, 90, 1) 24%, rgba(59, 58, 58, 1) 100%);
+  height: auto;
+  padding: 30px 0;
+  border-top: 1px solid #36e4da;
 }
 
 .eb_second_row > p {
-  width: 70%;
+  width: 90%;
 }
 
 
@@ -264,7 +264,6 @@
   .eb_second_row > p {
     width: 85%;
     margin: 0 auto;
-
     text-align: justify;
   }
 }

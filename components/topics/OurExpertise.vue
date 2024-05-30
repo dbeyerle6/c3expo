@@ -6,37 +6,16 @@
       </div>
       <div class="expertise_image">
         <transition name="fade" mode="out-in">
-          <img :key="currentImageIndex" v-if="images" :src="images[currentImageIndex]" alt="">
+          <img :key="currentImageIndex" v-if="currentImage" :src="currentImage" alt="">
         </transition>
       </div>
     </div>
     <div class="expertise_column_two">
-      <div class="expertise_text_block creativity" :style="{visibility: currentTextIndex >= 0 ? 'visible' : 'hidden', opacity: currentTextIndex >= 0 ? 1 : 0}">
-        <img class="expertise_icon" :src="creativity_icon" alt="">
+      <div v-for="(text, index) in texts" :key="index" class="expertise_text_block" :class="text.class" :style="textStyle(index)">
+        <img class="expertise_icon" :src="text.icon" alt="">
         <div>
-          <h4 class="expertise_category" v-html="$t('our_expertise.text1_title')"></h4>
-        <p class="expertise_text" v-html="$t('our_expertise.text1')"></p>
-        </div>
-      </div>
-      <div class="expertise_text_block person" :style="{visibility: currentTextIndex >= 1 ? 'visible' : 'hidden', opacity: currentTextIndex >= 1 ? 1 : 0}">
-        <img class="expertise_icon" :src="contact_person_icon" alt="">
-        <div>
-          <h4 class="expertise_category" v-html="$t('our_expertise.text2_title')"></h4>
-          <p class="expertise_text" v-html="$t('our_expertise.text2')"></p>
-        </div>
-      </div>
-      <div class="expertise_text_block production" :style="{visibility: currentTextIndex >= 2 ? 'visible' : 'hidden', opacity: currentTextIndex >= 2 ? 1 : 0}">
-        <img class="expertise_icon" :src="production_icon" alt="">
-        <div>
-          <h4 class="expertise_category" v-html="$t('our_expertise.text3_title')"></h4>
-          <p class="expertise_text" v-html="$t('our_expertise.text3')"></p>
-        </div>
-      </div>
-      <div class="expertise_text_block installation" :style="{visibility: currentTextIndex >= 3 ? 'visible' : 'hidden', opacity: currentTextIndex >= 3 ? 1 : 0}">
-        <img class="expertise_icon" :src="installation_icon" alt="">
-        <div>
-          <h4 class="expertise_category" v-html="$t('our_expertise.text4_title')"></h4>
-          <p class="expertise_text" v-html="$t('our_expertise.text4')"></p>
+          <h4 class="expertise_category" v-html="text.title"></h4>
+          <p class="expertise_text" v-html="text.text"></p>
         </div>
       </div>
     </div>
@@ -45,17 +24,18 @@
 </template>
 
 <style scoped>
+/* Your existing styles */
 
 .click-circle {
   position: fixed;
-  bottom: 10%; /* Начальная позиция в нижней части */
-  left: 50%; /* Центрирование по горизонтали */
-  transform: translateX(-50%); /* Точное центрирование текста */
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
   width: 40px;
   height: 40px;
-  background-color: #888888; /* Цвет фона */
-  color: white; /* Цвет текста */
-  border-radius: 50%; /* Сделать элемент круглым */
+  background-color: #888888;
+  color: white;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,7 +97,6 @@
   padding: 5px 0 20px;
 }
 
-
 .expertise_image img {
   width: 100%;
   height: 100%;
@@ -125,14 +104,13 @@
 }
 
 .expertise_text_block {
-  height: 25%; /* Пример фиксированной высоты для каждого блока */
+  height: 25%;
   overflow: hidden;
   transition: opacity 1s ease-in-out;
   display: flex;
   gap: 20px;
   width: 71%;
 }
-
 
 .expertise_text_block > div {
   display: flex;
@@ -151,9 +129,7 @@
   color: #fff;
   font-family: "Century Gothic", sans-serif;
   text-align: justify;
-
 }
-
 
 .expertise_category {
   font-size: 26px;
@@ -196,7 +172,7 @@
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* starting and ending state for entering/leaving */ {
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
@@ -222,8 +198,15 @@
   .expertise_text {
     width: 80%;
   }
-}
 
+  .expertise_text_block {
+    display: none;
+  }
+
+  .visible-text {
+    display: flex !important;
+  }
+}
 
 @media (max-width: 1366px) {
   .expertise_title {
@@ -253,55 +236,97 @@
   }
 }
 </style>
+
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-
-import image1 from '@/static/images/our_expertise/1.jpg'
-import image2 from '@/static/images/our_expertise/2.jpg'
-import image3 from '@/static/images/our_expertise/3.jpg'
-import image4 from '@/static/images/our_expertise/4.jpg'
-import image5 from '@/static/images/our_expertise/5.jpg'
-import creativity_icon from "@/static/images/creativity_icon.png"
-import contact_person_icon from "@/static/images/contact_person_icon.svg"
-import production_icon from "@/static/images/production_icon.svg"
-import installation_icon from "@/static/images/installation_icon.svg"
+import { ref, computed, onMounted, watch } from 'vue';
 import gsap from "gsap";
+import { useWindowSize } from '@vueuse/core';
 
-
+import image1 from '@/static/images/our_expertise/1.jpg';
+import image2 from '@/static/images/our_expertise/2.jpg';
+import image3 from '@/static/images/our_expertise/3.jpg';
+import image4 from '@/static/images/our_expertise/4.jpg';
+import image5 from '@/static/images/our_expertise/5.jpg';
+import creativity_icon from "@/static/images/creativity_icon.png";
+import contact_person_icon from "@/static/images/contact_person_icon.svg";
+import production_icon from "@/static/images/production_icon.svg";
+import installation_icon from "@/static/images/installation_icon.svg";
+const { t } = useI18n()
 const images = [image1, image2, image3, image4, image5];
 
 const currentImageIndex = ref(0);
 const currentTextIndex = ref(-1);
 
-const isFirstClick = ref(true);  // Добавляем флаг для отслеживания первого клика
-const clickCount = ref(0);
+const texts = [
+  {
+    title: t('our_expertise.text1_title'),
+    text: t('our_expertise.text1'),
+    icon: creativity_icon,
+    class: 'creativity',
+  },
+  {
+    title: t('our_expertise.text2_title'),
+    text: t('our_expertise.text2'),
+    icon: contact_person_icon,
+    class: 'person',
+  },
+  {
+    title: t('our_expertise.text3_title'),
+    text: t('our_expertise.text3'),
+    icon: production_icon,
+    class: 'production',
+  },
+  {
+    title: t('our_expertise.text4_title'),
+    text: t('our_expertise.text4'),
+    icon: installation_icon,
+    class: 'installation',
+  }
+];
 
+const { width } = useWindowSize();
+const isMobile = computed(() => width.value <= 768);
+
+const currentImage = computed(() => (currentImageIndex.value >= 0 ? images[currentImageIndex.value] : null));
+const currentText = computed(() => (currentTextIndex.value >= 0 ? texts[currentTextIndex.value] : null));
 
 onMounted(() => {
-  // Анимация круга "Click!"
   gsap.to('.click-circle', {
-    y: '-20%', // Двигать вверх на 20% от текущей позиции
-    repeat: -1, // Бесконечное повторение
-    yoyo: true, // Возврат в исходное положение
-    ease: 'power1.inOut', // Плавность движения
-    duration: 1 // Длительность одного цикла вверх-вниз
+    y: '-20%',
+    repeat: -1,
+    yoyo: true,
+    ease: 'power1.inOut',
+    duration: 1,
+  });
+
+  watch(isMobile, (newValue) => {
+    if (newValue && currentImageIndex.value === -1) {
+      currentTextIndex.value = -1;
+    }
   });
 });
-const nextImageAndText = () => {
-  // Увеличиваем счетчик кликов при каждом вызове функции
-  clickCount.value++;
-    if (clickCount.value <= 4 && currentImageIndex.value < images.length - 1) {
-      currentImageIndex.value++;
-    } else if (clickCount.value <= 4) {
-      currentImageIndex.value = 0;
 
-  }
-
-  // Изменяем текст только если текущий индекс меньше 3
-  if (currentTextIndex.value < 3) {
-    currentTextIndex.value++;
+const textStyle = (index: number) => {
+  if (isMobile.value) {
+    return { display: currentTextIndex.value === index ? 'flex' : 'none' };
+  } else {
+    return { visibility: currentTextIndex.value >= index ? 'visible' : 'hidden', opacity: currentTextIndex.value >= index ? 1 : 0 };
   }
 };
 
+const nextImageAndText = () => {
+  if (currentImageIndex.value < images.length - 1) {
+    currentImageIndex.value++;
+  } else {
+    return; // Останавливаем, если достигли последнего изображения
+  }
 
+  if (isMobile.value) {
+    currentTextIndex.value = currentImageIndex.value;
+  } else {
+    if (currentTextIndex.value < texts.length - 1) {
+      currentTextIndex.value++;
+    }
+  }
+};
 </script>
