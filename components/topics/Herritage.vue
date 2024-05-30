@@ -72,6 +72,7 @@
       </div>
     </div>
   </div>
+  <div class="scroll-circle">Scroll!</div>
 </template>
 
 <script setup>
@@ -82,7 +83,16 @@ import heritageImage1 from '/static/images/heritage1.jpg';
 
 const containerRef = ref(null);
 const svgRef = ref(null);
-
+onMounted(() => {
+  // Анимация круга "Click!"
+  gsap.to('.scroll-circle', {
+    y: '-20%', // Двигать вверх на 20% от текущей позиции
+    repeat: -1, // Бесконечное повторение
+    yoyo: true, // Возврат в исходное положение
+    ease: 'power1.inOut', // Плавность движения
+    duration: 1 // Длительность одного цикла вверх-вниз
+  });
+});
 onMounted(async () => {
   await nextTick();
   gsap.registerPlugin(ScrollTrigger);
@@ -146,6 +156,27 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+
+.scroll-circle {
+
+  position: fixed;
+  bottom: 10%; /* Начальная позиция в нижней части */
+  left: 50%; /* Центрирование по горизонтали */
+  transform: translateX(-50%); /* Точное центрирование текста */
+  width: 50px;
+  height: 50px;
+  background-color: #888888; /* Цвет фона */
+  color: white; /* Цвет текста */
+  border-radius: 50%; /* Сделать элемент круглым */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #36e4da;
+  font-family: "Century Gothic", sans-serif;
+}
 
 .heritage_headline {
   display: flex;
@@ -250,7 +281,7 @@ p {
   width: 40%;
   left: 0;
   height: 600px;
-  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
+  background: rgb(0, 0, 0);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
   display: flex;
   justify-content: flex-end;
@@ -299,7 +330,7 @@ p {
   height: 400px;
   width: 40%;
   transform: translateX(0%);
-  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
+  background: rgb(0, 0, 0);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
   display: flex;
   align-items: flex-end;
@@ -345,8 +376,9 @@ p {
 #info3 {
   width: 50%;
   height: 300px;
-  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
+  background: rgb(0, 0, 0);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
+  display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   transform: translateX(-25%);
@@ -380,7 +412,7 @@ p {
 #info4 {
   width: 60%;
   height: 300px;
-  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
+  background: rgb(0, 0, 0);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
   display: flex;
   justify-content: center;
@@ -447,8 +479,8 @@ p {
   height: auto;
   right: 0;
   top: 100px;
-  background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.0004) 0%, rgba(145, 145, 145, 0.793) 40%, rgba(82, 82, 82, 1) 100%);
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.00043767507002800965) 0%, rgba(145, 145, 145, 0.7931547619047619) 40%, rgba(82, 82, 82, 1) 100%);
+  background: rgb(0,0,0);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(145,145,145,1) 100%, rgba(0,0,0,1) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

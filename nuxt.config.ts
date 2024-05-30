@@ -4,8 +4,11 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      meta : [
+        { name: 'color-scheme', content: 'light dark' }
+      ],
       link: [
-        { rel: 'icon', type: 'image/ico', href: 'favicon.ico' }
+        { rel: 'icon', type: 'image/ico', href: 'favicon.ico' },
       ]
     }
   },
