@@ -3,11 +3,18 @@
     <div class="footer_logo"></div>
     <div class="footer_nav">
       <div class="footer_nav_gtc">
-        <h1 class="nav_gtc_title">{{$t('links.grc_name')}}</h1>
-        <div class="nav_gtc_links">
+        <h1 @click="openPDF('links.gtc.client')" class="nav_gtc_title">{{$t('links.grc_name')}}</h1>
+<!--        <div class="nav_gtc_links">
           <p @click="openPDF('links.gtc.client')">{{$t('links.client_name')}}</p>
           <p @click="openPDF('links.gtc.supplier')">{{$t('links.supplier_name')}}</p>
-        </div>
+        </div>-->
+      </div>
+      <div class="footer_nav_gtc">
+        <h1 @click="openPDF('links.gtc.supplier')" class="nav_gtc_title">{{$t('links.aeb_name')}}</h1>
+        <!--        <div class="nav_gtc_links">
+                  <p @click="openPDF('links.gtc.client')">{{$t('links.client_name')}}</p>
+                  <p @click="openPDF('links.gtc.supplier')">{{$t('links.supplier_name')}}</p>
+                </div>-->
       </div>
       <div class="footer_nav_imprint">
         <h1 @click="openPDF('links.imprint')" class="nav_imprint_title">{{$t('links.imprint_name')}}</h1>
@@ -67,6 +74,7 @@ function openPDF(translationKey: string) {
 <style scoped>
 
 
+
 @media (max-width: 768px) {
   .footer_nav {
     flex-direction: column;
@@ -75,7 +83,7 @@ function openPDF(translationKey: string) {
   
 }
 
-.footer_nav_imprint, .footer_nav_privacy, .footer_nav_jobs {
+.footer_nav_imprint, .footer_nav_privacy, .footer_nav_jobs, .nav_gtc_title {
   cursor: pointer;
 }
 
@@ -133,7 +141,7 @@ function openPDF(translationKey: string) {
   color: #fff;
   font-family: "Century Gothic", sans-serif;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .contact_us {
