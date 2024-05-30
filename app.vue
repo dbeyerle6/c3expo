@@ -4,8 +4,19 @@
 
 
 <script setup>
-
+import {onMounted} from "vue";
 const { locale } = useI18n()
+
+function setLightThemeForSamsung() {
+  const isSamsungBrowser = /SamsungBrowser/i.test(navigator.userAgent);
+  if (isSamsungBrowser) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+}
+
+onMounted(() => {
+  setLightThemeForSamsung()
+})
 </script>
 <style>
 
