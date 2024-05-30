@@ -216,7 +216,7 @@
 
   .gradient_background {
     width: 100%;
-    min-height: 1300px;
+    min-height: 1400px;
     height: 100%;
   }
 
@@ -236,6 +236,36 @@
 
   .eb_second_row > p {
     width: 90%;
+  }
+}
+
+
+@media screen and (max-device-width: 512px) {
+
+  .eb_info_column {
+    gap: 20px;
+  }
+  .eb_info_column > h1 {
+    font-size: 40px;
+  }
+  .eb_info_column > h2{
+    font-size: 28px ;
+  }
+  .eb_text {
+    width: 85%;
+    margin: 0 auto;
+    text-align: justify;
+  }
+
+  .eb_second_row {
+    margin: 0;
+    width: 100%;
+  }
+  .eb_second_row > p {
+    width: 85%;
+    margin: 0 auto;
+
+    text-align: justify;
   }
 }
 </style>

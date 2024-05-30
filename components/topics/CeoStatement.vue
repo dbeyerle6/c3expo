@@ -192,6 +192,36 @@
   }
 }
 
+@media screen and (max-device-width: 512px) {
+  .ceo_container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 0;
+    width: 100%;
+    background-size: 80%;
+    background-repeat: space;
+  }
+
+  .ceo_profile_image_placeholder > img {
+    height: auto;
+    -o-object-fit: cover;
+    object-fit: cover;
+    width: 80%;
+    -o-object-position: 0 5%;
+    object-position: 0 5%;
+    padding: 0;
+    border-right: none;
+    margin: 0 auto;
+  }
+
+  .ceo_profile_image_placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+  }
+}
 
 </style>
 <script setup lang="ts">

@@ -792,6 +792,7 @@ p {
   #info1 {
     left: 5% !important;
     height: auto;
+    width: 60%;
   }
   #info2 {
     width: 80%;
@@ -801,6 +802,12 @@ p {
 
   #info3 {
     height: auto;
+    left: 10% !important;
+  }
+
+  #info4 {
+    padding: 30px;
+    width: 70%;
   }
 
   .third_container > img {
@@ -822,9 +829,18 @@ p {
   .second_date {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
     gap: 20px;
+  }
+
+  .second_date > p {
+    margin-left: -80px;
+  }
+
+  .first_text {
+    height: auto;
+    width: 100%;
   }
 }
 

@@ -499,7 +499,7 @@ p {
 
 @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
   .references_title {
-    font-size: 60px !important;
+    font-size: 40px !important;
   }
 
   .references_container {
@@ -515,4 +515,21 @@ p {
     border-right: none;
   }
 }
+
+@media screen and (max-device-width: 512px) {
+  .references_title {
+    font-size: 50px !important;
+  }
+
+  .small_image {
+    margin: 0;
+    width: 100%;
+  }
+  .small_image > img {
+    margin: 0;
+    width: 120%;
+  }
+}
 </style>
+
+

@@ -152,4 +152,10 @@
     width: 100%;
   }
 }
+
+@media screen and (max-device-width: 512px) {
+  .title {
+    font-size: 40px;
+  }
+}
 </style>
