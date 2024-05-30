@@ -29,6 +29,7 @@
   display: flex;
   width: 100%;
   justify-content: flex-end;
+  border-top: 1px solid #36e4da;
 }
 
 .vision_container {
@@ -102,7 +103,6 @@
 
 
 .empty, .description {
-  border-top: 1px solid #36e4da;
 }
 
 .vision_container .box.image2 {
@@ -110,7 +110,7 @@
 }
 
 .description {
-  width: 50%;
+  width: 46%;
   text-align: justify;
   padding: 50px 50px;
   height: 100%;
