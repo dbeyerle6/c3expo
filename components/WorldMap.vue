@@ -23,193 +23,237 @@
     <img width="20" height="20" class="point21" src="/static/images/map-marker.svg" alt="">
     <img width="20" height="20" class="point22" src="/static/images/map-marker.svg" alt="">
   </div>
-  
+
 </template>
 <style scoped>
 
 
-  .map_container {
-    position: relative;
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .map_container img {
-    width: 100%;
-    height: 100%;
-  }
+.map_container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map_container img {
+  width: 100%;
+  height: 100%;
+}
 
 
+.point1 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -28.5%;
+  left: 50%;
+}
 
-  .point1 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -28.5%;
-    left: 50%;
-  }
-  .point2 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -25.5%;
-    left: 45.5%;
-  }
-  .point3 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -19.5%;
-    left: 46.5%;
-  }
+.point2 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -25.5%;
+  left: 45.5%;
+}
 
-  .point4 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -19.0%;
-    left: 46%;
-  }
-  .point4 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -19.0%;
-    left: 46%;
-  }
-  .point5 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -19.0%;
-    left: 47%;
-  }
+.point3 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -19.5%;
+  left: 46.5%;
+}
+
+.point4 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -19.0%;
+  left: 46%;
+}
+
+.point4 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -19.0%;
+  left: 46%;
+}
+
+.point5 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -19.0%;
+  left: 47%;
+}
+
 .point6 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -18.5%;
-    left: 48%;
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -18.5%;
+  left: 48%;
+}
+
+.point7 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -17%;
+  left: 49%;
+}
+
+.point8 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -15.0%;
+  left: 50.5%;
+}
+
+.point9 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -8%;
+  left: 47%;
+}
+
+.point10 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: 31%;
+  left: 52%;
+}
+
+.point11 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: 29%;
+  left: 54%;
+}
+
+.point12 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -13.0%;
+  left: 23%;
+}
+
+.point13 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -8%;
+  left: 16%;
+}
+
+.point14 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: 23%;
+  left: 59%;
+}
+
+.point15 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -2.0%;
+  left: 62%;
+}
+
+.point16 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -19.0%;
+  left: 58%;
+}
+
+.point17 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: 3%;
+  left: 74.5%;
+}
+
+.point18 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -10%;
+  left: 76%;
+}
+
+.point19 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: 33%;
+  left: 85.5%;
+}
+
+.point20 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -12.5%;
+  left: 44.5%;
+}
+
+.point21 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -14%;
+  left: 45.5%;
+}
+
+.point22 {
+  position: absolute;
+  width: 1.2rem !important;
+  height: 5px;
+  top: -19%;
+  left: 49.3%;
+}
+
+@media screen and (max-device-width: 400px) {
+  .map {
+    margin-bottom: -3%;
+    margin-right: -3.5%;
   }
-  .point7 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -17%;
-    left: 49%;
+}
+
+@media screen and (min-device-width: 400px) and (max-device-width: 512px) {
+  .map {
+    margin-bottom: -2%;
+    margin-right: -2%;
   }
-  .point8 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -15.0%;
-    left: 50.5%;
+}
+
+
+@media screen and (min-device-width: 600px) and (max-device-width: 700px) {
+  .map {
+    margin-bottom: 0;
+    margin-right: -1%;
   }
-  .point9 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -8%;
-    left: 47%;
-  }
-  .point10 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: 31%;
-    left: 52%;
-  }
-  .point11 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: 29%;
-    left: 54%;
-  }
-  .point12 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -13.0%;
-    left: 23%;
-  }
-  .point13 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -8%;
-    left: 16%;
-  }
-  .point14 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: 23%;
-    left: 59%;
-  }
-  .point15 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -2.0%;
-    left: 62%;
-  }
-  .point16 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -19.0%;
-    left: 58%;
-  }
-  .point17 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: 3%;
-    left: 74.5%;
-  }
-  .point18 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -10%;
-    left: 76%;
-  }
-  .point19 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: 33%;
-    left: 85.5%;
-  }
-  .point20 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -12.5%;
-    left: 44.5%;
-  }
-  .point21 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -14%;
-    left: 45.5%;
-  }
-  .point22 {
-    position: absolute;
-    width: 1.2rem !important;
-    height: 5px;
-    top: -19%;
-    left: 49.3%;
-  }
+}
+
 
 
 </style>
 <script setup>
-import { onMounted } from 'vue';
+import {onMounted} from 'vue';
 import gsap from 'gsap';
 
 onMounted(() => {
