@@ -1,6 +1,6 @@
 <template>
   <div class="intro_container">
-    <video class="intro-video" ref="videoRef" autoplay muted playsinline webkit-playsinline controls preload="auto">
+    <video class="intro-video" ref="videoRef" autoplay muted playsinline webkit-playsinline preload="auto">
       <source src="/static/videos/intro.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
     </video>
