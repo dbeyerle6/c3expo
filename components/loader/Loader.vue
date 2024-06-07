@@ -33,8 +33,8 @@ const props = defineProps({
   border: 16px solid #303030;
   border-top: 16px solid #36e4da;
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   animation: spin 2s linear infinite;
 }
 
