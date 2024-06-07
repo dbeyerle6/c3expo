@@ -644,7 +644,11 @@ canvas {
 }
 
 body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
+  height: 100%;
 }
 
 body {
