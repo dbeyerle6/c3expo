@@ -1,6 +1,6 @@
 <template>
   <div class="intro_container">
-    <video class="intro-video" ref="videoRef" autoplay muted playsinline webkit-playsinline>
+    <video class="intro-video" ref="videoRef" autoplay muted playsinline webkit-playsinline controls preload="auto">
       <source src="/static/videos/intro.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
     </video>
@@ -13,8 +13,7 @@
 </template>
 
 <script setup>
-import {ref, watch, onMounted, defineEmits} from 'vue';
-
+import { ref, watch, onMounted, defineEmits } from 'vue';
 const emit = defineEmits(['actionPerformed']);
 const videoRef = ref(null);
 const showClickableText = ref(false);
@@ -25,21 +24,25 @@ const actionPerformed = async () => {
 
 onMounted(() => {
   if (videoRef.value) {
-    videoRef.value.play()
-        .then(() => {
-          setTimeout(() => {
-            videoRef.value.pause();
+    videoRef.value.addEventListener('loadedmetadata', () => {
+      videoRef.value.play()
+          .then(() => {
             setTimeout(() => {
-              clickAllowed = true;
-            }, 2000); // Разрешить клик через 2 секунды после паузы
-          }, 5000); // Пауза через 5 секунд после начала воспроизведения
+              videoRef.value.pause();
+              setTimeout(() => {
+                clickAllowed = true;
+              }, 2000); // Разрешить клик через 2 секунды после паузы
+            }, 5000); // Пауза через 5 секунд после начала воспроизведения
 
-          setTimeout(() => {
-            videoRef.value.pause();
-            showClickableText.value = true; // Показываем текст после задержки
-          }, 5500);
-        })
-        .catch(error => console.error('Ошибка воспроизведения видео:', error));
+            setTimeout(() => {
+              videoRef.value.pause();
+              showClickableText.value = true; // Показываем текст после задержки
+            }, 5500);
+          })
+          .catch(error => console.error('Ошибка воспроизведения видео:', error));
+    });
+
+    videoRef.value.load(); // Загружаем видео
   }
 });
 
