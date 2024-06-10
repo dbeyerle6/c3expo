@@ -14,7 +14,7 @@
       <option value="en">EN <img src="assets/united-kingdom.png" alt="United kingdom"/></option>
       <option value="de">DE <img src="assets/germany.png" alt="Germany"/></option>
     </select>
-    <div class="container" @wheel="handleScroll">
+    <div class="container">
       <div v-if="showIntro" class="intro-container" :key="componentKey">
         <transition name="intro-fade">
           <Intro v-if="showIntro" @actionPerformed="handleActionPerformed"/>
@@ -26,7 +26,7 @@
 
             <div class="video-container">
               <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop playsinline>
-                <source src="https://c3expo-test-cdn.b-cdn.net/c3expo-200px-v2.mp4" type="video/mp4">
+                <source src="../static/videos/c3expo-200px-v2.mp4" type="video/mp4">
                 Your browser does not support the video.
               </video>
               <img class="mute_button" @click="toggleMute" v-if="isMuted" src="/assets/mute.png" alt="">
@@ -785,7 +785,7 @@ body {
 }
 
 .rounded-video {
-  width: auto; /* Автоматическая ширина для сохранения пропорций */
+  width: 100%; /* Автоматическая ширина для сохранения пропорций */
   height: 100%; /* Высота видео равна высоте контейнера */
   opacity: 0; /* Изначально скрыт */
   transform: scale(0); /* Начать уменьшенным */
