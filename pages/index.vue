@@ -26,7 +26,8 @@
 
             <div class="video-container">
               <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop playsinline>
-                <source src="../static/videos/c3expo-200px-v2.mp4" type="video/mp4">
+<!--                <source src="../static/videos/c3expo-200px-v2.mp4" type="video/mp4">-->
+                <source src="https://c3expo-europe.b-cdn.net/c3expo-200px.mp4" type="video/mp4">
                 Your browser does not support the video.
               </video>
               <img class="mute_button" @click="toggleMute" v-if="isMuted" src="/assets/mute.png" alt="">
