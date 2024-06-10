@@ -17,7 +17,7 @@ import { ref, watch, onMounted, defineEmits } from 'vue';
 const emit = defineEmits(['actionPerformed']);
 const videoRef = ref(null);
 const showClickableText = ref(false);
-
+const clickAllowed = ref(false)
 const actionPerformed = async () => {
   await emit('actionPerformed');
 }
@@ -30,7 +30,7 @@ onMounted(() => {
             setTimeout(() => {
               videoRef.value.pause();
               setTimeout(() => {
-                clickAllowed = true;
+                clickAllowed.value = true;
               }, 2000); // Разрешить клик через 2 секунды после паузы
             }, 5000); // Пауза через 5 секунд после начала воспроизведения
 
