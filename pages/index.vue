@@ -296,11 +296,8 @@ function animateGlow() {
   });
 }
 
-function closeModal() {
-  modalVisible.value = false; // Скрываем модальное окно
-  isModalOpen.value = false
-  resetCameraAndResumeAnimation(); // Возвращаем камеру к исходному положению
-}
+
+
 
 
 let allCylinders = [];
@@ -566,6 +563,10 @@ let isTouching = ref(false)
 function handleScroll(newY) {
   const dynamicOffset = -800 + (newY * -0.1); // Уменьшаем динамическое смещение
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
+  if (!isScrolling) {
+    // Синхронизируем значения при ручной прокрутке
+    currentScroll = targetScroll = window.scrollY;
+  }
 }
 
 function onTouchStart(event) {
@@ -608,15 +609,23 @@ watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
 watch(y, (newY) => {
   handleScroll(newY);
 });
+
 let currentScroll = 0;
 let targetScroll = 0;
+let isScrolling = false;
 
 function smoothScroll() {
+  if (!isScrolling) return;
+
   currentScroll += (targetScroll - currentScroll) * 0.1;
   window.scrollTo(0, currentScroll);
 
   if (Math.abs(targetScroll - currentScroll) > 0.5) {
     requestAnimationFrame(smoothScroll);
+  } else {
+    isScrolling = false;
+    // Синхронизируем значения после завершения анимации
+    currentScroll = targetScroll = window.scrollY;
   }
 }
 
@@ -624,14 +633,21 @@ function onWheel(event) {
   if (!showIntro.value && !modalVisible.value && event.target.closest('.three-container')) {
     event.preventDefault();
     targetScroll += event.deltaY;
-    if (Math.abs(targetScroll - currentScroll) < 1) {
-      targetScroll = currentScroll;
+
+    // Ограничиваем значение targetScroll, чтобы не выходить за границы страницы
+    targetScroll = Math.max(0, Math.min(targetScroll, document.documentElement.scrollHeight - window.innerHeight));
+
+    if (!isScrolling) {
+      isScrolling = true;
+      requestAnimationFrame(smoothScroll);
     }
-    requestAnimationFrame(smoothScroll);
   }
 }
 
+
 onMounted(() => {
+  currentScroll = window.scrollY;
+  targetScroll = window.scrollY;
   window.addEventListener('resize', resizeVideo);
   window.addEventListener('load', resizeVideo);
   window.addEventListener('resize', onWindowResize);
@@ -657,6 +673,14 @@ onUnmounted(() => {
 });
 
 
+function closeModal() {
+  modalVisible.value = false; // Скрываем модальное окно
+  isModalOpen.value = false;
+  resetCameraAndResumeAnimation(); // Возвращаем камеру к исходному положению
+
+  // Синхронизируем targetScroll с текущей позицией прокрутки
+  targetScroll = window.scrollY;
+}
 defineExpose({
   handleScroll
 });
