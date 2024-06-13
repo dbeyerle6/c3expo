@@ -563,6 +563,7 @@ let isTouching = ref(false)
 function handleScroll(newY) {
   const dynamicOffset = -800 + (newY * -0.1); // Уменьшаем динамическое смещение
   document.body.style.backgroundPosition = `center ${dynamicOffset}px`;
+
   if (!isScrolling) {
     // Синхронизируем значения при ручной прокрутке
     currentScroll = targetScroll = window.scrollY;
@@ -630,7 +631,7 @@ function smoothScroll() {
 }
 
 function onWheel(event) {
-  if (!showIntro.value && !modalVisible.value && event.target.closest('.three-container')) {
+  if ( (!showIntro.value && !modalVisible.value && event.target.closest('.three-container')) || !showIntro.value && !modalVisible.value && event.target.closest('.container')) {
     event.preventDefault();
     targetScroll += event.deltaY;
 
@@ -644,7 +645,6 @@ function onWheel(event) {
   }
 }
 
-
 onMounted(() => {
   currentScroll = window.scrollY;
   targetScroll = window.scrollY;
@@ -653,7 +653,7 @@ onMounted(() => {
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onMouseClick);
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll); // Добавьте это
   window.addEventListener('touchstart', onTouchStart);
   window.addEventListener('touchend', onTouchEnd);
   window.addEventListener('wheel', onWheel, { passive: false });
@@ -664,14 +664,13 @@ onUnmounted(() => {
   window.removeEventListener('resize', onWindowResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onMouseClick);
+  window.removeEventListener('scroll', handleScroll); // Добавьте это
   window.removeEventListener('touchstart', onTouchStart);
   window.removeEventListener('touchend', onTouchEnd);
-  window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('wheel', onWheel);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
-
 
 function closeModal() {
   modalVisible.value = false; // Скрываем модальное окно
