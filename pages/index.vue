@@ -645,11 +645,15 @@ canvas {
 }
 
 body, html {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+  touch-action: none; /* Отключает дефолтное поведение тач-скролла */
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
-  height: 100%;
+}
+
+.
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden;
 }
 
 body {
