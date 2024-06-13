@@ -631,7 +631,7 @@ function smoothScroll() {
 }
 
 function onWheel(event) {
-  if ( (!showIntro.value && !modalVisible.value && event.target.closest('.three-container')) && !event.target.closest('#footerBlock') || !showIntro.value && !modalVisible.value && !event.target.closest('#footerBlock') && event.target.closest('.three-container')) {
+  if ( (!showIntro.value && !modalVisible.value && event.target.closest('.container')) && !event.target.closest('#footerBlock') || !showIntro.value && !modalVisible.value && !event.target.closest('#footerBlock') && event.target.closest('.three-container')) {
     event.preventDefault();
     targetScroll += event.deltaY;
 
