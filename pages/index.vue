@@ -608,6 +608,29 @@ watch([isSwiping, direction, lengthY], ([swiping, dir, lenY]) => {
 watch(y, (newY) => {
   handleScroll(newY);
 });
+let currentScroll = 0;
+let targetScroll = 0;
+
+function smoothScroll() {
+  currentScroll += (targetScroll - currentScroll) * 0.1;
+  window.scrollTo(0, currentScroll);
+
+  if (Math.abs(targetScroll - currentScroll) > 0.5) {
+    requestAnimationFrame(smoothScroll);
+  }
+}
+
+function onWheel(event) {
+  if (!showIntro.value && !modalVisible.value && event.target.closest('.three-container')) {
+    event.preventDefault();
+    targetScroll += event.deltaY;
+    if (Math.abs(targetScroll - currentScroll) < 1) {
+      targetScroll = currentScroll;
+    }
+    requestAnimationFrame(smoothScroll);
+  }
+}
+
 onMounted(() => {
   window.addEventListener('resize', resizeVideo);
   window.addEventListener('load', resizeVideo);
@@ -617,6 +640,7 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('touchstart', onTouchStart);
   window.addEventListener('touchend', onTouchEnd);
+  window.addEventListener('wheel', onWheel, { passive: false });
   onWindowResize();
 });
 
@@ -627,6 +651,7 @@ onUnmounted(() => {
   window.removeEventListener('touchstart', onTouchStart);
   window.removeEventListener('touchend', onTouchEnd);
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('wheel', onWheel);
   if (controls) controls.dispose();
   if (renderer) renderer.dispose();
 });
