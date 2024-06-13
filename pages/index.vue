@@ -43,7 +43,7 @@
           <!--            {{ item.title }}-->
           <!--          </li>-->
           <!--        </ul>-->
-          <Footer v-if="!showIntro" id="footerBlock"/>
+          <Footer v-if="!showIntro" id="footerBlock" :modal-visible="modalVisible"/>
         </div>
       </transition>
     </div>
@@ -631,7 +631,7 @@ function smoothScroll() {
 }
 
 function onWheel(event) {
-  if ( (!showIntro.value && !modalVisible.value && event.target.closest('.three-container')) || !showIntro.value && !modalVisible.value && event.target.closest('.container')) {
+  if ( (!showIntro.value && !modalVisible.value && event.target.closest('.three-container')) && !event.target.closest('#footerBlock') || !showIntro.value && !modalVisible.value && !event.target.closest('#footerBlock') && event.target.closest('.three-container')) {
     event.preventDefault();
     targetScroll += event.deltaY;
 
