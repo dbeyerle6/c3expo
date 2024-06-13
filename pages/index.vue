@@ -668,8 +668,7 @@ body {
   overflow: hidden;
   cursor: pointer;
   margin: 0 auto;
-  touch-action: auto;
-  overscroll-behavior: contain;
+  scroll-behavior: smooth;
 }
 
 .fade-enter-active, .fade-leave-active {
