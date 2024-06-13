@@ -1,7 +1,7 @@
 <template>
   <div class="intro_container">
     <video class="intro-video" ref="videoRef" autoplay muted playsinline webkit-playsinline preload="auto">
-      <source src="/static/videos/intro.mp4" type="video/mp4">
+      <source :src="videoSrc" type="video/mp4">
       Ваш браузер не поддерживает видео.
     </video>
     <transition name="fade">
@@ -18,9 +18,16 @@ const emit = defineEmits(['actionPerformed']);
 const videoRef = ref(null);
 const showClickableText = ref(false);
 const clickAllowed = ref(false)
+import intro from '@/static/videos/intro.mp4'
+import introMobile from '@/static/videos/intro-mobile.mp4'
+
+const videoSrc = (window.innerWidth <= 768 ? introMobile : intro )
 const actionPerformed = async () => {
   await emit('actionPerformed');
 }
+
+
+
 
 onMounted(() => {
   if (videoRef.value) {
@@ -112,11 +119,11 @@ watch(showClickableText, (newValue) => {
     font-size: 22px;
     width: 60%;
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: -60px;
   }
 
   .intro-video {
-    transform: scale(1.80);
+    transform: scale(1.30);
   }
 
   .intro_container {

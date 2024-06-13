@@ -187,7 +187,7 @@ p, h2 {
   min-height: 60%;
   height: auto;
   width: 80%; /* Занимает 50% ширины экрана */
-  max-height: 90%; /* Максимальная высота - 80% экрана */
+  max-height: 500px !important;
   overflow-y: auto; /* Включаем прокрутку при необходимости */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -303,7 +303,6 @@ p, h2 {
     width: 100%;
     height: 100%;
     padding: 0;
-    max-height: 100%;
     overflow-x: hidden;
   }
 

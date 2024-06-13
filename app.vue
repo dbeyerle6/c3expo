@@ -1,5 +1,6 @@
 <template>
     <NuxtPage />
+  <CookieControl />
 </template>
 
 
@@ -17,9 +18,53 @@ function setLightThemeForSamsung() {
 onMounted(() => {
   setLightThemeForSamsung()
 })
+
+const {
+  cookiesEnabled,
+  cookiesEnabledIds,
+  isConsentGiven,
+  isModalActive,
+  moduleOptions,
+} = useCookieControl()
+
+// example: react to a cookie being accepted
+watch(
+    () => cookiesEnabledIds.value,
+    (current, previous) => {
+      if (
+          !previous?.includes('google-analytics') &&
+          current?.includes('google-analytics')
+      ) {
+        // cookie with id `google-analytics` got added
+        window.location.reload() // placeholder for your custom change handler
+      }
+    },
+    { deep: true },
+)
 </script>
 <style>
 
+
+.cookieControl__BarButtons button:nth-child(3) {
+  display: none;
+}
+
+.cookieControl__BarButtons > button {
+  background-color: #555555;
+  color: #fff;
+}
+
+.cookieControl__BarButtons > button:hover {
+  color: #36e4da;
+}
+
+.cookieControl__BarContainer > div > p {
+  color: #888888;
+}
+
+.cookieControl__ControlButton {
+  display: none;
+}
 
 .select-wrapper {
   position: relative;

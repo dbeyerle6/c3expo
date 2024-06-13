@@ -10,6 +10,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@dargmuesli/nuxt-cookie-control": "^8.4.2",
+    "@nuxt/kit": "^3.12.1",
+    "@nuxt/schema": "^3.12.1",
     "@react-three/drei": "^9.97.3",
     "@react-three/postprocessing": "^2.16.0",
     "@tweenjs/tween.js": "^23.1.1",
@@ -21,6 +24,7 @@
     "lodash-es": "^4.17.21",
     "mammoth": "^1.7.2",
     "nuxt": "^3.10.1",
+    "nuxt-gtag": "^2.0.6",
     "pdfjs-dist": "^4.2.67",
     "three": "^0.161.0",
     "three-orbitcontrols": "^2.110.3",

@@ -15,5 +15,17 @@ export default defineNuxtConfig({
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default
   },
-  modules: ['@nuxtjs/i18n', '@vueuse/motion/nuxt'],
+  modules: [
+    '@nuxtjs/i18n',
+    '@vueuse/motion/nuxt',
+    "nuxt-gtag",
+    "@dargmuesli/nuxt-cookie-control"
+  ],
+  cookieControl: {
+    barPosition: 'bottom-full',
+    controlButton: false,
+    locales: ['de'],
+    domain: 'c3-expo.de',
+    blockIframe: true,
+  }
 })
