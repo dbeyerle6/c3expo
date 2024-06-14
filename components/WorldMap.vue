@@ -31,7 +31,7 @@
 .map_container {
   position: relative;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,6 +63,7 @@
   position: absolute;
   width: 1.2rem !important;
   height: 5px;
+  max-height: 20px;
   top: -19.5%;
   left: 46.5%;
 }
