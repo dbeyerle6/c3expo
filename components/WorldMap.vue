@@ -1,7 +1,7 @@
 <template>
   <div class="map_container">
     <img src="/static/images/map.png" class="map" alt="">
-    <img width="20" height="20" class="point1" src="/static/images/map-markergi s" alt="">
+    <img width="20" height="20" class="point1" src="/static/images/map-marker.svg" alt="">
     <img width="20" height="20" class="point2" src="/static/images/map-marker.svg" alt="">
     <img width="20" height="20" class="point3" src="/static/images/map-marker.svg" alt="">
     <img width="20" height="20" class="point4" src="/static/images/map-marker.svg" alt="">
