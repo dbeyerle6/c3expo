@@ -26,7 +26,7 @@
         <h1 class="nav_contacts_title">{{ $t('links.contact_us') }}</h1>
         <div class="contact_us">
           <img class="contact_us_logo" src="/static/images/footer_phone.png" alt=""/>
-          <a class="contact_us_text" href="tel:+490621554280">+49(0)621-554-280</a>
+          <a class="contact_us_text" href="tel:+490621554280">+49 (0)621-490 94 25-0 </a>
         </div>
         <div class="contact_us">
           <img class="contact_us_logo" src="/static/images/footer_world.png" alt=""/>
