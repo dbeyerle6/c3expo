@@ -25,24 +25,28 @@
           <div class="content-container" id="contentBlock">
 
             <div class="video-container">
-              <video class="rounded-video" ref="videoRef" :muted="isMuted" autoplay loop playsinline>
-<!--                <source src="../static/videos/c3expo-200px-v2.mp4" type="video/mp4">-->
-                <source src="https://c3expode-cdn.b-cdn.net/c3expo-200px-v2.mp4" type="video/mp4">
+              <video
+                  v-for="(video, index) in videos"
+                  :key="index"
+                  :ref="el => { if (el) videoRefs[index] = el }"
+                  class="rounded-video"
+                  :class="{ 'active': currentVideoIndex === index }"
+                  :muted="isMuted"
+                  playsinline
+                  preload="auto"
+                  @ended="switchVideo"
+                  @loadedmetadata="onVideoLoaded(index)"
+              >
+                <source :src="video" type="video/mp4">
                 Your browser does not support the video.
               </video>
-              <img class="mute_button" @click="toggleMute" v-if="isMuted" src="/assets/mute.png" alt="">
-              <img class="mute_button" @click="toggleMute" v-else src="/assets/volume.png" alt="">
+              <img class="mute_button" @click="toggleMute" :src="isMuted ? muteButton : volumeButton" alt="">
             </div>
           </div>
 
           <div ref="threeContainer" class="three-container" id="threeJsBlock">
 
           </div>
-          <!--        <ul v-else class="mobile-menu">-->
-          <!--          <li v-for="item in menuItems" :key="item.id" @click="onCylinderClick(item.id)">-->
-          <!--            {{ item.title }}-->
-          <!--          </li>-->
-          <!--        </ul>-->
           <Footer v-if="!showIntro" id="footerBlock" :modal-visible="modalVisible"/>
         </div>
       </transition>
@@ -61,6 +65,10 @@ import * as TWEEN from '@tweenjs/tween.js';
 import Intro from "~/components/intro/Intro.vue";
 import {useScroll, useSwipe} from '@vueuse/core';
 
+import muteButton from '@/assets/mute.png'
+import volumeButton from '@/assets/volume.png'
+import firstVideo from '@/static/videos/first_video.mp4'
+import secondVideo from '@/static/videos/second_video.mp4'
 
 const isModalOpen = ref(false);
 const threeContainer = ref(null);
@@ -85,9 +93,68 @@ const selectedIndex = ref(-1);
 let glowSprites = [];
 const isMobile = computed(() => window.innerWidth <= 768);
 const isLoading = ref(true);
-const isLoading1 = ref(true);
-const imagesLoaded = ref(false);
-const videosLoaded = ref(false);
+
+const videos = [firstVideo, secondVideo];
+const videoRefs = ref([]);
+const currentVideoIndex = ref(0);
+const isMuted = ref(false);
+
+const switchVideo = () => {
+  pauseAllVideos();
+  currentVideoIndex.value = (currentVideoIndex.value + 1) % videos.length;
+  playCurrentVideo();
+};
+
+const toggleMute = () => {
+  isMuted.value = !isMuted.value;
+  videoRefs.value.forEach(video => {
+    if (video) video.muted = isMuted.value;
+  });
+};
+
+const pauseAllVideos = () => {
+  videoRefs.value.forEach(video => {
+    if (video) video.pause();
+  });
+};
+
+const playCurrentVideo = () => {
+  const currentVideo = videoRefs.value[currentVideoIndex.value];
+  if (currentVideo) {
+    currentVideo.currentTime = 0;
+    const playPromise = currentVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.error("Autoplay was prevented:", error);
+        // Здесь можно добавить пользовательский интерфейс для ручного запуска видео
+      });
+    }
+  }
+};
+
+const onVideoLoaded = (index) => {
+  if (index === currentVideoIndex.value) {
+    playCurrentVideo();
+  }
+};
+
+onMounted(() => {
+  // Предзагрузка всех видео
+  videos.forEach(video => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = video;
+    document.head.appendChild(link);
+  });
+});
+
+// Следим за изменением currentVideoIndex и воспроизводим соответствующее видео
+watch(currentVideoIndex, (newIndex) => {
+  pauseAllVideos();
+  playCurrentVideo();
+});
+
 
 onMounted(() => {
   const images = Array.from(document.images);
@@ -189,15 +256,6 @@ const handleActionPerformed = () => {
     componentKey.value++; // Изменение ключа приведет к ререндерингу и удалению Intro из DOM
   }, 4000); // Переключает на three-container через 5 секунд после события
 };
-
-const videoRef = ref(null);
-const isMuted = ref(false);
-
-function toggleMute() {
-  if (videoRef.value) {
-    isMuted.value = !isMuted.value;
-  }
-}
 
 function createGlowTexture() {
   const canvas = document.createElement('canvas');
@@ -697,7 +755,7 @@ body, html {
   overscroll-behavior: contain; /* Предотвращает "bounce" эффект на iOS */
 }
 
-.
+
 body {
   margin: 0 !important;
   padding: 0 !important;
@@ -718,6 +776,11 @@ body {
   margin: 0 auto;
   scroll-behavior: smooth;
 }
+
+.rounded-video.active {
+  opacity: 1;
+}
+
 
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1s;
@@ -838,11 +901,13 @@ body {
 }
 
 .rounded-video {
-  width: 100%; /* Автоматическая ширина для сохранения пропорций */
-  height: 100%; /* Высота видео равна высоте контейнера */
-  opacity: 0; /* Изначально скрыт */
-  transform: scale(0); /* Начать уменьшенным */
-  animation: zoomIn 0.5s forwards; /* Анимация увеличения */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 @keyframes zoomIn {
@@ -1018,7 +1083,7 @@ body {
 .mute_button {
   position: absolute;
   top: 30px;
-  right: 30px;
+  left: 30px;
   cursor: pointer;
   z-index: 10;
   width: 40px;
