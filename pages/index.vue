@@ -1,7 +1,4 @@
 <template>
-  <!--  <div v-if="isUnderConstruction" class="isUnder">-->
-  <!--    <h2>Website is under construction</h2>-->
-  <!--https://c3expo-europe.b-cdn.net/c3expo-200px.mp4  </div>-->
   <Loader :is-visible="isLoading"/>
   <div v-if="!isLoading">
     <div>
@@ -876,10 +873,10 @@ body {
 }
 
 .video-container {
-  width: 100%; /* Контейнер занимает всю ширину */
-  height: 90vh; /* Высота контейнера - 90% от высоты экрана */
-  overflow: hidden; /* Скрыть части видео, выходящие за границы контейнера */
-  position: relative; /* Для позиционирования видео внутри */
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -905,9 +902,34 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   opacity: 0;
   transition: opacity 0.5s ease;
+}
+
+@media (max-width: 768px) {
+  .video-container {
+    height: 100vh; /* Полная высота экрана на мобильных устройствах */
+  }
+
+  .rounded-video {
+    width: auto; /* Автоматическая ширина */
+    height: 100%; /* Полная высота */
+    max-width: none; /* Отменяем ограничение максимальной ширины */
+    object-fit: cover; /* Заполняем контейнер, сохраняя пропорции */
+    left: 50%; /* Центрируем видео */
+    transform: translateX(-50%); /* Смещаем на половину ширины влево */
+  }
+}
+
+.mute_button {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  cursor: pointer;
+  z-index: 10;
+  width: 40px;
 }
 
 @keyframes zoomIn {
