@@ -959,6 +959,7 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
+
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: portrait) {
@@ -967,6 +968,7 @@ body {
     background-position: center -800px;
     background-attachment: fixed;
     background-repeat: no-repeat;
+
   }
 
   .container {
@@ -982,6 +984,14 @@ body {
     align-items: center;
     flex-direction: column;
   }
+  .rounded-video {
+    width: auto; /* Автоматическая ширина */
+    height: 100%; /* Полная высота */
+    max-width: none; /* Отменяем ограничение максимальной ширины */
+    object-fit: cover; /* Заполняем контейнер, сохраняя пропорции */
+    left: 50%; /* Центрируем видео */
+    transform: translateX(-50%); /* Смещаем на половину ширины влево */
+  }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
@@ -990,6 +1000,14 @@ body {
     background-position: center -800px;
     background-attachment: fixed;
     background-repeat: no-repeat;
+  }
+  .rounded-video {
+    width: auto; /* Автоматическая ширина */
+    height: 100%; /* Полная высота */
+    max-width: none; /* Отменяем ограничение максимальной ширины */
+    object-fit: cover; /* Заполняем контейнер, сохраняя пропорции */
+    left: 50%; /* Центрируем видео */
+    transform: translateX(-50%); /* Смещаем на половину ширины влево */
   }
 }
 
@@ -1032,38 +1050,24 @@ body {
 
 
 .container {
-  min-height: 50vh; /* Минимальная высота, чтобы обеспечить прокрутку */
-  /* Другие стили */
+  min-height: 50vh;
+
 }
 
-.interactive-menu {
-  position: fixed;
-  right: 20px; /* Расположение справа */
-  bottom: 50%; /* Стартует от центра экрана */
-  transform: translateY(50%); /* Смещаем контейнер, чтобы центр был по центру экрана */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.menu-item {
-  margin: 10px 0; /* Расстояние между кружочками */
-}
 
 .circle {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: grey; /* Цвет по умолчанию */
-  transition: background-color 0.3s, transform 0.3s; /* Плавный переход для цвета и трансформации */
+  background-color: grey;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .menu-item.active .circle {
-  background-color: #fff; /* Цвет для активного состояния */
-  transform: scale(1.2); /* Увеличиваем активный кружочек */
+  background-color: #fff;
+  transform: scale(1.2);
 }
 
-/* Убедитесь, что span скрыт, чтобы текст не смещал кружочки */
 .menu-item span {
   display: none;
 }
@@ -1111,24 +1115,5 @@ body {
   width: 40px;
 }
 
-.mobile-menu {
-  text-decoration: none;
-  list-style-type: none;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 15px;
-  margin: 100px 0;
-  padding: 0;
-}
-
-.mobile-menu > li {
-  color: #36e4da;
-  font-size: 24px;
-  font-family: "Century Gothic", sans-serif;
-  cursor: pointer;
-}
 
 </style>
