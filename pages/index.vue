@@ -123,7 +123,6 @@ const playCurrentVideo = () => {
     if (playPromise !== undefined) {
       playPromise.catch(error => {
         console.error("Autoplay was prevented:", error);
-        // Здесь можно добавить пользовательский интерфейс для ручного запуска видео
       });
     }
   }
@@ -711,7 +710,7 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll); // Добавьте это
   window.addEventListener('touchstart', onTouchStart);
   window.addEventListener('touchend', onTouchEnd);
-  window.addEventListener('wheel', onWheel, { passive: false });
+  window.addEventListener('wheel', onWheel, {passive: false});
   onWindowResize();
 });
 
@@ -735,6 +734,7 @@ function closeModal() {
   // Синхронизируем targetScroll с текущей позицией прокрутки
   targetScroll = window.scrollY;
 }
+
 defineExpose({
   handleScroll
 });
@@ -910,7 +910,7 @@ body {
 
 @media (max-width: 768px) {
   .video-container {
-    height: 100vh;
+    height: 100vh; /* Полная высота экрана на мобильных устройствах */
   }
 
   .rounded-video {
@@ -984,6 +984,7 @@ body {
     align-items: center;
     flex-direction: column;
   }
+
   .rounded-video {
     width: auto; /* Автоматическая ширина */
     height: 100%; /* Полная высота */
@@ -1001,6 +1002,7 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
+
   .rounded-video {
     width: auto; /* Автоматическая ширина */
     height: 100%; /* Полная высота */
