@@ -910,7 +910,7 @@ body {
 
 @media (max-width: 768px) {
   .video-container {
-    height: 100vh; /* Полная высота экрана на мобильных устройствах */
+    height: 100vh;
   }
 
   .rounded-video {
